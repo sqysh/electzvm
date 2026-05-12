@@ -1,0 +1,29 @@
+'use client'
+
+import { combineReducers } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { uiReducer } from './slices/uiSlice'
+
+const rootReducer = combineReducers({
+  ui: uiReducer
+})
+
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false
+    })
+})
+
+export type RootState = ReturnType<typeof rootReducer>
+
+export type AppDispatch = typeof store.dispatch
+export type AppSelector = typeof store.getState
+
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
+export const useUiSelector = () => useAppSelector((state) => state.ui)

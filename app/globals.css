@@ -1,26 +1,76 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Primary accent — purple */
+  --color-primary-light: #5b2d8e;
+  --color-primary-dark: #a855f7;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  /* Secondary accent — teal/cyan */
+  --color-secondary-light: #0096b4;
+  --color-secondary-dark: #00e5ff;
+
+  /* Call to action — magenta/fuchsia */
+  --color-cta-light: #e0007f;
+  --color-cta-dark: #ff00a8;
+
+  /* Top utility bar */
+  --color-topbar-light: #3d1a6e;
+  --color-topbar-dark: #1a0033;
+
+  /* Main nav bar */
+  --color-navbar-light: #4a2280;
+  --color-navbar-dark: #0d0020;
+
+  /* Page background */
+  --color-bg-light: #ffffff;
+  --color-bg-dark: #0a0010;
+
+  /* Card / surface */
+  --color-surface-light: #f3f0f8;
+  --color-surface-dark: #130025;
+
+  /* Surface alt — slightly lighter for quote sections etc */
+  --color-surface-alt-light: #e8e2f5;
+  --color-surface-alt-dark: #1e0038;
+
+  /* Border */
+  --color-border-light: #ddd6f3;
+  --color-border-dark: #2d0060;
+
+  /* Text primary */
+  --color-text-light: #1a0033;
+  --color-text-dark: #f0e6ff;
+
+  /* Text heading — clean white in dark, deep purple in light */
+  --color-heading-light: #0f0020;
+  --color-heading-dark: #ffffff;
+
+  /* Hero background */
+  --color-hero-light: #1e0f3d;
+  --color-hero-dark: #0a0010;
+
+  /* Text muted */
+  --color-muted-light: #6b5a8a;
+  --color-muted-dark: #9d7fc4;
+
+  /* Neon glow accents (dark mode) */
+  --color-neon-purple: #bf00ff;
+  --color-neon-cyan: #00fff5;
+  --color-neon-magenta: #ff00a8;
+
+  /* Fonts */
+  --font-sans: var(--font-inter);
+  --font-archivo: var(--font-archivo);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--color-bg-light);
+  color: var(--color-text-light);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.dark body {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
 }
