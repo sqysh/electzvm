@@ -1,0 +1,125 @@
+'use client'
+
+import { Loader2 } from 'lucide-react'
+import { signIn } from 'next-auth/react'
+import { useState } from 'react'
+
+export default function LoginPage() {
+  const [loadingGoogle, setLoadingGoogle] = useState(false)
+
+  const handleGoogleSignIn = async () => {
+    setLoadingGoogle(true)
+    await signIn('google', { redirectTo: '/login' })
+  }
+  return (
+    <main
+      className="min-h-screen w-full bg-bg-light dark:bg-bg-dark flex items-center justify-center px-5 py-12"
+      aria-label="Admin login"
+    >
+      {/* Hexagon background pattern */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 opacity-[0.06] dark:opacity-[0.08] text-primary-light dark:text-primary-dark"
+      >
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="hex-pattern" x="0" y="0" width="56" height="100" patternUnits="userSpaceOnUse">
+              <polygon points="28,2 54,17 54,47 28,62 2,47 2,17" fill="none" stroke="currentColor" strokeWidth="1" />
+              <polygon points="0,67 28,52 56,67 56,97 28,112 0,97" fill="none" stroke="currentColor" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hex-pattern)" />
+        </svg>
+      </div>
+
+      {/* Radial fade overlay to soften edges toward center */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, transparent 20%, var(--color-bg-light) 80%)'
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 hidden dark:block"
+        style={{
+          background: 'radial-gradient(ellipse at center, transparent 20%, var(--color-bg-dark) 80%)'
+        }}
+      />
+      <div className="w-full max-w-sm">
+        {/* Logo */}
+        <div className="mb-10 text-center">
+          <p className="font-archivo text-2xl sm:text-3xl font-black uppercase tracking-widest text-text-light dark:text-text-dark">
+            Elect<span className="text-primary-light dark:text-primary-dark">ZVM</span>
+          </p>
+          <p className="font-inter text-xs tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-2">
+            Admin Portal
+          </p>
+        </div>
+
+        {/* Card */}
+        <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-8 sm:p-10">
+          <h1 className="font-archivo text-lg font-bold uppercase tracking-widest text-text-light dark:text-text-dark mb-2 text-center">
+            Sign In
+          </h1>
+          <p className="font-inter text-sm text-muted-light dark:text-muted-dark text-center mb-8 leading-relaxed">
+            Access is restricted to authorized campaign staff only.
+          </p>
+
+          {/* Google Sign In */}
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={loadingGoogle}
+            aria-label={loadingGoogle ? 'Signing in, please wait' : 'Sign in with Google'}
+            aria-busy={loadingGoogle}
+            className="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 bg-surface-dark hover:bg-button-dark border border-border-dark hover:border-primary-dark text-text-dark text-sm font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
+          >
+            {loadingGoogle ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin shrink-0" aria-hidden="true" />
+                <span>Signing in...</span>
+                <span className="sr-only">Please wait</span>
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    fill="#4285F4"
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  />
+                </svg>
+                <span>Continue with Google</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Footer note */}
+        <p className="font-inter text-xs text-muted-light dark:text-muted-dark text-center mt-6 leading-relaxed">
+          Having trouble signing in?{' '}
+          <a
+            href="mailto:sqysh@sqysh.io"
+            className="text-secondary-light dark:text-secondary-dark underline underline-offset-2 hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-light dark:focus-visible:outline-secondary-dark"
+          >
+            Contact Sqysh
+          </a>
+          .
+        </p>
+      </div>
+    </main>
+  )
+}

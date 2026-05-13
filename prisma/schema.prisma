@@ -74,17 +74,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Event {
-  id          String      @id @default(cuid())
-  title       String
-  date        DateTime
-  location    String      @default("")
-  description String      @default("")
-  status      EventStatus @default(DRAFT)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-}
-
 model News {
   id            String   @id @default(cuid())
   title         String
@@ -98,17 +87,17 @@ model News {
   updatedAt     DateTime @updatedAt
 }
 
-model Question {
-  id              String   @id @default(cuid())
-  name            String   @db.VarChar(255)
-  email           String   @db.VarChar(255)
-  message         String   @db.VarChar(500)
-  replyMessage    String?  @db.VarChar(500)
-  hasResponded    Boolean  @default(false)
-  isPotentialSpam Boolean  @default(false) // flagged automatically on create
-  isSpam          Boolean  @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+model VolunteerSubmission {
+  id           String   @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String
+  phone        String
+  mailingList  Boolean  @default(false)
+  yardSign     Boolean  @default(false)
+  doorKnocking Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Page {

@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react'
 
-const taglines = [
-  'Safe communities for every resident.',
-  'Affordable housing for the 9th Essex District.',
-  'Transparent government in plain language.',
-  'Community-driven solutions that move us forward.',
-  'Leaders who know the people they represent.'
+const phrases = [
+  'the Community',
+  'Affordable Housing',
+  'Public Safety',
+  'the 9th Essex District',
+  'Transparent Government'
 ]
 
 export default function HeroTicker() {
@@ -18,21 +18,27 @@ export default function HeroTicker() {
     const interval = setInterval(() => {
       setVisible(false)
       setTimeout(() => {
-        setCurrent((prev) => (prev + 1) % taglines.length)
+        setCurrent((prev) => (prev + 1) % phrases.length)
         setVisible(true)
       }, 400)
-    }, 3000)
+    }, 4000)
 
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <blockquote aria-live="polite" aria-atomic="true" className="mb-8 sm:mb-10 max-w-sm min-h-12 flex items-center">
-      <p
-        className={`font-inter text-base sm:text-lg text-white/60 leading-relaxed transition-opacity duration-400 ${visible ? 'opacity-100' : 'opacity-0'}`}
+    <p
+      role="doc-subtitle"
+      className="font-archivo text-lg sm:text-2xl md:text-3xl font-bold uppercase tracking-widest text-white mt-2 mb-6 sm:mb-8 flex items-baseline gap-3 flex-wrap"
+    >
+      <span>For</span>
+      <span
+        aria-live="polite"
+        aria-atomic="true"
+        className={`text-secondary-dark transition-opacity duration-400 ${visible ? 'opacity-100' : 'opacity-0'}`}
       >
-        {taglines[current]}
-      </p>
-    </blockquote>
+        {phrases[current]}
+      </span>
+    </p>
   )
 }

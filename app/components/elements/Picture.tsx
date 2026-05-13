@@ -14,6 +14,7 @@ interface PictureProps {
   quality?: number
   placeholder?: 'empty' | 'blur' | 'data:image/...'
   blurDataURL?: string
+  style?: React.CSSProperties
 }
 
 const Picture: FC<PictureProps> = ({
@@ -28,7 +29,8 @@ const Picture: FC<PictureProps> = ({
   sizes = '100vw',
   quality,
   placeholder,
-  blurDataURL
+  blurDataURL,
+  style
 }) => {
   if (fill) {
     return (
@@ -68,7 +70,7 @@ const Picture: FC<PictureProps> = ({
       decoding="async"
       style={{
         height: hasFixedHeight ? undefined : 'auto',
-        contentVisibility: 'auto'
+        ...style
       }}
     />
   )

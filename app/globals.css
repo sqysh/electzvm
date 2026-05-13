@@ -12,6 +12,8 @@
   /* Call to action — magenta/fuchsia */
   --color-cta-light: #e0007f;
   --color-cta-dark: #ff00a8;
+  --color-cta-hover-light: #ff4dc8;
+  --color-cta-hover-dark: #ff4dc8;
 
   /* Top utility bar */
   --color-topbar-light: #3d1a6e;
@@ -58,6 +60,10 @@
   --color-neon-cyan: #00fff5;
   --color-neon-magenta: #ff00a8;
 
+  /* Button surface */
+  --color-button-light: #e8e2f5;
+  --color-button-dark: #1e0038;
+
   /* Fonts */
   --font-sans: var(--font-inter);
   --font-archivo: var(--font-archivo);
@@ -73,4 +79,17 @@ body {
 .dark body {
   background: var(--color-bg-dark);
   color: var(--color-text-dark);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
 }
