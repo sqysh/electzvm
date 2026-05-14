@@ -61,7 +61,7 @@ export default function ContactPage() {
           title="Join the"
           titleAccent="Team"
           description="Ready to make a difference in the 9th Essex District? Tell us how you'd like to help and we'll be in touch."
-          image="zosia-3.png"
+          image="zosia-3.webp"
         />
 
         {/* ── Body — form + aside ─────────────────────────────────────────── */}
@@ -259,7 +259,7 @@ export default function ContactPage() {
                   {/* Zosia image */}
                   <div className="relative h-full flex items-end">
                     <Picture
-                      src="/images/zosia-4.jpg"
+                      src="/images/zosia-4.webp"
                       alt="Zosia VanMeter"
                       className="w-full h-full aspect-square object-cover scale-x-[-1]"
                     />

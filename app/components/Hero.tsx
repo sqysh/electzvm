@@ -155,10 +155,6 @@ export default function Hero() {
           </motion.p>
         </div>
       </div>
-      {/* City skyline */}
-      <div aria-hidden="true" className="hiddn md:block absolute -bottom-2 left-0 right-0 z-20">
-        <Picture src="/images/city.png" alt="" width={1920} className="w-full h-auto object-contain object-bottom" />
-      </div>
     </section>
   )
 }

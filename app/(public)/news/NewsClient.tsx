@@ -106,7 +106,7 @@ export default function NewsClient({ news }: { news: News[] }) {
           title="Latest"
           titleAccent="News"
           showZosia={true}
-          image="zosia-3.png"
+          image="zosia-3.webp"
           description="Stay up to date with the latest campaign updates, press coverage, and community news from Zosia VanMeter."
         />
 

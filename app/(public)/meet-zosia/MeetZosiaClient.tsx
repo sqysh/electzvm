@@ -26,7 +26,7 @@ export function MeetZosiaClient() {
           title="Meet"
           titleAccent="Zosia"
           description="Mother. Wife. Immigrant. Public servant. Community leader."
-          image="zosia-7.jpg"
+          image="zosia-7.webp"
           showPatriotic={false}
           isFullHeight={true}
         />
@@ -163,7 +163,7 @@ export function MeetZosiaClient() {
               {/* Photo */}
               <div className="overflow-hidden border border-border-light dark:border-border-dark">
                 <Picture
-                  src="/images/zosia-5.jpg"
+                  src="/images/zosia-3.webp"
                   alt="Zosia VanMeter"
                   width={600}
                   className="w-full h-auto object-cover aspect-square"

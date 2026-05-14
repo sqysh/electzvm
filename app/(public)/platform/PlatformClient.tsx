@@ -51,7 +51,7 @@ export default function PlatformClient() {
         description="Real solutions for real people. Affordable housing, public safety, and transparent government — built with the community, not for it."
         showZosia
         showPatriotic={false}
-        image="zosia-10.jpg"
+        image="zosia-10.webp"
         isFullHeight
       />
 

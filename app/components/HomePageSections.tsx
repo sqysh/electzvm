@@ -222,7 +222,7 @@ export function AboutSection() {
           className="relative min-h-100 lg:min-h-0 overflow-hidden"
         >
           <Picture
-            src="/images/zosia-8.jpg"
+            src="/images/zosia-8.webp"
             alt="Zosia VanMeter"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"

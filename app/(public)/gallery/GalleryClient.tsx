@@ -61,7 +61,7 @@ export function GalleryClient() {
           titleAccent="Gallery"
           showZosia={true}
           showPatriotic={true}
-          image="zosia-3.png"
+          image="zosia-3.webp"
           description="A look at Zosia VanMeter out in the community — meeting neighbors, attending events, and building a movement across the 9th Essex District."
         />
 
