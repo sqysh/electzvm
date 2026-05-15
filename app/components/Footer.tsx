@@ -2,15 +2,7 @@
 
 import Link from 'next/link'
 import LiquidButton from '@/app/components/elements/LiquidButton'
-
-const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Meet Zosia', href: '/meet-zosia' },
-  { label: 'Platform', href: '/platform' },
-  { label: 'News', href: '/news' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Contact', href: '/contact' }
-]
+import { navLinks } from '../lib/constants/navigation.contants'
 
 export function Footer() {
   return (
