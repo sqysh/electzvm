@@ -33,6 +33,10 @@ export async function proxy(request: NextRequest) {
   const user = session?.user
   const role = user?.role as UserRole | undefined
 
+  if (process.env.NODE_ENV === 'development') {
+    return NextResponse.next()
+  }
+
   // ── Auth page — redirect if already signed in ──
   if (pathname === '/login') {
     if (user && role && (role === 'ADMIN' || role === 'SUPER_USER')) {

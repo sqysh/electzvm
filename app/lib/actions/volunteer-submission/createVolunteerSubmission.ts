@@ -38,10 +38,34 @@ export async function createVolunteerSubmission(data: VolunteerFormInput) {
       }
     })
 
+    if (data.mailingList) {
+      try {
+        const mc = await fetch(`https://us15.api.mailchimp.com/3.0/lists/78bf581442/members`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`
+          },
+          body: JSON.stringify({
+            email_address: data.email.trim().toLowerCase(),
+            status: 'subscribed',
+            merge_fields: {
+              FNAME: data.firstName.trim(),
+              LNAME: data.lastName.trim(),
+              PHONE: data.phone.trim()
+            }
+          })
+        })
+        await mc.json()
+      } catch (err) {
+        console.error('[Mailchimp error]', err)
+      }
+    }
+
     await Promise.all([
       resend.emails.send({
         from: 'ElectZVM <noreply@electzvm.com>',
-        to: 'hello@electzvm.com',
+        to: 'sqysh@sqysh.io',
         subject: `New Volunteer: ${data.firstName} ${data.lastName}`,
         html: volunteerSubmissionAdminTemplate({ ...data })
       }),

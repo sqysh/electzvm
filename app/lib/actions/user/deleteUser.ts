@@ -1,3 +1,5 @@
+'use server'
+
 import prisma from '@/prisma/client'
 import { buildLogMessage, createLog, getRequestContext } from '../../utils/log.utils'
 import { getActor } from './getActor'

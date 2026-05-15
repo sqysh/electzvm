@@ -29,10 +29,9 @@ interface DashboardClientProps {
 
 const navLinks = [
   { label: 'Overview', href: '/dashboard' },
-  { label: 'Profile', href: '/dashboard/profile' },
   { label: 'News', href: '/dashboard/news' },
   { label: 'Inquiries', href: '/dashboard/inquiries' },
-  { label: 'Page Content', href: '/content' }
+  { label: 'Page Content', href: '/dashboard/content' }
 ]
 
 // ── Marquee items ─────────────────────────────────────────────────────────────
@@ -191,7 +190,7 @@ export default function DashboardClient({ news, inquiries, users }: DashboardCli
             {news.map((article) => (
               <Link
                 key={article.id}
-                href={`/dashboard/news/${article.id}`}
+                href={`/dashboard/news?id=${article.id}`}
                 className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-surface-light dark:hover:bg-surface-dark transition-colors group"
               >
                 <div className="flex flex-col gap-0.5 min-w-0">

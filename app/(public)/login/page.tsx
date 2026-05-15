@@ -9,7 +9,7 @@ export default function LoginPage() {
 
   const handleGoogleSignIn = async () => {
     setLoadingGoogle(true)
-    await signIn('google', { redirectTo: '/login' })
+    await signIn('google', { redirectTo: '/dashboard' })
   }
   return (
     <main
@@ -59,7 +59,7 @@ export default function LoginPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-8 sm:p-10">
+        <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-8 sm:p-10 relative z-1">
           <h1 className="font-archivo text-lg font-bold uppercase tracking-widest text-text-light dark:text-text-dark mb-2 text-center">
             Sign In
           </h1>

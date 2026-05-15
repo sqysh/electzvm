@@ -1,3 +1,5 @@
+'use server'
+
 import prisma from '@/prisma/client'
 import { NewsInput } from '@/types/news.types'
 

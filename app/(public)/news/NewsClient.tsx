@@ -8,12 +8,12 @@ import { PrimaryDateMarquee } from '@/app/components/PrimaryDateMarquee'
 import Header from '@/app/components/Header'
 import PageHero from '@/app/components/PageHero'
 import { fadeUp } from '@/app/lib/constants/motion.constants'
+import { Diamonds } from '@/app/components/geometric-backgrounds/Diamonds'
 
 // ── News card ─────────────────────────────────────────────────────────────────
 
 function NewsCard({ article, index }: { article: News; index: number }) {
   const isExternal = !!article.externalLink
-  const href = isExternal ? article.externalLink! : `/news/${article.id}`
 
   return (
     <motion.article
@@ -62,8 +62,7 @@ function NewsCard({ article, index }: { article: News; index: number }) {
 
         {/* CTA */}
         <Link
-          href={href}
-          target={isExternal ? '_blank' : undefined}
+          href={`/news/${article.id}`}
           rel={isExternal ? 'noopener noreferrer' : undefined}
           aria-label={`${isExternal ? 'Read external article' : 'Read more about'}: ${article.title}${isExternal ? ' (opens in new tab)' : ''}`}
           className="font-archivo text-[10px] tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark hover:text-primary-dark dark:hover:text-neon-purple transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
@@ -83,19 +82,7 @@ export default function NewsClient({ news }: { news: News[] }) {
   return (
     <div className="min-h-screen w-full bg-bg-light dark:bg-bg-dark flex flex-col">
       {/* ── Geometric background ─────────────────────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 z-0 pointer-events-none opacity-[0.04] dark:opacity-[0.06] text-primary-light dark:text-primary-dark"
-      >
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="diamonds" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="currentColor" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#diamonds)" />
-        </svg>
-      </div>
+      <Diamonds />
 
       <Header />
 

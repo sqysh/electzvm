@@ -7,3 +7,12 @@ export interface NewsInput {
   externalLink?: string
   isPublished?: boolean
 }
+
+export interface NewsFormState {
+  title: string
+  excerpt: string
+  body: string
+  imageUrl: string
+  externalLink: string
+  isPublished: boolean
+}

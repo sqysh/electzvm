@@ -2,8 +2,8 @@ import prisma from '@/prisma/client'
 import { User as NextAuthUser } from 'next-auth'
 import { Account } from 'next-auth'
 import { User, Account as PrismaAccount } from '@prisma/client'
+import { buildLogMessage, createLog, getRequestContext } from '../utils/log.utils'
 
-// Google OAuth Profile type - match NextAuth's Profile structure
 interface GoogleProfile {
   sub?: string | null
   name?: string | null
@@ -15,7 +15,6 @@ interface GoogleProfile {
   locale?: string | null
 }
 
-// User with accounts relation
 type UserWithAccounts = User & {
   accounts: PrismaAccount[]
 }
@@ -25,6 +24,8 @@ export async function handleGoogleCallback(
   account: Account,
   profile?: GoogleProfile
 ): Promise<boolean> {
+  const context = await getRequestContext()
+
   const existingUser = await prisma.user.findUnique({
     where: { email: user.email! },
     include: { accounts: true }
@@ -32,15 +33,42 @@ export async function handleGoogleCallback(
 
   if (existingUser) {
     if (existingUser.role !== 'ADMIN' && existingUser.role !== 'SUPER_USER') {
+      const message = await buildLogMessage(
+        `was denied access — insufficient role (${existingUser.role})`,
+        user.email ?? 'Unknown',
+        context
+      )
+      await createLog('warn', message, {
+        email: user.email,
+        name: user.name,
+        role: existingUser.role,
+        provider: account?.provider,
+        ...context
+      })
       return false
     }
     await linkGoogleAccount(existingUser, account)
     await updateUserFromProfile(existingUser, profile)
     user.id = existingUser.id
   } else {
-    // No new users — must be pre-existing ADMIN, CONDUCTOR or SUPER_USER
+    const message = await buildLogMessage(`attempted sign-in but has no account`, user.email ?? 'Unknown', context)
+    await createLog('warn', message, {
+      email: user.email,
+      name: user.name,
+      provider: account?.provider,
+      ...context
+    })
     return false
   }
+
+  const message = await buildLogMessage(`signed in successfully`, user.email ?? 'Unknown', context)
+  await createLog('info', message, {
+    email: user.email,
+    name: user.name,
+    role: existingUser.role,
+    provider: account?.provider,
+    ...context
+  })
 
   return true
 }
