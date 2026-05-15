@@ -29,12 +29,14 @@ function NewsRow({
   article,
   onEdit,
   onDelete,
-  deletingId
+  deletingId,
+  isEditing
 }: {
   article: News
   onEdit: () => void
   onDelete: () => void
   deletingId: string | null
+  isEditing: boolean
 }) {
   const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string | null }>({ open: false, id: null })
 
@@ -76,6 +78,12 @@ function NewsRow({
             >
               {article.isPublished ? 'Live' : 'Draft'}
             </span>
+
+            {isEditing && (
+              <span className="font-archivo text-[9px] tracking-widest uppercase px-1.5 py-0.5 border border-primary-light dark:border-primary-dark text-primary-light dark:text-primary-dark">
+                Editing
+              </span>
+            )}
             {article.externalLink && (
               <a
                 href={article.externalLink}
@@ -237,6 +245,51 @@ export default function AdminNewsClient({ news }: { news: News[] }) {
         </button>
       </header>
 
+      {/* Status legend marquee */}
+      <div className="shrink-0 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark overflow-hidden h-7 flex items-center">
+        <div className="flex animate-marquee whitespace-nowrap gap-12 text-[10px] font-mono uppercase tracking-[0.15em]">
+          {[...Array(2)].map((_, i) => (
+            <span key={i} className="flex items-center gap-8 shrink-0">
+              <span className="flex items-center gap-2">
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-secondary-light dark:bg-secondary-dark shrink-0"
+                  aria-hidden="true"
+                />
+                <span className="text-secondary-light dark:text-secondary-dark">Live</span>
+                <span className="text-muted-light/40 dark:text-muted-dark/40">
+                  — published and visible on the public site
+                </span>
+              </span>
+              <span className="flex items-center gap-2">
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-muted-light dark:bg-muted-dark shrink-0"
+                  aria-hidden="true"
+                />
+                <span className="text-muted-light dark:text-muted-dark">Draft</span>
+                <span className="text-muted-light/40 dark:text-muted-dark/40">
+                  — saved but not visible to the public
+                </span>
+              </span>
+              <span className="flex items-center gap-2">
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0"
+                  aria-hidden="true"
+                />
+                <span className="text-primary-light dark:text-primary-dark">External</span>
+                <span className="text-muted-light/40 dark:text-muted-dark/40">
+                  — links to an article on another site
+                </span>
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-cta-light dark:bg-cta-dark shrink-0" aria-hidden="true" />
+                <span className="text-cta-light dark:text-cta-dark">Editing</span>
+                <span className="text-muted-light/40 dark:text-muted-dark/40">— currently open in the editor</span>
+              </span>
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* ── Body ───────────────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* ── List panel ─────────────────────────────────────────────── */}
@@ -285,6 +338,7 @@ export default function AdminNewsClient({ news }: { news: News[] }) {
                       onEdit={() => openEdit(article)}
                       onDelete={() => handleDelete(article.id)}
                       deletingId={deletingId}
+                      isEditing={editingArticle?.id === article.id}
                     />
                   </motion.div>
                 ))}
@@ -320,6 +374,7 @@ export default function AdminNewsClient({ news }: { news: News[] }) {
               </div>
 
               <NewsForm
+                key={editingArticle?.id ?? 'new'}
                 initial={
                   mode === 'edit' && editingArticle
                     ? {

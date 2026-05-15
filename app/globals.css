@@ -68,6 +68,8 @@
   --font-sans: var(--font-inter);
   --font-archivo: var(--font-archivo);
   --font-mono: var(--font-geist-mono);
+
+  --breakpoint-xs: 375px;
 }
 
 body {

@@ -213,43 +213,6 @@ export function MeetZosiaClient() {
       </main>
 
       <PrimaryDateMarquee />
-
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="relative z-10 border-t border-border-light dark:border-border-dark">
-        {/* Register to vote stripe */}
-        <div className="w-full bg-secondary-light dark:bg-secondary-dark/20 border-b border-secondary-light/30 dark:border-secondary-dark/30 px-5 sm:px-8 md:px-16 h-10 flex items-center justify-center">
-          <a
-            href="https://www.sec.state.ma.us/ovr/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Register to vote in Massachusetts (opens in new tab)"
-            className="font-archivo text-[10px] tracking-[0.2em] uppercase text-white dark:text-secondary-dark font-bold hover:opacity-80 transition-opacity duration-200 flex items-center gap-2"
-          >
-            <span>Primary · September 1, 2026</span>
-            <span className="opacity-40">·</span>
-            <span>Register to Vote →</span>
-          </a>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="bg-surface-light dark:bg-surface-dark">
-          <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-16 h-12 flex items-center justify-between gap-4">
-            <span className="font-archivo text-[10px] font-black uppercase tracking-widest text-text-light dark:text-text-dark">
-              Elect<span className="text-primary-light dark:text-primary-dark">ZVM</span>
-            </span>
-
-            <a
-              href="https://sqysh.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Built by Sqysh (opens in new tab)"
-              className="font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-200"
-            >
-              Built by <span className="text-primary-light dark:text-primary-dark">Sqysh</span>
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

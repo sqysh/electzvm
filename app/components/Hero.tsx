@@ -9,6 +9,7 @@ import { fadeIn, fadeUp } from '../lib/constants/motion.constants'
 import { useState } from 'react'
 import { Menu } from 'lucide-react'
 import NavigationDrawer from './NavigationDrawer'
+import Spline from '@splinetool/react-spline'
 
 export default function Hero() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -75,17 +76,16 @@ export default function Hero() {
             </div>
           </nav>
         </header>
-        {/* Video background */}
-        <video
-          aria-hidden="true"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0 opacity-20 dark:opacity-10"
-        >
-          <source src="/videos/flag.mp4" type="video/mp4" />
-        </video>
+        <div aria-hidden="true" className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+          <Spline
+            scene="https://prod.spline.design/dhxcZ0yoXwNL0li7/scene.splinecode"
+            style={{ width: '100%', height: '100%' }}
+          />
+          {/* <Spline
+            scene="https://prod.spline.design/X3v0ASt6zmtf-hWf/scene.splinecode"
+            style={{ width: '100%', height: '100%' }}
+          /> */}
+        </div>
 
         {/* Video overlay */}
         <div aria-hidden="true" className="absolute inset-0 bg-hero-light/60 dark:bg-hero-dark/60 z-1" />

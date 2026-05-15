@@ -327,8 +327,7 @@ function NewsSection({ news }: { news: News[] }) {
                   )}
                   <div className="mt-auto pt-4 border-t border-border-light dark:border-border-dark">
                     <Link
-                      href={article.externalLink || `/news/${article.id}`}
-                      target={article.externalLink ? '_blank' : undefined}
+                      href={`/news/${article.id}`}
                       rel={article.externalLink ? 'noopener noreferrer' : undefined}
                       className="font-archivo text-[10px] tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark hover:opacity-70 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
                     >

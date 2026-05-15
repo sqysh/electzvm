@@ -2,25 +2,23 @@
 
 import { Provider } from 'react-redux'
 import { store } from './lib/redux/store'
+import { usePathname } from 'next/navigation'
+import { Footer } from './components/Footer'
 
 interface Props {
   children: React.ReactNode
 }
 
-export default function RootLayoutClient({ children }: Props) {
-//   const pathname = usePathname()
+const showLink = (path: string) => !['/dashboard', '/login', '/auth/error'].some((str) => path.includes(str))
 
-//   const showFooter = useMemo(() => toggleHeaderFooter(pathname), [pathname])
-//   const showHeader = useMemo(() => toggleHeaderFooter(pathname), [pathname])
+export default function RootLayoutClient({ children }: Props) {
+  const pathname = usePathname()
 
   return (
     <Provider store={store}>
       <div className="main-content">
-        {/* <NavigationDrawer  /> */}
-
-        {/* {showHeader && <Header  />} */}
         {children}
-        {/* {showFooter && <Footer data={footerData} />} */}
+        {showLink(pathname) && <Footer />}
       </div>
     </Provider>
   )
