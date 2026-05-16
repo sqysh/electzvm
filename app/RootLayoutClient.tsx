@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { store } from './lib/redux/store'
 import { usePathname } from 'next/navigation'
 import { Footer } from './components/Footer'
+import { ThemeProvider } from './lib/providers/theme'
 
 interface Props {
   children: React.ReactNode
@@ -16,10 +17,10 @@ export default function RootLayoutClient({ children }: Props) {
 
   return (
     <Provider store={store}>
-      <div className="main-content">
+      <ThemeProvider>
         {children}
         {showLink(pathname) && <Footer />}
-      </div>
+      </ThemeProvider>
     </Provider>
   )
 }

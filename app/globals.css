@@ -95,3 +95,156 @@ body {
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
+/* GOOGLE MAPS */
+
+gmp-place-autocomplete {
+  width: 200px;
+  height: 28px;
+  display: block;
+  background: transparent;
+  border: none;
+  outline: none;
+  position: relative;
+  z-index: 9999;
+}
+
+gmp-place-autocomplete::part(focus-ring) {
+  display: none;
+}
+
+gmp-place-autocomplete::part(autocomplete-icon) {
+  display: none;
+}
+
+gmp-place-autocomplete::part(predictions-anchor) {
+  z-index: 9999;
+}
+
+gmp-place-autocomplete dialog {
+  z-index: 9999;
+}
+
+/* ── Dark mode (default) ───────────────────────────────────────── */
+
+gmp-place-autocomplete::part(input) {
+  height: 28px;
+  padding: 0 8px;
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 0;
+  color: var(--color-text-dark);
+  font-size: 11px;
+  outline: none;
+  box-shadow: none;
+}
+
+gmp-place-autocomplete::part(input):focus {
+  border-color: var(--color-primary-dark);
+  outline: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+}
+
+gmp-place-autocomplete::part(input-container) {
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border-dark);
+}
+
+gmp-place-autocomplete::part(prediction-list) {
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+gmp-place-autocomplete::part(prediction-item) {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+  font-family: var(--font-inter);
+  font-size: 12px;
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+gmp-place-autocomplete::part(prediction-item):hover {
+  background: var(--color-surface-dark);
+}
+
+gmp-place-autocomplete::part(prediction-item-main-text) {
+  color: var(--color-text-dark);
+}
+
+gmp-place-autocomplete::part(prediction-item-secondary-text) {
+  color: var(--color-muted-dark);
+}
+
+gmp-place-autocomplete::part(attribution) {
+  background: var(--color-surface-dark);
+  color: var(--color-muted-dark);
+  font-size: 10px;
+}
+
+/* ── Light mode ────────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: light) {
+  gmp-place-autocomplete::part(input) {
+    background: var(--color-bg-light);
+    border-color: var(--color-border-light);
+    color: var(--color-text-light);
+  }
+
+  gmp-place-autocomplete::part(input):focus {
+    border-color: var(--color-primary-light);
+  }
+
+  gmp-place-autocomplete::part(input-container) {
+    background: var(--color-bg-light);
+    border-color: var(--color-border-light);
+  }
+
+  gmp-place-autocomplete::part(prediction-list) {
+    background: var(--color-bg-light);
+    border-color: var(--color-border-light);
+  }
+
+  gmp-place-autocomplete::part(prediction-item) {
+    background: var(--color-bg-light);
+    color: var(--color-text-light);
+    border-bottom-color: var(--color-border-light);
+  }
+
+  gmp-place-autocomplete::part(prediction-item):hover {
+    background: var(--color-surface-light);
+  }
+
+  gmp-place-autocomplete::part(prediction-item-main-text) {
+    color: var(--color-text-light);
+  }
+
+  gmp-place-autocomplete::part(prediction-item-secondary-text) {
+    color: var(--color-muted-light);
+  }
+
+  gmp-place-autocomplete::part(attribution) {
+    background: var(--color-surface-light);
+    color: var(--color-muted-light);
+  }
+}
+
+/* ── Map attribution hide ──────────────────────────────────────── */
+
+.gm-style-cc,
+.gmnoprint,
+a[href^="https://maps.google.com/maps"] {
+  display: none !important;
+}
+
+.gm-style {
+  background: #0a0010;
+}
+
+@media (prefers-color-scheme: light) {
+  .gm-style {
+    background: #f3f0f8;
+  }
+}
