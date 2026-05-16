@@ -11,7 +11,15 @@ import { Menu } from 'lucide-react'
 import NavigationDrawer from './NavigationDrawer'
 import Spline from '@splinetool/react-spline'
 
-export default function Hero() {
+export default function Hero({
+  eyebrow,
+  firstName,
+  lastName
+}: {
+  eyebrow: string
+  firstName: string
+  lastName: string
+}) {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const onClose = () => setDrawerOpen(false)
 
@@ -104,9 +112,9 @@ export default function Hero() {
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute right-0 bottom-0 w-full md:w-[57%] z-2 h-full flex items-end"
+          className="absolute right-0 bottom-0 w-[45vw] max-w-2xl z-2 flex items-end"
         >
-          <Picture priority src="/images/zosia.png" alt="" className="w-full object-cover object-bottom" />
+          <Picture priority src="/images/zosia.png" alt="" className="w-full object-cover object-bottom max-h-none" />
         </motion.div>
 
         {/* Content */}
@@ -117,19 +125,20 @@ export default function Hero() {
               {...fadeUp(0.1)}
               className="font-archivo text-[11px] sm:text-sm font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-secondary-light dark:text-secondary-dark mb-4 sm:mb-6"
             >
-              9th Essex District · Massachusetts
+              {/* 9th Essex District · Massachusetts */}
+              {eyebrow}
             </motion.p>
 
             {/* H1 */}
             <h1 className="font-archivo font-black uppercase leading-none mb-2">
               <motion.span {...fadeUp(0.25)} className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white">
-                Zosia
+                {firstName}
               </motion.span>
               <motion.span
                 {...fadeUp(0.35)}
                 className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-cta-dark"
               >
-                VanMeter
+                {lastName}
               </motion.span>
             </h1>
 

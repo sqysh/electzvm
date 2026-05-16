@@ -13,4 +13,5 @@ export interface CanvassPin {
 export interface PendingPin {
   lat: number
   lng: number
+  address?: string
 }

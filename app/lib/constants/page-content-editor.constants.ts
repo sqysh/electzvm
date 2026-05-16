@@ -771,14 +771,5 @@ export const contactFields = [
     label: 'Donate Body',
     value: 'Every contribution helps us reach more voters across the 9th Essex District.',
     section: 'aside'
-  },
-
-  // ── Footer ─────────────────────────────────────────────────────────────
-  {
-    id: 'contact_footer_legal',
-    type: 'text',
-    label: 'Legal Line',
-    value: 'Paid for by Zosia VanMeter for State Representative · 9th Essex District',
-    section: 'footer'
   }
 ]

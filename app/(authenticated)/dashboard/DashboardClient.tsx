@@ -2,24 +2,19 @@
 
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
-import { FileText, LogOut, Map, ExternalLink, Calendar, Globe } from 'lucide-react'
+import { LogOut, Map, ExternalLink, Calendar, Globe } from 'lucide-react'
 import type { News } from '@prisma/client'
 import { PRIMARY_DATE } from '@/app/lib/constants/canvas-pin.constants'
-import { useClock } from '@/app/lib/hooks/useClock'
 import { useState } from 'react'
 import { useDaysUntil } from '@/app/lib/utils/date.utils'
-import TeamPanel from '@/app/components/panels/TeamPanel'
 import { UserRecord } from '@/types/user.types'
 import { DashboardProps } from '@/types/dashboard.types'
-import SubscribersPanel from '@/app/components/panels/SubscribersPanel'
-import NewsPanel from '@/app/components/panels/NewsPanel'
-import InquiriesPanel from '@/app/components/panels/InquiriesPanel'
-import { useRouter } from 'next/navigation'
-import PageContentEditorPanel from '@/app/components/panels/PageContentEditorPanel'
 import { PrimaryCountdown } from '@/app/components/PrimaryBreakdown'
 import { CanvassBreakdown } from '@/app/components/CanvassBreakdown'
 import { StatPill } from '@/app/components/StatPill'
 import { MapPanel } from '@/app/components/MapPanel'
+import { DashboardPanels } from '@/app/components/DashboardPanels'
+import { LiveClock } from '@/app/components/LiveClock'
 
 export default function DashboardClient({
   news: initialNews,
@@ -33,42 +28,45 @@ export default function DashboardClient({
   pages
 }: DashboardProps) {
   const { data: session } = useSession()
-  const router = useRouter()
   const [activePanel, setActivePanel] = useState<string | null>(null)
-  const time = useClock()
   const daysUntil = useDaysUntil(PRIMARY_DATE)
   const firstName = session?.user?.name?.split(' ')[0] ?? 'Admin'
-  const timeStr =
-    time?.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }) ?? ''
-  const dateStr =
-    time?.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).toUpperCase() ?? ''
   const [users, setUsers] = useState<UserRecord[]>(initialUsers)
   const [news, setNews] = useState<News[]>(initialNews)
-  const usersCount = users.length
+
+  const PANELS = [
+    { key: 'team', label: 'Team', value: users.length, accent: 'text-primary-light dark:text-primary-dark' },
+    {
+      key: 'subscribers',
+      label: 'Mailing List',
+      value: mailchimpCount,
+      accent: 'text-secondary-light dark:text-secondary-dark'
+    },
+    { key: 'news', label: 'News Articles', value: news.length, accent: 'text-cta-light dark:text-cta-dark' },
+    {
+      key: 'inquiries',
+      label: 'Inquiries',
+      value: inquiries.length,
+      accent: 'text-primary-light dark:text-primary-dark'
+    },
+    { key: 'page', label: 'Pages', value: pages.length, accent: 'text-cta-light dark:text-cta-dark' }
+  ]
 
   return (
     <>
       {/* // Panels */}
-      <TeamPanel
-        open={activePanel === 'team'}
+      <DashboardPanels
+        activePanel={activePanel}
         onClose={() => setActivePanel(null)}
         users={users}
-        currentUserId={session?.user?.id}
-        onUsersChange={setUsers}
-      />
-
-      <SubscribersPanel open={activePanel === 'subscribers'} onClose={() => setActivePanel(null)} members={members} />
-
-      <NewsPanel
-        open={activePanel === 'news'}
-        onClose={() => setActivePanel(null)}
         news={news}
-        onNewsChange={setNews}
+        members={members}
+        inquiries={inquiries}
+        pages={pages}
+        session={session}
+        setUsers={setUsers}
+        setNews={setNews}
       />
-
-      <InquiriesPanel open={activePanel === 'inquiries'} onClose={() => setActivePanel(null)} inquiries={inquiries} />
-
-      <PageContentEditorPanel open={activePanel === 'page'} onClose={() => setActivePanel(null)} pages={pages} />
 
       <div className="h-screen w-full bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark flex flex-col overflow-hidden">
         {/* Header */}
@@ -85,12 +83,7 @@ export default function DashboardClient({
               Campaign Control
             </span>
           </div>
-          {time && (
-            <div className="hidden md:flex items-center gap-3">
-              <span className="font-mono text-[10px] text-muted-light dark:text-muted-dark">{dateStr}</span>
-              <span className="font-mono text-[11px] text-text-light dark:text-text-dark tabular-nums">{timeStr}</span>
-            </div>
-          )}
+          <LiveClock />
 
           <div className="flex items-center gap-3">
             <span className="hidden sm:block font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark">
@@ -133,42 +126,15 @@ export default function DashboardClient({
                 Campaign Stats
               </span>
             </div>
-            <StatPill
-              label="Team"
-              value={usersCount}
-              onClick={() => setActivePanel('team')}
-              accent="text-primary-light dark:text-primary-dark"
-            />
-            <StatPill
-              label="Mailing List"
-              value={mailchimpCount}
-              onClick={() => setActivePanel('subscribers')}
-              accent="text-secondary-light dark:text-secondary-dark"
-            />
-            <StatPill
-              label="News Articles"
-              value={news.length}
-              onClick={() => setActivePanel('news')}
-              accent="text-cta-light dark:text-cta-dark"
-            />
-            <StatPill
-              label="Inquiries"
-              value={inquiries.length}
-              onClick={() => setActivePanel('inquiries')}
-              accent="text-primary-light dark:text-primary-dark"
-            />
-            <StatPill
-              label="Canvass Pins"
-              value={pinCount}
-              onClick={() => router.push('/dashboard/canvassing-map')}
-              accent="text-secondary-light dark:text-secondary-dark"
-            />
-            <StatPill
-              label="Pages"
-              value={pages.length}
-              onClick={() => setActivePanel('page')}
-              accent="text-cta-light dark:text-cta-dark"
-            />
+            {PANELS.map((p) => (
+              <StatPill
+                key={p.key}
+                label={p.label}
+                value={p.value}
+                onClick={() => setActivePanel(p.key)}
+                accent={p.accent}
+              />
+            ))}
             <div className="flex-1" />
             <div className="shrink-0 border-t border-border-light dark:border-border-dark">
               <div className="px-4 py-2 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
@@ -176,10 +142,7 @@ export default function DashboardClient({
                   Quick Links
                 </span>
               </div>
-              {[
-                { label: 'Public Site', href: '/', icon: Globe },
-                { label: 'Page Content', href: '/dashboard/content', icon: FileText }
-              ].map((link) => (
+              {[{ label: 'Public Site', href: '/', icon: Globe }].map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -216,14 +179,14 @@ export default function DashboardClient({
 
             <div className="lg:hidden shrink-0 grid grid-cols-4 border-t border-border-light dark:border-border-dark">
               {[
-                { label: 'Users', href: '/dashboard/users', value: usersCount },
-                { label: 'News', href: '/dashboard/news', value: news.length },
-                { label: 'List', href: '/dashboard/subscribers', value: mailchimpCount },
-                { label: 'Inquiries', href: '/dashboard/inquiries', value: inquiries.length }
+                { label: 'Users', panel: 'team', value: users.length },
+                { label: 'News', panel: 'news', value: news.length },
+                { label: 'List', panel: 'subscribers', value: mailchimpCount },
+                { label: 'Inquiries', panel: 'inquiries', value: inquiries.length }
               ].map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
+                <button
+                  key={item.panel}
+                  onClick={() => setActivePanel(item.panel)}
                   className="flex flex-col items-center justify-center py-3 border-r border-border-light dark:border-border-dark last:border-0 hover:bg-surface-light dark:hover:bg-surface-dark transition-colors focus-visible:outline-none"
                 >
                   <span className="font-archivo text-base font-black text-primary-light dark:text-primary-dark tabular-nums">
@@ -232,7 +195,7 @@ export default function DashboardClient({
                   <span className="font-archivo text-[9px] tracking-widest uppercase text-muted-light dark:text-muted-dark">
                     {item.label}
                   </span>
-                </Link>
+                </button>
               ))}
             </div>
           </div>

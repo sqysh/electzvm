@@ -124,6 +124,7 @@ function SectionBlock({
 // ── PageFieldEditor ───────────────────────────────────────────────────────────
 
 function PageFieldEditor({ page, onContentChange }: { page: Page; onContentChange: (content: PageField[]) => void }) {
+  console.log(page)
   const [content, setContent] = useState<PageField[]>(page.content as unknown as PageField[])
 
   function updateField(id: string, value: string | string[]) {

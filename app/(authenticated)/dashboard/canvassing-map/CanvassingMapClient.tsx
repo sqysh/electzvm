@@ -43,7 +43,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
   useEffect(() => {
     if (!isLoaded || !inputRef.current) return
 
-    play()
+    // play()
 
     const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({
       componentRestrictions: { country: 'us' }
@@ -60,7 +60,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
       if (!lat || !lng) return
       mapRef.current?.panTo({ lat, lng })
       mapRef.current?.setZoom(17)
-      setPendingPin({ lat, lng })
+      setPendingPin({ lat, lng, address: place.formattedAddress ?? '' })
     })
   }, [isLoaded, play])
 

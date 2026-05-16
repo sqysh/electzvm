@@ -16,7 +16,7 @@ export function AddPinModal({
   onSave: (pin: CanvassPin) => void
 }) {
   const [form, setForm] = useState({
-    address: '',
+    address: pending.address ?? '',
     status: 'knocked' as CanvassPin['status'],
     doors: 1,
     notes: '',

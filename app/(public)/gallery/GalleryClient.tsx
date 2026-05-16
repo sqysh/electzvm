@@ -10,8 +10,8 @@ import PageHero from '@/app/components/PageHero'
 import { fadeUp } from '@/app/lib/constants/motion.constants'
 import { CTASection } from '@/app/components/CTASection'
 import { Diamonds } from '@/app/components/geometric-backgrounds/Diamonds'
-
-// ── Image list ────────────────────────────────────────────────────────────────
+import { getField } from '@/app/lib/utils/page.utils'
+import { PageField } from '@/types/page.types'
 
 const images = [
   { src: '/images/gallery/g_01.jpeg', alt: 'Campaign photo 1' },
@@ -21,9 +21,7 @@ const images = [
   }))
 ]
 
-// ── GalleryClient ─────────────────────────────────────────────────────────────
-
-export function GalleryClient() {
+export function GalleryClient({ content }: { content: PageField[] }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   const openLightbox = (i: number) => setLightboxIndex(i)
@@ -39,21 +37,19 @@ export function GalleryClient() {
 
   return (
     <div className="min-h-screen w-full bg-bg-light dark:bg-bg-dark flex flex-col">
-      {/* ── Geometric background ─────────────────────────────────────────── */}
       <Diamonds />
-
       <Header />
 
       <main className="relative z-10 flex-1">
         {/* ── Hero strip ───────────────────────────────────────────────── */}
         <PageHero
-          eyebrow="9th Essex District · Massachusetts"
-          title="Photo"
-          titleAccent="Gallery"
+          eyebrow={getField(content, 'gallery_hero_eyebrow', '9th Essex District · Massachusetts')}
+          title={getField(content, 'gallery_hero_title', 'Photo')}
+          titleAccent={getField(content, 'gallery_hero_title_accent', 'Gallery')}
           showZosia={true}
           showPatriotic={true}
           image="zosia-3.webp"
-          description="A look at Zosia VanMeter out in the community — meeting neighbors, attending events, and building a movement across the 9th Essex District."
+          description={getField(content, 'gallery_hero_description', 'A look at Zosia VanMeter out in the community.')}
         />
 
         {/* ── Gallery grid ─────────────────────────────────────────────── */}

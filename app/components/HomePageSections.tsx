@@ -7,35 +7,25 @@ import LiquidButton from '@/app/components/elements/LiquidButton'
 import type { News } from '@prisma/client'
 import { fadeUp } from '../lib/constants/motion.constants'
 import { Cubes } from './geometric-backgrounds/Cubes'
+import { PageField } from '@/types/page.types'
+import { getField } from '../lib/utils/page.utils'
 
-// ── Data ──────────────────────────────────────────────────────────────────────
+// ── Static style config ───────────────────────────────────────────────────────
 
-const policies = [
+const policyStyles = [
   {
     number: '01',
-    title: 'Affordable Housing',
-    body: 'Every family in the 9th Essex District deserves a safe, stable home. Zosia supports expanding affordable housing, protecting renters, and holding developers accountable to community needs.',
     accent: 'text-primary-light dark:text-primary-dark',
     border: 'border-primary-light dark:border-primary-dark'
   },
-  {
-    number: '02',
-    title: 'Public Safety',
-    body: 'Safety means more than policing. It means well-lit streets, mental health resources, and communities where every neighbor looks out for one another.',
-    accent: 'text-cta-light dark:text-cta-dark',
-    border: 'border-cta-light dark:border-cta-dark'
-  },
+  { number: '02', accent: 'text-cta-light dark:text-cta-dark', border: 'border-cta-light dark:border-cta-dark' },
   {
     number: '03',
-    title: 'Education & Youth',
-    body: 'No child should worry about their next meal or fall behind because their school lacks resources. Zosia will fight for fully funded schools and expanded after-school programs.',
     accent: 'text-secondary-light dark:text-secondary-dark',
     border: 'border-secondary-light dark:border-secondary-dark'
   },
   {
     number: '04',
-    title: 'Transparent Government',
-    body: 'Government should speak plainly and act openly. Zosia commits to accessible town halls, clear communication, and decisions made with — not for — the community.',
     accent: 'text-primary-light dark:text-primary-dark',
     border: 'border-primary-light dark:border-primary-dark'
   }
@@ -45,14 +35,20 @@ const offsets = ['mt-0', 'mt-8 sm:mt-12', 'mt-16 sm:mt-24', 'mt-8 sm:mt-12']
 
 // ── Policies ──────────────────────────────────────────────────────────────────
 
-function PoliciesSection() {
+function PoliciesSection({ content }: { content: PageField[] }) {
+  const policies = [
+    { title: getField(content, 'policy_1_title', 'Affordable Housing'), body: getField(content, 'policy_1_body') },
+    { title: getField(content, 'policy_2_title', 'Public Safety'), body: getField(content, 'policy_2_body') },
+    { title: getField(content, 'policy_3_title', 'Education & Youth'), body: getField(content, 'policy_3_body') },
+    { title: getField(content, 'policy_4_title', 'Transparent Government'), body: getField(content, 'policy_4_body') }
+  ]
+
   return (
     <section
       aria-labelledby="policies-heading"
       className="relative w-full bg-bg-light dark:bg-bg-dark py-20 sm:py-28 overflow-hidden"
     >
       <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 md:px-16">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,54 +56,51 @@ function PoliciesSection() {
           className="mb-16 sm:mb-24"
         >
           <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-secondary-light dark:text-secondary-dark mb-3">
-            Platform
+            {getField(content, 'policies_eyebrow', 'Platform')}
           </p>
           <h2
             id="policies-heading"
             className="font-archivo text-3xl sm:text-4xl md:text-5xl font-black uppercase text-text-light dark:text-text-dark leading-none"
           >
-            What Zosia <span className="text-primary-light dark:text-primary-dark">Stands For</span>
+            {getField(content, 'policies_heading', 'What Zosia')}{' '}
+            <span className="text-primary-light dark:text-primary-dark">
+              {getField(content, 'policies_heading_accent', 'Stands For')}
+            </span>
           </h2>
         </motion.div>
 
-        {/* Staggered cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-start">
-          {policies.map((policy, i) => (
-            <motion.div
-              key={policy.number}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className={`group relative flex flex-col gap-5 p-6 sm:p-8 border-t-2 bg-surface-light dark:bg-surface-dark hover:bg-surface-alt-light dark:hover:bg-surface-alt-dark transition-colors duration-300 ${policy.border} ${offsets[i]}`}
-            >
-              {/* Number */}
-              <span
-                className={`font-archivo text-6xl sm:text-7xl font-black leading-none select-none transition-colors duration-300 ${policy.accent}`}
+          {policies.map((policy, i) => {
+            const style = policyStyles[i]
+            return (
+              <motion.div
+                key={style.number}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className={`group relative flex flex-col gap-5 p-6 sm:p-8 border-t-2 bg-surface-light dark:bg-surface-dark hover:bg-surface-alt-light dark:hover:bg-surface-alt-dark transition-colors duration-300 ${style.border} ${offsets[i]}`}
               >
-                {policy.number}
-              </span>
-
-              {/* Title */}
-              <h3 className="font-archivo text-base sm:text-lg font-black uppercase text-text-light dark:text-text-dark leading-tight">
-                {policy.title}
-              </h3>
-
-              {/* Divider */}
-              <div aria-hidden="true" className={`w-8 h-px ${policy.border} border-t`} />
-
-              {/* Body */}
-              <p className="font-inter text-sm text-muted-light dark:text-muted-dark leading-relaxed">{policy.body}</p>
-
-              {/* Bottom accent line that grows on hover */}
-              <div
-                aria-hidden="true"
-                className={`absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-500 ease-in-out ${policy.accent} bg-current`}
-              />
-            </motion.div>
-          ))}
+                <span
+                  className={`font-archivo text-6xl sm:text-7xl font-black leading-none select-none ${style.accent}`}
+                >
+                  {style.number}
+                </span>
+                <h3 className="font-archivo text-base sm:text-lg font-black uppercase text-text-light dark:text-text-dark leading-tight">
+                  {policy.title}
+                </h3>
+                <div aria-hidden="true" className={`w-8 h-px ${style.border} border-t`} />
+                <p className="font-inter text-sm text-muted-light dark:text-muted-dark leading-relaxed">
+                  {policy.body}
+                </p>
+                <div
+                  aria-hidden="true"
+                  className={`absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-500 ease-in-out ${style.accent} bg-current`}
+                />
+              </motion.div>
+            )
+          })}
         </div>
 
-        {/* Link */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -128,20 +121,18 @@ function PoliciesSection() {
 
 // ── About ─────────────────────────────────────────────────────────────────────
 
-const stats = [
-  { value: '10+', label: 'Years Serving' },
-  { value: '500+', label: 'Families Served' },
-  { value: '3', label: 'Nonprofits Led' },
-  { value: '9th', label: 'Essex District' }
-]
+function AboutSection({ content }: { content: PageField[] }) {
+  const stats = [
+    { value: getField(content, 'stat_1_value', '10+'), label: getField(content, 'stat_1_label', 'Years Serving') },
+    { value: getField(content, 'stat_2_value', '500+'), label: getField(content, 'stat_2_label', 'Families Served') },
+    { value: getField(content, 'stat_3_value', '3'), label: getField(content, 'stat_3_label', 'Nonprofits Led') },
+    { value: getField(content, 'stat_4_value', '9th'), label: getField(content, 'stat_4_label', 'Essex District') }
+  ]
 
-export function AboutSection() {
   return (
     <section aria-labelledby="about-heading" className="relative w-full overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-140">
-        {/* ── Left — content ─────────────────────────────────────────── */}
         <div className="relative bg-hero-light dark:bg-hero-dark flex flex-col justify-center px-8 sm:px-12 md:px-16 py-16 sm:py-20">
-          {/* Subtle patriotic bg */}
           <div
             aria-hidden="true"
             className="absolute inset-0 opacity-5"
@@ -151,7 +142,6 @@ export function AboutSection() {
               backgroundPosition: 'center'
             }}
           />
-
           <div className="relative z-10 max-w-lg">
             <motion.p
               initial={{ opacity: 0, y: 12 }}
@@ -159,9 +149,8 @@ export function AboutSection() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="font-archivo text-[10px] tracking-[0.2em] uppercase text-secondary-light dark:text-secondary-dark mb-3"
             >
-              About Zosia
+              {getField(content, 'about_eyebrow', 'About Zosia')}
             </motion.p>
-
             <motion.h2
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -169,21 +158,21 @@ export function AboutSection() {
               id="about-heading"
               className="font-archivo text-3xl sm:text-4xl font-black uppercase text-white leading-none mb-6"
             >
-              A Leader From <span className="text-cta-dark">This Community</span>
+              {getField(content, 'about_heading', 'A Leader From')}{' '}
+              <span className="text-cta-dark">{getField(content, 'about_heading_accent', 'This Community')}</span>
             </motion.h2>
-
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="font-inter text-sm text-white/60 leading-relaxed mb-10"
             >
-              Zosia VanMeter is a mother, wife, immigrant, and public servant who grew up on the North Shore. For over a
-              decade she has worked with nonprofits and community groups to make the 9th Essex District safer, stronger,
-              and more connected.
+              {getField(
+                content,
+                'about_body',
+                'Zosia VanMeter is a mother, wife, immigrant, and public servant who grew up on the North Shore.'
+              )}
             </motion.p>
-
-            {/* Stat callouts */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -191,7 +180,7 @@ export function AboutSection() {
               className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-px bg-white/10 border border-white/10 mb-10"
             >
               {stats.map((stat, i) => (
-                <div key={stat.value} className="flex flex-col gap-1 px-4 py-5 bg-hero-light dark:bg-hero-dark">
+                <div key={i} className="flex flex-col gap-1 px-4 py-5 bg-hero-light dark:bg-hero-dark">
                   <span
                     className={`font-archivo text-3xl sm:text-4xl font-black leading-none ${i % 2 === 0 ? 'text-primary-dark' : 'text-cta-dark'}`}
                   >
@@ -203,7 +192,6 @@ export function AboutSection() {
                 </div>
               ))}
             </motion.div>
-
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -214,7 +202,6 @@ export function AboutSection() {
           </div>
         </div>
 
-        {/* ── Right — image ───────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, scale: 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -228,12 +215,10 @@ export function AboutSection() {
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover object-center"
           />
-          {/* Left fade into content panel */}
           <div
             aria-hidden="true"
             className="absolute inset-0 bg-linear-to-r from-hero-light dark:from-hero-dark via-transparent to-transparent lg:w-1/3"
           />
-          {/* Bottom fade on mobile */}
           <div
             aria-hidden="true"
             className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-bg-light dark:from-bg-dark to-transparent lg:hidden"
@@ -246,7 +231,7 @@ export function AboutSection() {
 
 // ── News ──────────────────────────────────────────────────────────────────────
 
-function NewsSection({ news }: { news: News[] }) {
+function NewsSection({ news, content }: { news: News[]; content: PageField[] }) {
   const articles = news.filter((n) => n.isPublished).slice(0, 3)
 
   return (
@@ -256,13 +241,16 @@ function NewsSection({ news }: { news: News[] }) {
         <div className="flex items-end justify-between mb-12 gap-4">
           <motion.div {...fadeUp(0.1)}>
             <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-secondary-light dark:text-secondary-dark mb-3">
-              Latest
+              {getField(content, 'news_eyebrow', 'Latest')}
             </p>
             <h2
               id="news-heading"
               className="font-archivo text-3xl sm:text-4xl md:text-5xl font-black uppercase text-text-light dark:text-text-dark leading-none"
             >
-              Campaign <span className="text-primary-light dark:text-primary-dark">News</span>
+              {getField(content, 'news_heading', 'Campaign')}{' '}
+              <span className="text-primary-light dark:text-primary-dark">
+                {getField(content, 'news_heading_accent', 'News')}
+              </span>
             </h2>
           </motion.div>
           <motion.div {...fadeUp(0.1)}>
@@ -276,7 +264,6 @@ function NewsSection({ news }: { news: News[] }) {
         </div>
 
         {articles.length === 0 ? (
-          /* Placeholder cards */
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
               <motion.div
@@ -346,10 +333,9 @@ function NewsSection({ news }: { news: News[] }) {
 
 // ── Register + Donate ─────────────────────────────────────────────────────────
 
-function RegisterDonateSection() {
+function RegisterDonateSection({ content }: { content: PageField[] }) {
   return (
     <section aria-label="Register to vote and donate" className="relative w-full overflow-hidden">
-      {/* Full bleed dark bg */}
       <div className="absolute inset-0 bg-hero-light dark:bg-hero-dark z-0" />
       <div
         aria-hidden="true"
@@ -362,8 +348,6 @@ function RegisterDonateSection() {
           opacity: 0.08
         }}
       />
-
-      {/* Top diagonal clip */}
       <div
         aria-hidden="true"
         className="absolute top-0 left-0 right-0 h-10 bg-bg-light dark:bg-bg-dark z-1"
@@ -376,14 +360,16 @@ function RegisterDonateSection() {
           <motion.div {...fadeUp(0.1)} className="flex flex-col gap-6">
             <div>
               <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-secondary-light dark:text-secondary-dark mb-3">
-                Primary · September 1, 2026
+                {getField(content, 'register_eyebrow', 'Primary · September 1, 2026')}
               </p>
               <h2 className="font-archivo text-3xl sm:text-4xl font-black uppercase text-white leading-none mb-4">
-                Register <span className="text-secondary-light dark:text-secondary-dark">to Vote</span>
+                {getField(content, 'register_heading', 'Register')}{' '}
+                <span className="text-secondary-light dark:text-secondary-dark">
+                  {getField(content, 'register_heading_accent', 'to Vote')}
+                </span>
               </h2>
               <p className="font-inter text-sm text-white/60 leading-relaxed max-w-sm">
-                Make sure you&apos;re registered before the August 12th deadline. It only takes a few minutes and your
-                vote makes all the difference in the 9th Essex District.
+                {getField(content, 'register_body', "Make sure you're registered before the August 12th deadline.")}
               </p>
             </div>
             <div aria-hidden="true" className="w-12 h-px bg-white/20" />
@@ -396,21 +382,20 @@ function RegisterDonateSection() {
             />
           </motion.div>
 
-          {/* Divider */}
           <div aria-hidden="true" className="hidden lg:block absolute left-1/2 top-24 bottom-24 w-px bg-white/10" />
 
           {/* Donate */}
           <motion.div {...fadeUp(0.2)} className="flex flex-col gap-6">
             <div>
               <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-cta-light dark:text-cta-dark mb-3">
-                Support the Campaign
+                {getField(content, 'donate_eyebrow', 'Support the Campaign')}
               </p>
               <h2 className="font-archivo text-3xl sm:text-4xl font-black uppercase text-white leading-none mb-4">
-                Help Us <span className="text-cta-dark">Win</span>
+                {getField(content, 'donate_heading', 'Help Us')}{' '}
+                <span className="text-cta-dark">{getField(content, 'donate_heading_accent', 'Win')}</span>
               </h2>
               <p className="font-inter text-sm text-white/60 leading-relaxed max-w-sm">
-                Every contribution — big or small — helps us reach more voters, knock more doors, and build a stronger
-                campaign across the district.
+                {getField(content, 'donate_body', 'Every contribution — big or small — helps us reach more voters.')}
               </p>
             </div>
             <div aria-hidden="true" className="w-12 h-px bg-white/20" />
@@ -430,13 +415,13 @@ function RegisterDonateSection() {
 
 // ── HomePageSections ──────────────────────────────────────────────────────────
 
-export default function HomePageSections({ news }: { news: News[] }) {
+export default function HomePageSections({ news, content }: { news: News[]; content: PageField[] }) {
   return (
     <>
-      <PoliciesSection />
-      <AboutSection />
-      <NewsSection news={news} />
-      <RegisterDonateSection />
+      <PoliciesSection content={content} />
+      <AboutSection content={content} />
+      <NewsSection news={news} content={content} />
+      <RegisterDonateSection content={content} />
     </>
   )
 }
