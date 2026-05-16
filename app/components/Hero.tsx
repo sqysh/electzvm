@@ -81,10 +81,6 @@ export default function Hero() {
             scene="https://prod.spline.design/dhxcZ0yoXwNL0li7/scene.splinecode"
             style={{ width: '100%', height: '100%' }}
           />
-          {/* <Spline
-            scene="https://prod.spline.design/X3v0ASt6zmtf-hWf/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
-          /> */}
         </div>
 
         {/* Video overlay */}

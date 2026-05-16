@@ -3,3 +3,9 @@ export const inputCls =
 
 export const adminInputCls =
   'w-full px-3 py-2.5 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-sm font-inter text-text-light dark:text-text-dark placeholder:text-muted-light/40 dark:placeholder:text-muted-dark/40 outline-none focus:border-primary-light dark:focus:border-primary-dark transition-colors duration-200 min-h-[44px]'
+
+export const panelInputCls =
+  'w-full px-3 py-2.5 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-sm font-inter text-text-light dark:text-text-dark placeholder:text-muted-light/40 dark:placeholder:text-muted-dark/40 outline-none focus:border-primary-light dark:focus:border-primary-dark transition-colors duration-200 min-h-[44px]'
+
+export const pageContentEditorInputCls =
+  'w-full px-3 py-2 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-[12px] font-mono text-text-light dark:text-text-dark placeholder:text-muted-light/60 dark:placeholder:text-muted-dark/60 outline-none focus:border-primary-light dark:focus:border-primary-dark transition-colors min-h-[44px]'

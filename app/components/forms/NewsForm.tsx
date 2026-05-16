@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { Loader2 } from 'lucide-react'
+import { panelInputCls } from '@/app/lib/constants/styles.constants'
 import { NewsFormState } from '@/types/news.types'
+import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import { UploadZone } from '../elements/UploadZone'
-import { adminInputCls } from '@/app/lib/constants/styles.constants'
 
 export function NewsForm({
   initial,
@@ -24,54 +24,54 @@ export function NewsForm({
   }
 
   return (
-    <div className="flex flex-col gap-6 p-5 sm:p-6">
+    <div className="flex flex-col gap-4 p-4">
       <div className="flex flex-col gap-1.5">
         <label
-          htmlFor="title"
+          htmlFor="news-title"
           className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
         >
           Title *
         </label>
         <input
-          id="title"
+          id="news-title"
           type="text"
           value={form.title}
           onChange={(e) => set('title', e.target.value)}
-          className={adminInputCls}
+          className={panelInputCls}
           placeholder="Article title"
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
         <label
-          htmlFor="excerpt"
+          htmlFor="news-excerpt"
           className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
         >
           Excerpt
         </label>
         <textarea
-          id="excerpt"
+          id="news-excerpt"
           rows={2}
           value={form.excerpt}
           onChange={(e) => set('excerpt', e.target.value)}
-          className={`${adminInputCls} resize-none min-h-0`}
-          placeholder="Short summary shown on listing pages"
+          className={`${panelInputCls} resize-none min-h-0`}
+          placeholder="Short summary"
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
         <label
-          htmlFor="body"
+          htmlFor="news-body"
           className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
         >
           Body
         </label>
         <textarea
-          id="body"
-          rows={6}
+          id="news-body"
+          rows={5}
           value={form.body}
           onChange={(e) => set('body', e.target.value)}
-          className={`${adminInputCls} resize-none min-h-0`}
+          className={`${panelInputCls} resize-none min-h-0`}
           placeholder="Full article body"
         />
       </div>
@@ -89,29 +89,29 @@ export function NewsForm({
 
       <div className="flex flex-col gap-1.5">
         <label
-          htmlFor="externalLink"
+          htmlFor="news-link"
           className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
         >
           External Link
         </label>
         <input
-          id="externalLink"
+          id="news-link"
           type="text"
           value={form.externalLink}
           onChange={(e) => set('externalLink', e.target.value)}
-          className={adminInputCls}
+          className={panelInputCls}
           placeholder="https://... (optional)"
         />
       </div>
 
       {/* Published toggle */}
-      <label htmlFor="isPublished" className="flex items-center justify-between gap-4 cursor-pointer min-h-11">
+      <label htmlFor="news-published" className="flex items-center justify-between gap-4 cursor-pointer min-h-11">
         <span className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
           Published
         </span>
         <div className="relative shrink-0 w-11 h-6">
           <input
-            id="isPublished"
+            id="news-published"
             type="checkbox"
             role="switch"
             aria-checked={form.isPublished}
@@ -134,13 +134,13 @@ export function NewsForm({
         </p>
       )}
 
-      <div className="flex gap-3 pt-2">
+      <div className="flex gap-3 pt-1">
         <button
           type="button"
           onClick={() => onSubmit(form)}
           disabled={saving || !form.title.trim()}
           aria-busy={saving}
-          className="font-archivo px-6 py-3 text-xs font-bold uppercase tracking-widest text-white bg-primary-light dark:bg-primary-dark hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed min-h-11 flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
+          className="font-archivo flex-1 py-3 text-xs font-bold uppercase tracking-widest text-white bg-primary-light dark:bg-primary-dark hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed min-h-11 flex items-center justify-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
         >
           {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />}
           {saving ? 'Saving...' : 'Save'}
@@ -148,7 +148,7 @@ export function NewsForm({
         <button
           type="button"
           onClick={onCancel}
-          className="font-archivo px-6 py-3 text-xs font-bold uppercase tracking-widest text-muted-light dark:text-muted-dark border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
+          className="font-archivo px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-light dark:text-muted-dark border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark transition-colors min-h-11 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
         >
           Cancel
         </button>

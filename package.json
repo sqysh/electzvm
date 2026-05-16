@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate": "prisma generate",
-    "import:wix-data": "node scripts/wix-form-submissions.js"
+    "import:wix-data": "node scripts/wix-form-submissions.js",
+    "seed:page-content": "node scripts/seed-page-content.js"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

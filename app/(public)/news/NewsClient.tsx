@@ -136,51 +136,6 @@ export default function NewsClient({ news }: { news: News[] }) {
       </main>
 
       <PrimaryDateMarquee />
-
-      {/* ── CTA ─────────────────────────────────────────────────────────── */}
-      <div className="relative z-10 border-t border-border-light dark:border-border-dark bg-hero-light dark:bg-hero-dark overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-linear-to-br from-primary-light/20 dark:from-primary-dark/10 to-transparent"
-        />
-        <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 md:px-16 py-16 sm:py-20">
-          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-8">
-            {/* Text */}
-            <div className="flex flex-col gap-4 max-w-lg">
-              <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-secondary-light dark:text-secondary-dark">
-                Get Involved
-              </p>
-              <h2 className="font-archivo text-3xl sm:text-4xl md:text-5xl font-black uppercase text-white leading-none">
-                Ready to Make a <span className="text-cta-dark">Difference?</span>
-              </h2>
-              <p className="font-inter text-sm text-white/60 leading-relaxed">
-                Join thousands of neighbors across the 9th Essex District who are working together to build a stronger,
-                safer, and more transparent community.
-              </p>
-            </div>
-
-            {/* CTA */}
-            <Link
-              href="/contact"
-              className="font-archivo shrink-0 px-8 py-4 text-sm font-bold uppercase tracking-widest text-white bg-primary-light dark:bg-primary-dark hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-opacity duration-200 min-h-11 flex items-center justify-center"
-            >
-              Join the Team →
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="relative z-10 border-t border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-16 h-12 flex items-center justify-between gap-4">
-          <span className="font-archivo text-[10px] font-black uppercase tracking-widest text-text-light dark:text-text-dark">
-            Elect<span className="text-primary-light dark:text-primary-dark">ZVM</span>
-          </span>
-          <span className="font-inter text-[10px] text-muted-light dark:text-muted-dark text-right">
-            Paid for by Zosia VanMeter for State Representative · 9th Essex District
-          </span>
-        </div>
-      </footer>
     </div>
   )
 }

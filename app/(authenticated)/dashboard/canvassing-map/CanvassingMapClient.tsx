@@ -19,6 +19,7 @@ import {
 import { PulsePin } from '@/app/components/PulsePin'
 import { AddPinModal } from '@/app/components/modals/AddPinModal'
 import { PinDetailPanel } from '@/app/components/PinDetailPanel'
+import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 
 export default function CanvassingMapClient({ initialPins }: { initialPins: CanvassPin[] }) {
   const { isLoaded } = useLoadScript({
@@ -31,6 +32,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
   const [selectedPin, setSelectedPin] = useState<CanvassPin | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const mapRef = useRef<google.maps.Map | null>(null)
+  const { play } = useSoundEffect('/sound-effects/se-5.mp3', true)
 
   const totalDoors = pins.reduce((sum, p) => sum + p.doors, 0)
 
@@ -40,6 +42,8 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
 
   useEffect(() => {
     if (!isLoaded || !inputRef.current) return
+
+    play()
 
     const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({
       componentRestrictions: { country: 'us' }
@@ -58,7 +62,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
       mapRef.current?.setZoom(17)
       setPendingPin({ lat, lng })
     })
-  }, [isLoaded])
+  }, [isLoaded, play])
 
   const onMapClick = useCallback((e: google.maps.MapMouseEvent) => {
     if (!e.latLng) return

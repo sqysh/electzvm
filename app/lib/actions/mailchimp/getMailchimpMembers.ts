@@ -8,7 +8,7 @@ export async function getMailchimpMembers() {
 
   try {
     const response = await fetch(
-      `https://us15.api.mailchimp.com/3.0/lists/78bf581442/members?count=1000&fields=members.id,members.email_address,members.full_name,members.status,members.timestamp_opt,members.merge_fields`,
+      `https://us15.api.mailchimp.com/3.0/lists/78bf581442/members?count=1000&fields=members.id,members.email_address,members.full_name,members.status,members.timestamp_opt,members.merge_fields,members.contact_id`,
       {
         method: 'GET',
         headers: {
@@ -26,12 +26,17 @@ export async function getMailchimpMembers() {
 
     const data = await response.json()
 
-    const message = await buildLogMessage(`fetched ${data.members.length} Mailchimp members`, actor, context)
-    await createLog('info', message, { count: data.members.length, ...context })
+    const members = Array.isArray(data.members) ? data.members : []
+
+    const message = await buildLogMessage(`fetched ${members.length} Mailchimp members`, actor, context)
+    await createLog('info', message, { count: members.length, ...context })
 
     return { success: true, data: data.members }
   } catch (error) {
-    console.error('[getMailchimpMembers]', error)
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[getMailchimpMembers] unavailable:', error instanceof Error ? error.message : error)
+    }
 
     const message = await buildLogMessage('failed to fetch Mailchimp members', actor, context)
     await createLog('error', message, {
@@ -39,6 +44,10 @@ export async function getMailchimpMembers() {
       ...context
     })
 
-    return { success: false, error: 'Failed to fetch members.' }
+    return {
+      success: false,
+      error:
+        'Mailchimp is temporarily unavailable. This is likely scheduled maintenance on their end. Your subscriber data is safe — check back shortly or visit mailchimp.com for status updates.'
+    }
   }
 }

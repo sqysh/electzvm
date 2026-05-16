@@ -13,6 +13,7 @@ export interface NewsFormState {
   excerpt: string
   body: string
   imageUrl: string
+  imageFilename: string
   externalLink: string
   isPublished: boolean
 }

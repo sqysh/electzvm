@@ -1,32 +1,27 @@
-import prisma from '@/prisma/client'
-import { getMailchimpMembers } from '@/app/lib/actions/mailchimp/getMailchimpMembers'
-import DashboardClient3 from './DashboardClient3'
+import DashboardClient from './DashboardClient'
+import { getDashboardData } from '@/app/lib/actions/getDashboardData'
 
 export default async function DashboardPage() {
-  const [news, inquiries, userCount, mailchimpResult, media, pins, pinAggregate] = await Promise.all([
-    prisma.news.findMany({ orderBy: { createdAt: 'desc' } }),
-    prisma.volunteerSubmission.findMany({ orderBy: { createdAt: 'desc' } }),
-    prisma.user.count(),
-    getMailchimpMembers(),
-    prisma.galleryItem.findMany({
-      orderBy: { createdAt: 'desc' },
-      select: { id: true, url: true, type: true },
-      take: 9
-    }),
-    prisma.canvassPin.findMany({ orderBy: { createdAt: 'desc' } }),
-    prisma.canvassPin.aggregate({ _sum: { doors: true }, _count: true })
-  ])
+  const { news, inquiries, pins, pinAggregate, users, pages, members } = await getDashboardData()
 
   return (
-    <DashboardClient3
-      news={news}
-      inquiries={inquiries}
-      userCount={userCount}
-      mailchimpCount={mailchimpResult.success ? mailchimpResult.data.length : 0}
-      media={media}
+    <DashboardClient
+      news={JSON.parse(JSON.stringify(news))}
+      inquiries={JSON.parse(JSON.stringify(inquiries))}
+      mailchimpCount={members.length}
       pinCount={pins.length}
       doorsKnocked={pinAggregate._sum.doors ?? 0}
-      pins={pins}
+      pins={JSON.parse(
+        JSON.stringify(
+          pins.map((p) => ({
+            ...p,
+            status: p.status as 'knocked' | 'no_answer' | 'interested' | 'hostile'
+          }))
+        )
+      )}
+      users={JSON.parse(JSON.stringify(users))}
+      members={members}
+      pages={JSON.parse(JSON.stringify(pages))}
     />
   )
 }

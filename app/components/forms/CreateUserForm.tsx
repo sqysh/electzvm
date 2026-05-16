@@ -27,7 +27,7 @@ export function CreateUserForm({ onClose, onCreate }: { onClose: () => void; onC
     if (result.success && result.data) {
       play()
       onCreate(result.data as unknown as UserRecord)
-      onClose()
+      setForm({ name: '', email: '' })
     } else {
       setError(result.error ?? 'Failed to create user.')
     }

@@ -155,24 +155,6 @@ export default function PlatformClient() {
       </div>
 
       <PrimaryDateMarquee />
-
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="relative z-10 border-t border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-16 h-12 flex items-center justify-between gap-4">
-          <span className="font-archivo text-[10px] font-black uppercase tracking-widest text-text-light dark:text-text-dark">
-            Elect<span className="text-primary-light dark:text-primary-dark">ZVM</span>
-          </span>
-          <a
-            href="https://sqysh.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Built by Sqysh (opens in new tab)"
-            className="font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-200"
-          >
-            Built by <span className="text-primary-light dark:text-primary-dark">Sqysh</span>
-          </a>
-        </div>
-      </footer>
     </div>
   )
 }

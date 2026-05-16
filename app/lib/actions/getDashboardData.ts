@@ -1,43 +1,21 @@
-'use server'
-
 import prisma from '@/prisma/client'
+import { getMailchimpMembers } from './mailchimp/getMailchimpMembers'
 
 export async function getDashboardData() {
-  const [news, inquiries, users] = await Promise.all([
-    prisma.news.findMany({
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        title: true,
-        createdAt: true,
-        isPublished: true
-      }
-    }),
-    prisma.volunteerSubmission.findMany({
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        createdAt: true,
-        mailingList: true,
-        yardSign: true,
-        doorKnocking: true
-      }
-    }),
-    prisma.user.findMany({
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        role: true,
-        createdAt: true
-      }
-    })
+  const [news, inquiries, pins, pinAggregate, users, pages] = await Promise.all([
+    prisma.news.findMany({ orderBy: { createdAt: 'desc' } }),
+    prisma.volunteerSubmission.findMany({ orderBy: { createdAt: 'desc' } }),
+    prisma.canvassPin.findMany({ orderBy: { createdAt: 'desc' } }),
+    prisma.canvassPin.aggregate({ _sum: { doors: true }, _count: true }),
+    prisma.user.findMany(),
+    prisma.page.findMany({ orderBy: { slug: 'asc' } })
   ])
 
-  return { news, inquiries, users }
+  let members: any[] = []
+  try {
+    const mailchimpResult = await getMailchimpMembers()
+    members = mailchimpResult.success ? (mailchimpResult.data ?? []) : []
+  } catch {}
+
+  return { news, inquiries, pins, pinAggregate, users, pages, members }
 }

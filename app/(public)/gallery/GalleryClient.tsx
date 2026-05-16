@@ -9,6 +9,7 @@ import Header from '@/app/components/Header'
 import PageHero from '@/app/components/PageHero'
 import { fadeUp } from '@/app/lib/constants/motion.constants'
 import { CTASection } from '@/app/components/CTASection'
+import { Diamonds } from '@/app/components/geometric-backgrounds/Diamonds'
 
 // ── Image list ────────────────────────────────────────────────────────────────
 
@@ -39,19 +40,8 @@ export function GalleryClient() {
   return (
     <div className="min-h-screen w-full bg-bg-light dark:bg-bg-dark flex flex-col">
       {/* ── Geometric background ─────────────────────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 z-0 pointer-events-none opacity-[0.04] dark:opacity-[0.06] text-primary-light dark:text-primary-dark"
-      >
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="diamonds" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="currentColor" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#diamonds)" />
-        </svg>
-      </div>
+      <Diamonds />
+
       <Header />
 
       <main className="relative z-10 flex-1">
@@ -111,23 +101,11 @@ export function GalleryClient() {
         </div>
       </main>
 
-      {/* ── Primary date marquee ─────────────────────────────────────────── */}
-      <PrimaryDateMarquee />
-
       {/* ── CTA section ─────────────────────────────────────────────────── */}
       <CTASection />
 
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="relative z-10 border-t border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-16 h-12 flex items-center justify-between gap-4">
-          <span className="font-archivo text-[10px] font-black uppercase tracking-widest text-text-light dark:text-text-dark">
-            Elect<span className="text-primary-light dark:text-primary-dark">ZVM</span>
-          </span>
-          <span className="font-inter text-[10px] text-muted-light dark:text-muted-dark text-right">
-            Paid for by Zosia VanMeter for State Representative · 9th Essex District
-          </span>
-        </div>
-      </footer>
+      {/* ── Primary date marquee ─────────────────────────────────────────── */}
+      <PrimaryDateMarquee />
 
       {/* ── Lightbox ─────────────────────────────────────────────────────── */}
       {lightboxIndex !== null && (
