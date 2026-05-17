@@ -65,7 +65,7 @@ export async function createVolunteerSubmission(data: VolunteerFormInput) {
     await Promise.all([
       resend.emails.send({
         from: 'ElectZVM <noreply@electzvm.com>',
-        to: 'sqysh@sqysh.io',
+        to: 'zosia@electzvm.com',
         subject: `New Volunteer: ${data.firstName} ${data.lastName}`,
         html: volunteerSubmissionAdminTemplate({ ...data })
       }),
