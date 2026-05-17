@@ -21,5 +21,18 @@ export async function getDashboardData() {
     members = mailchimpResult.success ? (mailchimpResult.data ?? []) : []
   } catch {}
 
-  return { news, inquiries, pins, members, pinAggregate, users, pages, endorsements, blastHistory }
+  return {
+    news,
+    inquiries,
+    pins: pins.map((p) => ({
+      ...p,
+      status: p.status as 'knocked' | 'no_answer' | 'interested' | 'hostile'
+    })),
+    members,
+    pinAggregate,
+    users,
+    pages,
+    endorsements,
+    blastHistory
+  }
 }

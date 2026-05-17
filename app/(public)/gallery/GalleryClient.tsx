@@ -46,8 +46,6 @@ export function GalleryClient({ content }: { content: PageField[] }) {
           eyebrow={getField(content, 'gallery_hero_eyebrow', '9th Essex District · Massachusetts')}
           title={getField(content, 'gallery_hero_title', 'Photo')}
           titleAccent={getField(content, 'gallery_hero_title_accent', 'Gallery')}
-          showZosia={true}
-          showPatriotic={true}
           image="zosia-20.png"
           description={getField(content, 'gallery_hero_description', 'A look at Zosia VanMeter out in the community.')}
         />

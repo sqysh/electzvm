@@ -3,21 +3,13 @@
 import Link from 'next/link'
 import LiquidButton from '@/app/components/elements/LiquidButton'
 import { navLinks } from '../lib/constants/navigation.contants'
+import { Diamonds } from './geometric-backgrounds/Diamonds'
 
 export function Footer() {
   return (
     <footer className="relative w-full bg-hero-light dark:bg-hero-dark border-t border-white/10 overflow-hidden">
       {/* Geometric background */}
-      <div aria-hidden="true" className="absolute inset-0 z-0 pointer-events-none opacity-[0.04] text-primary-dark">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="footer-diamonds" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="currentColor" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#footer-diamonds)" />
-        </svg>
-      </div>
+      <Diamonds />
 
       <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 md:px-16">
         {/* Main content */}
@@ -83,15 +75,30 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex items-center justify-between gap-4 py-5">
           <span className="font-archivo text-[10px] tracking-[0.15em] uppercase text-white/20">Forward. Together.</span>
-          <a
-            href="https://sqysh.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Built by Sqysh (opens in new tab)"
-            className="font-archivo text-[10px] tracking-widest uppercase text-white/20 hover:text-primary-dark transition-colors duration-200"
-          >
-            Built by <span className="text-primary-dark">Sqysh</span>
-          </a>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/privacy"
+              className="font-archivo text-[10px] tracking-widests uppercase text-white/20 hover:text-white transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="font-archivo text-[10px] tracking-widests uppercase text-white/20 hover:text-white transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Terms
+            </Link>
+
+            <a
+              href="https://sqysh.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Built by Sqysh (opens in new tab)"
+              className="font-archivo text-[10px] tracking-widests uppercase text-white/20 hover:text-primary-dark transition-colors duration-200"
+            >
+              Built by <span className="text-primary-dark">Sqysh</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

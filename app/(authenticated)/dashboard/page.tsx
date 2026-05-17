@@ -12,14 +12,7 @@ export default async function DashboardPage() {
       mailchimpCount={members.length}
       pinCount={pins.length}
       doorsKnocked={pinAggregate._sum.doors ?? 0}
-      pins={JSON.parse(
-        JSON.stringify(
-          pins.map((p) => ({
-            ...p,
-            status: p.status as 'knocked' | 'no_answer' | 'interested' | 'hostile'
-          }))
-        )
-      )}
+      pins={JSON.parse(JSON.stringify(pins))}
       users={JSON.parse(JSON.stringify(users))}
       members={members}
       pages={JSON.parse(JSON.stringify(pages))}

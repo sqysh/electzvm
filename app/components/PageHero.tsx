@@ -26,7 +26,7 @@ export default function PageHero({
   isFullHeight
 }: PageHeroProps) {
   return (
-    <div className="w-full bg-hero-light dark:bg-hero-dark relative overflow-hidden">
+    <div className="w-full bg-hero-light dark:bg-hero-dark relative overflow-hidden 1115:h-80">
       {/* Patriotic bg */}
       {showPatriotic && (
         <div
@@ -122,7 +122,7 @@ export default function PageHero({
         >
           {/* Bottom fade */}
           <div className="absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-hero-light dark:from-hero-dark to-transparent z-10 pointer-events-none" />
-          <Picture src={`/images/${image}`} alt="" priority fill sizes="100vw" className="object-cover object-bottom" />
+          <Picture src={`/images/${image}`} alt="" priority sizes="100vw" className="object-cover object-bottom" />
         </motion.div>
       )}
 
