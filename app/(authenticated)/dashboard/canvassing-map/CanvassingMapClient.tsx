@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Loader2, ArrowLeft, ChevronRight } from 'lucide-react'
@@ -21,6 +21,7 @@ import { AddPinModal } from '@/app/components/modals/AddPinModal'
 import { PinDetailPanel } from '@/app/components/PinDetailPanel'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 import { useSearchParams } from 'next/navigation'
+import Pusher from 'pusher-js'
 
 export default function CanvassingMapClient({ initialPins }: { initialPins: CanvassPin[] }) {
   const { isLoaded } = useLoadScript({
@@ -45,6 +46,31 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
   const hasPlayed = useRef(false)
 
   const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!
+    })
+
+    const channel = pusher.subscribe('canvass')
+
+    channel.bind('pin-added', (pin: CanvassPin) => {
+      setPins((prev) => {
+        if (prev.find((p) => p.id === pin.id)) return prev
+        return [{ ...pin, status: pin.status as CanvassPin['status'] }, ...prev]
+      })
+    })
+
+    channel.bind('pin-deleted', ({ id }: { id: string }) => {
+      setPins((prev) => prev.filter((p) => p.id !== id))
+    })
+
+    return () => {
+      channel.unbind_all()
+      pusher.unsubscribe('canvass')
+      pusher.disconnect()
+    }
+  }, [])
 
   useEffect(() => {
     if (searchParams.get('addPin') === 'true') {
@@ -81,11 +107,27 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
     })
   }, [isLoaded, play])
 
-  const onMapClick = useCallback((e: google.maps.MapMouseEvent) => {
+  async function onMapClick(e: google.maps.MapMouseEvent) {
     if (!e.latLng) return
+    const lat = e.latLng.lat()
+    const lng = e.latLng.lng()
+
+    // Reverse geocode to get address
+    const geocoder = new google.maps.Geocoder()
+    let address = ''
+
+    try {
+      const result = await geocoder.geocode({ location: { lat, lng } })
+      if (result.results[0]) {
+        address = result.results[0].formatted_address
+      }
+    } catch {
+      // silently fail — address just stays empty
+    }
+
+    setPendingPin({ lat, lng, address })
     setSelectedPin(null)
-    setPendingPin({ lat: e.latLng.lat(), lng: e.latLng.lng() })
-  }, [])
+  }
 
   if (!isLoaded) {
     return (

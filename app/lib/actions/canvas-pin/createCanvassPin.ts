@@ -3,6 +3,7 @@
 import prisma from '@/prisma/client'
 import { buildLogMessage, createLog, getRequestContext } from '../../utils/log.utils'
 import { getActor } from '../user/getActor'
+import { pusher } from '../../pusher'
 
 export async function createCanvassPin(data: {
   lat: number
@@ -40,6 +41,11 @@ export async function createCanvassPin(data: {
       lat: data.lat,
       lng: data.lng,
       ...context
+    })
+
+    await pusher.trigger('canvass', 'pin-added', {
+      ...pin,
+      createdAt: pin.createdAt.toISOString()
     })
 
     return { success: true, data: pin }

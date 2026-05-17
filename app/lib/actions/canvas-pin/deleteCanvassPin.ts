@@ -3,6 +3,7 @@
 import prisma from '@/prisma/client'
 import { buildLogMessage, createLog, getRequestContext } from '../../utils/log.utils'
 import { getActor } from '../user/getActor'
+import { pusher } from '../../pusher'
 
 export async function deleteCanvassPin(id: string) {
   const [context, actor] = await Promise.all([getRequestContext(), getActor()])
@@ -23,6 +24,8 @@ export async function deleteCanvassPin(id: string) {
       context
     )
     await createLog('info', message, { deletedId: id, ...pin, ...context })
+
+    await pusher.trigger('canvass', 'pin-deleted', { id })
 
     return { success: true }
   } catch (error) {

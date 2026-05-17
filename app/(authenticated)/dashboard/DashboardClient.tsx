@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
-import { LogOut, Map, ExternalLink, Calendar, Globe, UserPlus, BarChart2, Globe2 } from 'lucide-react'
-import type { Endorsement, News } from '@prisma/client'
+import { LogOut, Map, ExternalLink, Calendar, Globe, UserPlus, BarChart2, Globe2, ChevronUp } from 'lucide-react'
+import type { CanvassPin, Endorsement, News } from '@prisma/client'
 import { PRIMARY_DATE } from '@/app/lib/constants/canvas-pin.constants'
 import { useState } from 'react'
 import { useDaysUntil } from '@/app/lib/utils/date.utils'
@@ -16,6 +16,7 @@ import { MapPanel } from '@/app/components/MapPanel'
 import { DashboardPanels } from '@/app/components/DashboardPanels'
 import { LiveClock } from '@/app/components/LiveClock'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
+import { AnimatePresence, motion } from 'framer-motion'
 
 export default function DashboardClient({
   news: initialNews,
@@ -23,7 +24,7 @@ export default function DashboardClient({
   mailchimpCount,
   pinCount,
   doorsKnocked,
-  pins,
+  pins: initialPins,
   users: initialUsers,
   members,
   pages,
@@ -31,11 +32,13 @@ export default function DashboardClient({
 }: DashboardProps) {
   const { data: session } = useSession()
   const [activePanel, setActivePanel] = useState<string | null>(null)
+  const [pins, setPins] = useState<CanvassPin[]>(initialPins)
   const daysUntil = useDaysUntil(PRIMARY_DATE)
   const firstName = session?.user?.name?.split(' ')[0] ?? 'Admin'
   const [users, setUsers] = useState<UserRecord[]>(initialUsers)
   const [news, setNews] = useState<News[]>(initialNews)
   const [endorsements, setEndorsements] = useState<Endorsement[]>(initialEndorsements)
+  const [integrationsOpen, setIntegrationsOpen] = useState(false)
   const { play: openSE } = useSoundEffect('/sound-effects/se-7.mp3', true)
   const { play: closSE } = useSoundEffect('/sound-effects/se-9.mp3', true)
   const { play: openFullMapSE } = useSoundEffect('/sound-effects/se-18.mp3', true)
@@ -87,8 +90,8 @@ export default function DashboardClient({
       />
 
       <div className="h-screen w-full bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark flex flex-col overflow-hidden">
+        {/* Header */}
         <header className="shrink-0 flex items-center justify-between px-3 h-10 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark gap-2">
-          {/* Left */}
           <div className="flex items-center gap-2 min-w-0">
             <Link
               onClick={() => logoSE()}
@@ -102,13 +105,9 @@ export default function DashboardClient({
               Campaign Control
             </span>
           </div>
-
-          {/* Center — clock */}
           <div className="hidden md:block shrink-0">
             <LiveClock />
           </div>
-
-          {/* Right */}
           <div className="flex items-center gap-2 shrink-0">
             <span className="hidden xs:block font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark">
               {firstName}
@@ -219,7 +218,7 @@ export default function DashboardClient({
               </Link>
             </div>
             <div className="flex-1 min-h-0">
-              <MapPanel pinCount={pinCount} doorsKnocked={doorsKnocked} pins={pins} />
+              <MapPanel pinCount={pinCount} doorsKnocked={doorsKnocked} pins={pins} setPins={setPins} />
             </div>
 
             <div className="lg:hidden shrink-0 border-t border-border-light dark:border-border-dark overflow-x-auto">
@@ -268,6 +267,69 @@ export default function DashboardClient({
                 </span>
               </div>
               <CanvassBreakdown pins={pins} doorsKnocked={doorsKnocked} pinCount={pinCount} />
+            </div>
+
+            <div className="shrink-0 border-t border-border-light dark:border-border-dark">
+              {/* Integrations accordion */}
+              <AnimatePresence initial={false}>
+                {integrationsOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex flex-col divide-y divide-border-light dark:divide-border-dark">
+                      {[
+                        { label: 'Maps JavaScript API', detail: 'Dashboard canvass map' },
+                        { label: 'Places API (New)', detail: 'Address autocomplete' },
+                        { label: 'Geocoding API', detail: 'Reverse geocode pin clicks' },
+                        { label: 'Google OAuth', detail: 'Admin authentication' },
+                        { label: 'Mailchimp API', detail: 'Mailing list management' },
+                        { label: 'Firebase Storage', detail: 'Media uploads' },
+                        { label: 'Resend', detail: 'Transactional email' }
+                      ].map((integration) => (
+                        <div
+                          key={integration.label}
+                          className="flex items-center justify-between px-4 py-2.5 bg-surface-light dark:bg-surface-dark gap-3"
+                        >
+                          <div className="flex flex-col gap-0.5 min-w-0">
+                            <span className="font-archivo text-[10px] tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate">
+                              {integration.label}
+                            </span>
+                            <span className="font-mono text-[9px] text-muted-light dark:text-muted-dark truncate">
+                              {integration.detail}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <div
+                              className="w-1.5 h-1.5 rounded-full bg-secondary-light dark:bg-secondary-dark animate-pulse"
+                              aria-hidden="true"
+                            />
+                            <span className="font-mono text-[9px] uppercase text-secondary-light dark:text-secondary-dark">
+                              live
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Toggle button */}
+              <button
+                onClick={() => setIntegrationsOpen((v) => !v)}
+                className="w-full h-7 flex items-center justify-between px-4 bg-surface-light dark:bg-surface-dark hover:bg-surface-alt-light dark:hover:bg-surface-alt-dark transition-colors focus-visible:outline-none group"
+              >
+                <span className="font-archivo text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                  Integrations
+                </span>
+                <motion.div animate={{ rotate: integrationsOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                  <ChevronUp className="w-3 h-3 text-muted-light dark:text-muted-dark" aria-hidden="true" />
+                </motion.div>
+              </button>
             </div>
           </div>
         </div>
