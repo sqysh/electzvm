@@ -28,9 +28,7 @@ export function MeetZosiaClient({ content }: { content: PageField[] }) {
             'meet_hero_description',
             'Mother. Wife. Immigrant. Public servant. Community leader.'
           )}
-          image="zosia-7.webp"
-          showPatriotic={false}
-          isFullHeight={true}
+          image="zosia-14.png"
         />
 
         <StatsBar />

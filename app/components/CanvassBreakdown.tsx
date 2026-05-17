@@ -2,7 +2,7 @@ import { CanvassPin } from '@prisma/client'
 import { useUiSelector } from '../lib/redux/store'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Plus } from 'lucide-react'
 
 export function CanvassBreakdown({
   pins,
@@ -95,19 +95,28 @@ export function CanvassBreakdown({
         ))}
       </div>
 
-      {/* Link to full map */}
-      <Link
-        href="/dashboard/canvassing-map"
-        className="flex items-center justify-between px-3 py-2.5 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark transition-colors group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
-      >
-        <span className="font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors">
-          Open Full Map
-        </span>
-        <ArrowRight
-          className="w-3.5 h-3.5 text-muted-light dark:text-muted-dark group-hover:text-primary-light dark:group-hover:text-primary-dark group-hover:translate-x-0.5 transition-all"
-          aria-hidden="true"
-        />
-      </Link>
+      {/* Links */}
+      <div className="flex gap-2">
+        <Link
+          href="/dashboard/canvassing-map"
+          className="flex-1 flex items-center justify-between px-3 py-2.5 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark transition-colors group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
+        >
+          <span className="font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors">
+            Open Map
+          </span>
+          <ArrowRight
+            className="w-3.5 h-3.5 text-muted-light dark:text-muted-dark group-hover:text-primary-light dark:group-hover:text-primary-dark group-hover:translate-x-0.5 transition-all"
+            aria-hidden="true"
+          />
+        </Link>
+        <Link
+          href="/dashboard/canvassing-map?addPin=true"
+          className="flex items-center gap-1.5 px-3 py-2.5 border border-secondary-light dark:border-secondary-dark text-secondary-light dark:text-secondary-dark hover:bg-secondary-light/10 dark:hover:bg-secondary-dark/10 transition-colors font-archivo text-[10px] tracking-widests uppercase focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-light"
+        >
+          <Plus className="w-3.5 h-3.5" aria-hidden="true" />
+          Pin
+        </Link>
+      </div>
     </div>
   )
 }

@@ -45,44 +45,50 @@ export default function PlatformClient({ content }: { content: PageField[] }) {
       <Diamonds />
       <Header />
 
-      <PageHero
-        eyebrow={getField(content, 'platform_hero_eyebrow', '9th Essex District · Massachusetts')}
-        title={getField(content, 'platform_hero_title', 'The')}
-        titleAccent={getField(content, 'platform_hero_title_accent', 'Platform')}
-        description={getField(content, 'platform_hero_description', 'Real solutions for real people.')}
-        showZosia
-        showPatriotic={false}
-        image="zosia-10.webp"
-        isFullHeight
-      />
-
       <main className="relative z-10 flex-1">
-        {/* Opening quote */}
-        <div className="w-full bg-hero-light dark:bg-hero-dark relative overflow-hidden py-20 sm:py-28">
+        <PageHero
+          eyebrow={getField(content, 'platform_hero_eyebrow', '9th Essex District · Massachusetts')}
+          title={getField(content, 'platform_hero_title', 'The')}
+          titleAccent={getField(content, 'platform_hero_title_accent', 'Platform')}
+          description={getField(content, 'platform_hero_description', 'Real solutions for real people.')}
+          image="zosia-19.png"
+        />
+
+        <div className="w-full relative overflow-hidden py-20 sm:py-28 bg-bg-light dark:bg-bg-dark">
+          {/* Left accent bar */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 opacity-[0.06]"
-            style={{
-              backgroundImage: "url('/images/patriotic-1.png')",
-              backgroundSize: 'cover',
-              backgroundPosition: 'center top'
-            }}
+            className="absolute left-0 top-0 bottom-0 w-1 bg-linear-to-b from-transparent via-primary-light dark:via-primary-dark to-transparent opacity-40"
           />
-          <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 md:px-16 text-center flex flex-col items-center gap-6">
-            <motion.p
-              {...fadeUp(0.1)}
-              className="font-archivo text-[10px] tracking-[0.2em] uppercase text-secondary-light dark:text-secondary-dark"
+          {/* Right accent bar */}
+          <div
+            aria-hidden="true"
+            className="absolute right-0 top-0 bottom-0 w-1 bg-linear-to-b from-transparent via-cta-light dark:via-cta-dark to-transparent opacity-40"
+          />
+
+          <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 md:px-16 flex flex-col items-start gap-8">
+            {/* Eyebrow */}
+            <motion.div {...fadeUp(0.1)} className="flex items-center gap-3">
+              <div aria-hidden="true" className="w-8 h-px bg-secondary-light dark:bg-secondary-dark" />
+              <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-secondary-light dark:text-secondary-dark">
+                {getField(content, 'platform_quote_eyebrow', 'Platform · 9th Essex District')}
+              </p>
+            </motion.div>
+
+            {/* Quote */}
+            <motion.blockquote
+              {...fadeUp(0.15)}
+              className="border-l-2 border-primary-light dark:border-primary-dark pl-6 sm:pl-8"
             >
-              {getField(content, 'platform_quote_eyebrow', 'Platform · 9th Essex District')}
-            </motion.p>
-            <motion.blockquote {...fadeUp(0.15)}>
-              <p className="font-archivo text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white leading-tight">
+              <p className="font-archivo text-2xl sm:text-3xl md:text-4xl font-black uppercase text-text-light dark:text-text-dark leading-tight">
                 {getField(content, 'platform_quote_text')}
               </p>
             </motion.blockquote>
+
+            {/* Body */}
             <motion.p
               {...fadeUp(0.25)}
-              className="font-inter text-sm sm:text-base text-white/60 leading-relaxed max-w-2xl"
+              className="font-inter text-sm sm:text-base text-muted-light dark:text-muted-dark leading-relaxed max-w-2xl pl-6 sm:pl-8 border-l border-border-light dark:border-border-dark"
             >
               {getField(content, 'platform_quote_body')}
             </motion.p>

@@ -46,7 +46,7 @@ export default function Hero({
             </Link>
 
             {/* Nav links — hidden on mobile */}
-            <ul role="list" className="hidden md:flex items-center gap-6 lg:gap-8">
+            <ul role="list" className="hidden 1115:flex items-center gap-6 lg:gap-8">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -77,7 +77,7 @@ export default function Hero({
                 aria-label="Open navigation menu"
                 aria-expanded={drawerOpen}
                 aria-controls="navigation-drawer"
-                className="md:hidden w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0"
+                className="1115:hidden w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
@@ -100,19 +100,13 @@ export default function Hero({
           className="absolute bottom-0 left-0 right-0 h-48 bg-linear-to-t from-hero-light dark:from-hero-dark to-transparent z-10"
         />
 
-        {/* Neon accent line — dark mode only */}
-        <div
-          aria-hidden="true"
-          className="absolute left-0 top-0 bottom-0 w-1 bg-secondary-dark opacity-0 dark:opacity-100 z-20"
-        />
-
         {/* Zosia image — slides in from right */}
         <motion.div
           aria-hidden="true"
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute right-0 bottom-0 w-[45vw] max-w-2xl z-2 flex items-end"
+          className="absolute right-0 bottom-0 w-[50vw] max-w-3xl z-2 flex items-end"
         >
           <Picture priority src="/images/zosia.png" alt="" className="w-full object-cover object-bottom max-h-none" />
         </motion.div>

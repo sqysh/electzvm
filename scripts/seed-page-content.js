@@ -1,18 +1,18 @@
 import prisma from '../prisma/client.ts'
-import { contactFields } from '../app/lib/constants/page-content-editor.constants.ts'
+import { homeFields } from '../app/lib/constants/page-content-editor.constants.ts'
 
 async function main() {
   await prisma.page.upsert({
-    where: { slug: 'contact' },
-    update: { content: contactFields },
+    where: { slug: 'home' },
+    update: { content: homeFields },
     create: {
-      slug: 'contact',
-      content: contactFields,
+      slug: 'home',
+      content: homeFields,
       createdBy: 'seed'
     }
   })
 
-  console.log('✓ Contact page seeded/updated successfully.')
+  console.log('✓ Home page seeded/updated successfully.')
 }
 
 main()

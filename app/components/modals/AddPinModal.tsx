@@ -24,7 +24,7 @@ export function AddPinModal({
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { play } = useSoundEffect('/sound-effects/drop-pin.mp3', true)
+  const { play } = useSoundEffect('/sound-effects/se-6.mp3', true)
 
   async function handleSave() {
     setSaving(true)

@@ -348,11 +348,6 @@ function RegisterDonateSection({ content }: { content: PageField[] }) {
           opacity: 0.08
         }}
       />
-      <div
-        aria-hidden="true"
-        className="absolute top-0 left-0 right-0 h-10 bg-bg-light dark:bg-bg-dark z-1"
-        style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }}
-      />
 
       <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 md:px-16 py-24 sm:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">

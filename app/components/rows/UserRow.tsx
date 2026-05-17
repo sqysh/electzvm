@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { RoleBadge } from '../elements/RoleBadge'
 import { ChevronDown, ChevronUp, Trash2, User } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
+import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 
 export function UserRow({
   user,
@@ -16,11 +17,22 @@ export function UserRow({
   const [expanded, setExpanded] = useState(false)
   const isSelf = user.id === currentUserId
 
+  const { play: accordionOpenSE } = useSoundEffect('/sound-effects/se-20.mp3', true)
+  const { play: accordionCloseSE } = useSoundEffect('/sound-effects/se-21.mp3', true)
+  const { play: removeMemberSE } = useSoundEffect('/sound-effects/se-16.mp3', true)
+
   return (
     <div className="border-b border-border-light dark:border-border-dark last:border-0">
       <button
         type="button"
-        onClick={() => setExpanded((v) => !v)}
+        onClick={() => {
+          if (expanded) {
+            accordionCloseSE()
+          } else {
+            accordionOpenSE()
+          }
+          setExpanded((v) => !v)
+        }}
         aria-expanded={expanded}
         className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-surface-light dark:hover:bg-surface-dark transition-colors text-left focus-visible:outline-none group"
       >
@@ -84,7 +96,10 @@ export function UserRow({
               {!isSelf && (
                 <div className="border-t border-border-light dark:border-border-dark pt-3">
                   <button
-                    onClick={onDelete}
+                    onClick={() => {
+                      removeMemberSE()
+                      onDelete()
+                    }}
                     className="flex items-center gap-2 font-archivo text-[10px] tracking-widest uppercase text-red-500 border border-red-500/30 px-3 py-2 hover:bg-red-500/5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 min-h-11"
                   >
                     <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />

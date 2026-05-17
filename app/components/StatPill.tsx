@@ -15,7 +15,7 @@ export const StatPill = memo(function StatPill({
   return (
     <div
       onClick={onClick}
-      className="group flex items-center justify-between gap-4 px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors focus-visible:outline-none"
+      className="group flex items-center justify-between gap-4 px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors focus-visible:outline-none cursor-pointer"
     >
       <span className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
         {label}

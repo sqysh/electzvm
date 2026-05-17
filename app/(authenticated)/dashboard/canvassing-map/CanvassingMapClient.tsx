@@ -20,6 +20,7 @@ import { PulsePin } from '@/app/components/PulsePin'
 import { AddPinModal } from '@/app/components/modals/AddPinModal'
 import { PinDetailPanel } from '@/app/components/PinDetailPanel'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
+import { useSearchParams } from 'next/navigation'
 
 export default function CanvassingMapClient({ initialPins }: { initialPins: CanvassPin[] }) {
   const { isLoaded } = useLoadScript({
@@ -32,18 +33,34 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
   const [selectedPin, setSelectedPin] = useState<CanvassPin | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const mapRef = useRef<google.maps.Map | null>(null)
-  const { play } = useSoundEffect('/sound-effects/se-5.mp3', true)
+  const { play: openPinDetailsSE } = useSoundEffect('/sound-effects/se-22.mp3', true)
+  const { play: closePinDetailsSE } = useSoundEffect('/sound-effects/se-23.mp3', true)
 
   const totalDoors = pins.reduce((sum, p) => sum + p.doors, 0)
 
   const { isDark } = useUiSelector()
 
   const inputRef = useRef<HTMLInputElement>(null)
+  const { play } = useSoundEffect('/sound-effects/se-8.mp3', true)
+  const hasPlayed = useRef(false)
+
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get('addPin') === 'true') {
+      setTimeout(() => {
+        setPendingPin({ lat: CENTER.lat, lng: CENTER.lng, address: '' })
+      }, 0)
+    }
+  }, [searchParams])
 
   useEffect(() => {
     if (!isLoaded || !inputRef.current) return
 
-    // play()
+    if (!hasPlayed.current) {
+      play()
+      hasPlayed.current = true
+    }
 
     const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({
       componentRestrictions: { country: 'us' }
@@ -80,34 +97,35 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
 
   return (
     <div className="h-screen w-full bg-bg-light dark:bg-bg-dark flex flex-col overflow-hidden">
-      {/* ── Header ─────────────────────────────────────────────────────── */}
-      <header className="shrink-0 flex items-center justify-between px-4 h-10 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark z-10">
-        <div className="flex items-center gap-3">
+      <header className="shrink-0 flex items-center justify-between px-3 h-10 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark z-10 gap-2">
+        {/* Left */}
+        <div className="flex items-center gap-2 min-w-0">
           <Link
             href="/dashboard"
             aria-label="Back to dashboard"
-            className="text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark"
+            className="text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark shrink-0"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
           </Link>
 
           {/* Search — floats over map above sidebar */}
-          <div className="absolute top-2 left-66 z-9999 sm:left-67">
-            <div ref={inputRef} className="w-48 sm:w-56" />
+          <div className="absolute top-2 left-10 z-9999 sm:left-66">
+            <div ref={inputRef} className="w-36 xs:w-44 sm:w-56" />
           </div>
 
-          <div aria-hidden="true" className="w-px h-3 bg-border-light dark:bg-border-dark" />
-          <span className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
-            [ Canvassing Map ]
+          <div aria-hidden="true" className="hidden sm:block w-px h-3 bg-border-light dark:bg-border-dark shrink-0" />
+          <span className="hidden sm:block font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark truncate">
+            Canvassing Map
           </span>
-          <span className="font-mono text-[10px] text-muted-light/50 dark:text-muted-dark/50">
-            · {pins.length} pins
+          <span className="hidden xs:block font-mono text-[10px] text-muted-light/50 dark:text-muted-dark/50 shrink-0">
+            · {pins.length}
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
-          <span className="font-archivo text-[10px] tracking-widest uppercase text-primary-light dark:text-primary-dark">
-            {totalDoors} doors knocked
+        {/* Right */}
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="hidden xs:block font-archivo text-[10px] tracking-widest uppercase text-primary-light dark:text-primary-dark">
+            {totalDoors}d
           </span>
           <button
             onClick={() => setSidebarOpen((v) => !v)}
@@ -119,9 +137,9 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
           <button
             onClick={() => mapRef.current?.fitBounds(DISTRICT_BOUNDS)}
             aria-label="Zoom to full district view"
-            className="font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark"
+            className="hidden xs:block font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark"
           >
-            District View
+            District
           </button>
         </div>
       </header>
@@ -223,6 +241,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
                     <button
                       key={pin.id}
                       onClick={() => {
+                        openPinDetailsSE()
                         setSelectedPin(pin)
                         const map = mapRef.current
                         if (!map) return
@@ -261,7 +280,10 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
           {selectedPin && (
             <PinDetailPanel
               pin={selectedPin}
-              onClose={() => setSelectedPin(null)}
+              onClose={() => {
+                closePinDetailsSE()
+                setSelectedPin(null)
+              }}
               onDelete={(id) => {
                 setPins((prev) => prev.filter((p) => p.id !== id))
                 setSelectedPin(null)

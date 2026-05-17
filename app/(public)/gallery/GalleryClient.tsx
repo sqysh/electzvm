@@ -48,7 +48,7 @@ export function GalleryClient({ content }: { content: PageField[] }) {
           titleAccent={getField(content, 'gallery_hero_title_accent', 'Gallery')}
           showZosia={true}
           showPatriotic={true}
-          image="zosia-3.webp"
+          image="zosia-20.png"
           description={getField(content, 'gallery_hero_description', 'A look at Zosia VanMeter out in the community.')}
         />
 
@@ -80,16 +80,59 @@ export function GalleryClient({ content }: { content: PageField[] }) {
                 <button
                   onClick={() => openLightbox(i)}
                   aria-label={`View ${image.alt} in lightbox`}
-                  className="w-full block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark group"
+                  className="w-full block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark group relative"
                 >
-                  <div className="overflow-hidden bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                  {/* Image */}
+                  <div className="overflow-hidden bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark relative">
                     <Picture
                       priority={i < 8}
                       src={image.src}
                       alt={image.alt}
                       className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     />
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-primary-light/0 dark:bg-primary-dark/0 group-hover:bg-primary-light/10 dark:group-hover:bg-primary-dark/10 transition-colors duration-300" />
+
+                    {/* Corner accents — appear on hover */}
+                    <div
+                      className="absolute top-2 left-2 w-4 h-4 border-t border-l border-primary-light dark:border-primary-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="absolute top-2 right-2 w-4 h-4 border-t border-r border-cta-light dark:border-cta-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-cta-light dark:border-cta-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-primary-light dark:border-primary-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      aria-hidden="true"
+                    />
+
+                    {/* View icon — center on hover */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="bg-bg-light/80 dark:bg-bg-dark/80 backdrop-blur-sm border border-border-light dark:border-border-dark px-3 py-1.5">
+                        <span className="font-archivo text-[10px] tracking-[0.2em] uppercase text-text-light dark:text-text-dark">
+                          View
+                        </span>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Bottom accent line */}
+                  <div
+                    aria-hidden="true"
+                    className={`h-px w-0 group-hover:w-full transition-all duration-500 ease-in-out ${
+                      i % 3 === 0
+                        ? 'bg-primary-light dark:bg-primary-dark'
+                        : i % 3 === 1
+                          ? 'bg-cta-light dark:bg-cta-dark'
+                          : 'bg-secondary-light dark:bg-secondary-dark'
+                    }`}
+                  />
                 </button>
               </motion.div>
             ))}

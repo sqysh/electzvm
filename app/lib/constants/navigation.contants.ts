@@ -4,5 +4,6 @@ export const navLinks = [
   { label: 'Platform', href: '/platform' },
   { label: 'News', href: '/news' },
   { label: 'Gallery', href: '/gallery' },
+  { label: 'Endorsements', href: '/endorsements' },
   { label: 'Contact', href: '/contact' }
 ]

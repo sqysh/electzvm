@@ -22,22 +22,6 @@ export const homeFields = [
     section: 'hero'
   },
 
-  // ── Marquee ────────────────────────────────────────────────────────────
-  {
-    id: 'marquee_date',
-    type: 'text',
-    label: 'Marquee Date',
-    value: 'September 1, 2026',
-    section: 'marquee'
-  },
-  {
-    id: 'marquee_event',
-    type: 'text',
-    label: 'Marquee Event',
-    value: 'Primary Election',
-    section: 'marquee'
-  },
-
   // ── Policies ───────────────────────────────────────────────────────────
   {
     id: 'policies_eyebrow',
@@ -771,5 +755,106 @@ export const contactFields = [
     label: 'Donate Body',
     value: 'Every contribution helps us reach more voters across the 9th Essex District.',
     section: 'aside'
+  }
+]
+
+export const endorsementsFields = [
+  // ── Hero ───────────────────────────────────────────────────────────────
+  {
+    id: 'endorsements_hero_eyebrow',
+    type: 'text',
+    label: 'Hero Eyebrow',
+    value: '9th Essex District · Massachusetts',
+    section: 'hero'
+  },
+  {
+    id: 'endorsements_hero_title',
+    type: 'text',
+    label: 'Hero Title',
+    value: 'Our',
+    section: 'hero'
+  },
+  {
+    id: 'endorsements_hero_title_accent',
+    type: 'text',
+    label: 'Hero Title Accent',
+    value: 'Endorsements',
+    section: 'hero'
+  },
+  {
+    id: 'endorsements_hero_description',
+    type: 'textarea',
+    label: 'Hero Description',
+    value:
+      'Leaders, neighbors, and organizations across the 9th Essex District standing with Zosia VanMeter for State Representative.',
+    section: 'hero'
+  },
+
+  // ── Grid ───────────────────────────────────────────────────────────────
+  {
+    id: 'endorsements_grid_eyebrow',
+    type: 'text',
+    label: 'Grid Eyebrow',
+    value: 'Standing With Zosia',
+    section: 'grid'
+  },
+  {
+    id: 'endorsements_grid_heading',
+    type: 'text',
+    label: 'Grid Heading',
+    value: 'People Who',
+    section: 'grid'
+  },
+  {
+    id: 'endorsements_grid_heading_accent',
+    type: 'text',
+    label: 'Grid Heading Accent',
+    value: 'Believe',
+    section: 'grid'
+  },
+  {
+    id: 'endorsements_empty_heading',
+    type: 'text',
+    label: 'Empty State Heading',
+    value: 'Endorsements coming soon',
+    section: 'grid'
+  },
+  {
+    id: 'endorsements_empty_body',
+    type: 'text',
+    label: 'Empty State Body',
+    value: 'Check back soon as community leaders join our campaign.',
+    section: 'grid'
+  },
+
+  // ── CTA ────────────────────────────────────────────────────────────────
+  {
+    id: 'endorsements_cta_eyebrow',
+    type: 'text',
+    label: 'CTA Eyebrow',
+    value: 'Forward. Together.',
+    section: 'cta'
+  },
+  {
+    id: 'endorsements_cta_heading',
+    type: 'text',
+    label: 'CTA Heading',
+    value: 'Add Your',
+    section: 'cta'
+  },
+  {
+    id: 'endorsements_cta_heading_accent',
+    type: 'text',
+    label: 'CTA Heading Accent',
+    value: 'Voice',
+    section: 'cta'
+  },
+  {
+    id: 'endorsements_cta_body',
+    type: 'textarea',
+    label: 'CTA Body',
+    value:
+      'Want to publicly endorse Zosia? Reach out and let us know — every voice makes a difference in the 9th Essex District.',
+    section: 'cta'
   }
 ]

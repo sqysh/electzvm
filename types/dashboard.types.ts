@@ -1,4 +1,4 @@
-import { CanvassPin, News, Page, VolunteerSubmission } from '@prisma/client'
+import { CanvassPin, Endorsement, News, Page, VolunteerSubmission } from '@prisma/client'
 import { UserRecord } from './user.types'
 import { MailchimpMember } from './mailchimp.types'
 
@@ -12,4 +12,5 @@ export interface DashboardProps {
   users: UserRecord[]
   members: MailchimpMember[]
   pages: Page[]
+  endorsements: Endorsement[]
 }

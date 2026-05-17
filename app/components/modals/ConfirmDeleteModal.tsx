@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Loader2, Trash2, X } from 'lucide-react'
+import { useKeyDown } from '@/app/lib/hooks/useKeyDown'
+import { useBodyScrollLock } from '@/app/lib/hooks/useBodyScrollLock'
 
 interface ConfirmDeleteModalProps {
   open: boolean
@@ -21,22 +22,8 @@ export default function ConfirmDeleteModal({
   onCancel,
   loading = false
 }: ConfirmDeleteModalProps) {
-  // Close on escape
-  useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape' && !loading) onCancel()
-    }
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [onCancel, loading])
-
-  // Lock scroll
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
+  useBodyScrollLock(open)
+  useKeyDown('Escape', onCancel)
 
   return (
     <AnimatePresence>

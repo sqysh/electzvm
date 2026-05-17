@@ -2,7 +2,7 @@ import DashboardClient from './DashboardClient'
 import { getDashboardData } from '@/app/lib/actions/getDashboardData'
 
 export default async function DashboardPage() {
-  const { news, inquiries, pins, pinAggregate, users, pages, members } = await getDashboardData()
+  const { news, inquiries, pins, pinAggregate, users, pages, members, endorsements } = await getDashboardData()
 
   return (
     <DashboardClient
@@ -22,6 +22,7 @@ export default async function DashboardPage() {
       users={JSON.parse(JSON.stringify(users))}
       members={members}
       pages={JSON.parse(JSON.stringify(pages))}
+      endorsements={endorsements}
     />
   )
 }

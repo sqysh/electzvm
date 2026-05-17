@@ -6,6 +6,7 @@ import { Search, X } from 'lucide-react'
 import type { VolunteerSubmission } from '@prisma/client'
 import DashboardPanel from '../elements/DashboardPanel'
 import { InquiryRow } from '../rows/InquiryRow'
+import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 
 export default function InquiriesPanel({
   open,
@@ -18,6 +19,7 @@ export default function InquiriesPanel({
 }) {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState<'all' | 'mailingList' | 'yardSign' | 'doorKnocking'>('all')
+  const { play: filterSE } = useSoundEffect('/sound-effects/se-12.mp3', true)
 
   const filtered = useMemo(
     () =>
@@ -129,7 +131,10 @@ export default function InquiriesPanel({
         {filters.map((f) => (
           <button
             key={f.key}
-            onClick={() => setFilter(f.key)}
+            onClick={() => {
+              filterSE()
+              setFilter(f.key)
+            }}
             className={`flex-1 h-9 font-archivo text-[10px] tracking-[0.15em] uppercase transition-colors focus-visible:outline-none border-r border-border-light dark:border-border-dark last:border-0 ${filter === f.key ? 'bg-primary-light dark:bg-primary-dark text-white' : 'text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'}`}
           >
             {f.label}

@@ -30,7 +30,8 @@ export default function TeamPanel({
     user: null
   })
   const [deleting, setDeleting] = useState(false)
-  const { play } = useSoundEffect('/sound-effects/se-4.mp3', true)
+  const { play: deleteSE } = useSoundEffect('/sound-effects/se-4.mp3', true)
+  const { play: cancelSE } = useSoundEffect('/sound-effects/se-15.mp3', true)
 
   async function handleDelete() {
     if (!deleteModal.user) return
@@ -38,7 +39,7 @@ export default function TeamPanel({
     const result = await deleteUser(deleteModal.user.id)
     setDeleting(false)
     if (result.success) {
-      play()
+      deleteSE()
       onUsersChange(users.filter((u) => u.id !== deleteModal.user?.id))
       setDeleteModal({ open: false, user: null })
     }
@@ -167,7 +168,10 @@ export default function TeamPanel({
         description="They will lose access to the admin portal immediately."
         loading={deleting}
         onConfirm={handleDelete}
-        onCancel={() => setDeleteModal({ open: false, user: null })}
+        onCancel={() => {
+          cancelSE()
+          setDeleteModal({ open: false, user: null })
+        }}
       />
     </>
   )

@@ -30,7 +30,7 @@ export default function ContactPage({ content }: { content: PageField[] }) {
             'contact_hero_description',
             'Ready to make a difference in the 9th Essex District?'
           )}
-          image="zosia-3.webp"
+          image="zosia-17.png"
         />
 
         <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-16 py-16 sm:py-24">

@@ -124,7 +124,6 @@ function SectionBlock({
 // ── PageFieldEditor ───────────────────────────────────────────────────────────
 
 function PageFieldEditor({ page, onContentChange }: { page: Page; onContentChange: (content: PageField[]) => void }) {
-  console.log(page)
   const [content, setContent] = useState<PageField[]>(page.content as unknown as PageField[])
 
   function updateField(id: string, value: string | string[]) {
@@ -174,6 +173,7 @@ export default function PageContentEditorPanel({
   const [error, setError] = useState<string | null>(null)
   const contentRef = useRef<PageField[]>([])
   const { play } = useSoundEffect('/sound-effects/se-1.mp3', true)
+  const { play: selectPageSE } = useSoundEffect('/sound-effects/se-11.mp3', true)
 
   async function handleSave() {
     if (!selectedPage) return
@@ -209,6 +209,7 @@ export default function PageContentEditorPanel({
               key={page.id}
               type="button"
               onClick={() => {
+                selectPageSE()
                 setSelectedPage(page)
                 contentRef.current = []
                 setError(null)

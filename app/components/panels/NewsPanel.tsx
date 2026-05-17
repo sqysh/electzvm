@@ -51,6 +51,7 @@ export default function NewsPanel({
 
   const { play: deleteSE } = useSoundEffect('/sound-effects/se-4.mp3', true)
   const { play: saveSE } = useSoundEffect('/sound-effects/se-1.mp3', true)
+  const { play: filterSE } = useSoundEffect('/sound-effects/se-12.mp3', true)
 
   function syncUp(updated: News[]) {
     setNews(updated)
@@ -136,7 +137,10 @@ export default function NewsPanel({
             {(['all', 'published', 'draft'] as const).map((f) => (
               <button
                 key={f}
-                onClick={() => setFilter(f)}
+                onClick={() => {
+                  filterSE()
+                  setFilter(f)
+                }}
                 className={`h-9 px-4 font-archivo text-[10px] tracking-[0.15em] uppercase transition-colors focus-visible:outline-none border-r border-border-light dark:border-border-dark ${filter === f ? 'bg-primary-light dark:bg-primary-dark text-white' : 'text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'}`}
               >
                 {f}

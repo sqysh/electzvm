@@ -1,3 +1,4 @@
+import EndorsementPanel from './panels/EndorsementPanel'
 import InquiriesPanel from './panels/InquiriesPanel'
 import NewsPanel from './panels/NewsPanel'
 import PageContentEditorPanel from './panels/PageContentEditorPanel'
@@ -14,7 +15,9 @@ export function DashboardPanels({
   pages,
   session,
   setUsers,
-  setNews
+  setNews,
+  endorsements,
+  setEndorsements
 }: any) {
   return (
     <>
@@ -33,6 +36,13 @@ export function DashboardPanels({
       <InquiriesPanel open={activePanel === 'inquiries'} onClose={onClose} inquiries={inquiries} />
 
       <PageContentEditorPanel open={activePanel === 'page'} onClose={onClose} pages={pages} />
+
+      <EndorsementPanel
+        open={activePanel === 'endorsement'}
+        onClose={onClose}
+        endorsements={endorsements}
+        onEndorsementsChange={setEndorsements}
+      />
     </>
   )
 }

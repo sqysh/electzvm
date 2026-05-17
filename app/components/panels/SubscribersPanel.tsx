@@ -6,6 +6,7 @@ import { Search, X, ExternalLink } from 'lucide-react'
 import DashboardPanel from '../elements/DashboardPanel'
 import { MailchimpMember } from '@/types/mailchimp.types'
 import { SubscriberRow } from '../rows/SubscriberRow'
+import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 
 export default function SubscribersPanel({
   open,
@@ -18,6 +19,7 @@ export default function SubscribersPanel({
 }) {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState<'all' | 'subscribed' | 'unsubscribed'>('all')
+  const { play } = useSoundEffect('/sound-effects/se-12.mp3', true)
 
   const filtered = useMemo(
     () =>
@@ -119,7 +121,10 @@ export default function SubscribersPanel({
         {(['all', 'subscribed', 'unsubscribed'] as const).map((f) => (
           <button
             key={f}
-            onClick={() => setFilter(f)}
+            onClick={() => {
+              play()
+              setFilter(f)
+            }}
             className={`flex-1 h-9 font-archivo text-[10px] tracking-[0.15em] uppercase transition-colors focus-visible:outline-none border-r border-border-light dark:border-border-dark last:border-0 ${filter === f ? 'bg-primary-light dark:bg-primary-dark text-white' : 'text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'}`}
           >
             {f}
