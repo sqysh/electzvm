@@ -74,7 +74,6 @@ export async function handleGoogleCallback(
 }
 
 async function linkGoogleAccount(existingUser: User | UserWithAccounts, account: Account): Promise<void> {
-  // Handle case where accounts might not be loaded (new user)
   const hasGoogleAccount =
     'accounts' in existingUser
       ? existingUser.accounts?.some(
@@ -83,20 +82,25 @@ async function linkGoogleAccount(existingUser: User | UserWithAccounts, account:
       : false
 
   if (!hasGoogleAccount) {
-    await prisma.account.create({
-      data: {
-        userId: existingUser.id,
-        type: account.type,
-        provider: account.provider,
-        providerAccountId: account.providerAccountId,
-        access_token: account.access_token,
-        expires_at: account.expires_at,
-        id_token: account.id_token,
-        refresh_token: account.refresh_token,
-        scope: account.scope,
-        token_type: account.token_type
-      }
-    })
+    try {
+      await prisma.account.create({
+        data: {
+          userId: existingUser.id,
+          type: account.type,
+          provider: account.provider,
+          providerAccountId: account.providerAccountId,
+          access_token: account.access_token,
+          expires_at: account.expires_at,
+          id_token: account.id_token,
+          refresh_token: account.refresh_token,
+          scope: account.scope,
+          token_type: account.token_type
+        }
+      })
+    } catch (error) {
+      console.error('[linkGoogleAccount]', error)
+      throw error
+    }
   }
 }
 
