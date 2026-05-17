@@ -1,9 +1,10 @@
 import { CanvassPin } from '@/types/canvas-pin'
-import { STATUS_CONFIG } from '../lib/constants/canvas-pin.constants'
+import { STATUS_CONFIG } from '../../lib/constants/canvas-pin.constants'
 import { motion } from 'framer-motion'
 import { Loader2, Trash2, X } from 'lucide-react'
 import { useState } from 'react'
-import { deleteCanvassPin } from '../lib/actions/canvas-pin/deleteCanvassPin'
+import { deleteCanvassPin } from '../../lib/actions/canvas-pin/deleteCanvassPin'
+import useSoundEffect from '../../lib/hooks/useSoundEffect'
 
 export function PinDetailPanel({
   pin,
@@ -16,6 +17,8 @@ export function PinDetailPanel({
 }) {
   const [deleting, setDeleting] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const { play: confirmDeleteSE } = useSoundEffect('/sound-effects/se-30.mp3', true)
+  const { play: deletedSE } = useSoundEffect('/sound-effects/se-31.mp3', true)
 
   const config = STATUS_CONFIG[pin.status]
 
@@ -96,7 +99,10 @@ export function PinDetailPanel({
           <span className="font-archivo text-[9px] tracking-[0.2em] uppercase text-red-500/70">Danger Zone</span>
           {!confirmDelete ? (
             <button
-              onClick={() => setConfirmDelete(true)}
+              onClick={() => {
+                confirmDeleteSE()
+                setConfirmDelete(true)
+              }}
               className="flex items-center gap-2 font-archivo text-[10px] tracking-widest uppercase text-red-500 border border-red-500/30 px-3 py-2 hover:bg-red-500/5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
             >
               <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
@@ -111,6 +117,7 @@ export function PinDetailPanel({
                     setDeleting(true)
                     const result = await deleteCanvassPin(pin.id)
                     setDeleting(false)
+                    deletedSE()
                     if (result.success) {
                       onClose()
                       onDelete(pin.id)

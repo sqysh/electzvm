@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { LogOut, Map, ExternalLink, Calendar, Globe, UserPlus, BarChart2, Globe2, ChevronUp } from 'lucide-react'
-import type { CanvassPin, Endorsement, News } from '@prisma/client'
+import type { CanvassPin, EmailBlast, Endorsement, News } from '@prisma/client'
 import { PRIMARY_DATE } from '@/app/lib/constants/canvas-pin.constants'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDaysUntil } from '@/app/lib/utils/date.utils'
 import { UserRecord } from '@/types/user.types'
 import { DashboardProps } from '@/types/dashboard.types'
@@ -17,6 +17,7 @@ import { DashboardPanels } from '@/app/components/DashboardPanels'
 import { LiveClock } from '@/app/components/LiveClock'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 import { AnimatePresence, motion } from 'framer-motion'
+import Pusher from 'pusher-js'
 
 export default function DashboardClient({
   news: initialNews,
@@ -28,7 +29,8 @@ export default function DashboardClient({
   users: initialUsers,
   members,
   pages,
-  endorsements: initialEndorsements
+  endorsements: initialEndorsements,
+  blastHistory: initialBlastHistory
 }: DashboardProps) {
   const { data: session } = useSession()
   const [activePanel, setActivePanel] = useState<string | null>(null)
@@ -38,11 +40,15 @@ export default function DashboardClient({
   const [users, setUsers] = useState<UserRecord[]>(initialUsers)
   const [news, setNews] = useState<News[]>(initialNews)
   const [endorsements, setEndorsements] = useState<Endorsement[]>(initialEndorsements)
+  const [blastHistory, setBlastHistory] = useState<EmailBlast[]>(initialBlastHistory)
+
   const [integrationsOpen, setIntegrationsOpen] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
   const { play: openSE } = useSoundEffect('/sound-effects/se-7.mp3', true)
   const { play: closSE } = useSoundEffect('/sound-effects/se-9.mp3', true)
   const { play: openFullMapSE } = useSoundEffect('/sound-effects/se-18.mp3', true)
   const { play: logoSE } = useSoundEffect('/sound-effects/se-19.mp3', true)
+  const { play: openHelpPanelSE } = useSoundEffect('/sound-effects/se-32.mp3', true)
 
   const PANELS = [
     { key: 'team', label: 'Team', value: users.length, accent: 'text-primary-light dark:text-primary-dark' },
@@ -65,8 +71,37 @@ export default function DashboardClient({
       label: 'Endorsements',
       value: endorsements.length,
       accent: 'text-cta-light dark:text-cta-dark'
+    },
+    {
+      key: 'blast',
+      label: 'Send Blast',
+      value: blastHistory.length,
+      accent: 'text-primary-light dark:text-primary-dark'
     }
   ]
+
+  useEffect(() => {
+    const pusher = (window as any).__pusher as Pusher
+    if (!pusher) return
+
+    const channel = pusher.subscribe('canvass')
+
+    channel.bind('pin-added', (pin: CanvassPin) => {
+      setPins((prev) => {
+        if (prev.some((p) => p.id === pin.id)) return prev
+        return [{ ...pin, status: pin.status as CanvassPin['status'] }, ...prev]
+      })
+    })
+
+    channel.bind('pin-deleted', ({ id }: { id: string }) => {
+      setPins((prev) => prev.filter((p) => p.id !== id))
+    })
+
+    return () => {
+      channel.unbind_all()
+      pusher.unsubscribe('canvass')
+    }
+  }, [])
 
   return (
     <>
@@ -87,6 +122,10 @@ export default function DashboardClient({
         setNews={setNews}
         endorsements={endorsements}
         setEndorsements={setEndorsements}
+        helpOpen={helpOpen}
+        setHelpOpen={setHelpOpen}
+        blastHistory={blastHistory}
+        setBlastHistory={setBlastHistory}
       />
 
       <div className="h-screen w-full bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark flex flex-col overflow-hidden">
@@ -208,6 +247,9 @@ export default function DashboardClient({
                 <span className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
                   Canvassing Map · Live
                 </span>
+                <span className="font-archivo text-[9px] tracking-widest uppercase text-muted-light/50 dark:text-muted-dark/50">
+                  · Read Only
+                </span>
               </div>
               <Link
                 onClick={() => openFullMapSE()}
@@ -218,7 +260,7 @@ export default function DashboardClient({
               </Link>
             </div>
             <div className="flex-1 min-h-0">
-              <MapPanel pinCount={pinCount} doorsKnocked={doorsKnocked} pins={pins} setPins={setPins} />
+              <MapPanel pinCount={pinCount} doorsKnocked={doorsKnocked} pins={pins} />
             </div>
 
             <div className="lg:hidden shrink-0 border-t border-border-light dark:border-border-dark overflow-x-auto">
@@ -288,7 +330,8 @@ export default function DashboardClient({
                         { label: 'Google OAuth', detail: 'Admin authentication' },
                         { label: 'Mailchimp API', detail: 'Mailing list management' },
                         { label: 'Firebase Storage', detail: 'Media uploads' },
-                        { label: 'Resend', detail: 'Transactional email' }
+                        { label: 'Resend', detail: 'Transactional email' },
+                        { label: 'Pusher', detail: 'Real-time canvass updates' }
                       ].map((integration) => (
                         <div
                           key={integration.label}
@@ -345,14 +388,25 @@ export default function DashboardClient({
               {news.filter((n) => n.isPublished).length} live · {inquiries.length} inquiries · {pinCount} pins
             </span>
           </div>
-          <a
-            href="https://sqysh.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-archivo text-[9px] tracking-widest uppercase text-muted-light/40 dark:text-muted-dark/40 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
-          >
-            Sqysh
-          </a>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => {
+                openHelpPanelSE()
+                setHelpOpen(true)
+              }}
+              className="font-archivo text-[9px] tracking-widest uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none"
+            >
+              Help ?
+            </button>
+            <a
+              href="https://sqysh.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-archivo text-[9px] tracking-widest uppercase text-muted-light/40 dark:text-muted-dark/40 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+            >
+              Sqysh
+            </a>
+          </div>
         </footer>
       </div>
     </>

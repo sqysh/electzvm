@@ -1,3 +1,5 @@
+import { DISTRICT_BOUNDARY } from './district-boundary.constants'
+
 export const LIBRARIES: 'places'[] = ['places']
 
 export // Dark map style — matches ZVM theme
@@ -47,7 +49,7 @@ export const LIGHT_MAP_STYLES = [
 ]
 
 // Centered on Lynn MA — 9th Essex District
-export const CENTER = { lat: 42.4668, lng: -70.9495 }
+export const CENTER = { lat: 42.4839575, lng: -71.0251375 } // 9th Essex centroid from Census data
 export const ZOOM = 13
 
 export const STATUS_CONFIG = {
@@ -75,11 +77,14 @@ export const STATUS_CONFIG = {
   hostile: { label: 'Hostile', color: '#ef4444', bg: 'bg-red-500', border: 'border-red-500', text: 'text-red-500' }
 }
 
-export const DISTRICT_BOUNDS = {
-  north: 42.54,
-  south: 42.42,
-  east: -70.85,
-  west: -71.05
-}
+export const DISTRICT_BOUNDS = DISTRICT_BOUNDARY.reduce(
+  (bounds, coord) => ({
+    north: Math.max(bounds.north, coord.lat),
+    south: Math.min(bounds.south, coord.lat),
+    east: Math.max(bounds.east, coord.lng),
+    west: Math.min(bounds.west, coord.lng)
+  }),
+  { north: -90, south: 90, east: -180, west: 180 }
+)
 
 export const PRIMARY_DATE = new Date('2026-09-01')

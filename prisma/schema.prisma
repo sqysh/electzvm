@@ -159,3 +159,13 @@ model Endorsement {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+model EmailBlast {
+  id             String   @id @default(cuid())
+  subject        String
+  body           String
+  signOff        String
+  recipientCount Int
+  sentAt         DateTime @default(now())
+  sentBy         String?
+}

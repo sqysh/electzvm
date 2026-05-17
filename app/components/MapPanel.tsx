@@ -1,24 +1,22 @@
 import { CanvassPin } from '@prisma/client'
-import { GoogleMap, useLoadScript } from '@react-google-maps/api'
-import { memo, useEffect } from 'react'
+import { GoogleMap, Polygon, useLoadScript } from '@react-google-maps/api'
+import { memo } from 'react'
 import { CENTER, LIBRARIES, LIGHT_MAP_STYLES, MAP_STYLES, ZOOM } from '../lib/constants/canvas-pin.constants'
 import { useUiSelector } from '../lib/redux/store'
 import { PulsePin } from './PulsePin'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import useSoundEffect from '../lib/hooks/useSoundEffect'
-import Pusher from 'pusher-js'
+import { DISTRICT_BOUNDARY } from '../lib/constants/district-boundary.constants'
 
 export const MapPanel = memo(function MapPanel({
   pinCount,
   doorsKnocked,
-  pins,
-  setPins
+  pins
 }: {
   pins: CanvassPin[]
   pinCount: number
   doorsKnocked: number
-  setPins: React.Dispatch<React.SetStateAction<CanvassPin[]>>
 }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
@@ -26,31 +24,6 @@ export const MapPanel = memo(function MapPanel({
   })
   const { isDark } = useUiSelector()
   const { play: openFullMapSE } = useSoundEffect('/sound-effects/se-18.mp3', true)
-
-  useEffect(() => {
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!
-    })
-
-    const channel = pusher.subscribe('canvass')
-
-    channel.bind('pin-added', (pin: CanvassPin) => {
-      setPins((prev) => {
-        if (prev.find((p) => p.id === pin.id)) return prev
-        return [{ ...pin, status: pin.status as CanvassPin['status'] }, ...prev]
-      })
-    })
-
-    channel.bind('pin-deleted', ({ id }: { id: string }) => {
-      setPins((prev) => prev.filter((p) => p.id !== id))
-    })
-
-    return () => {
-      channel.unbind_all()
-      pusher.unsubscribe('canvass')
-      pusher.disconnect()
-    }
-  }, [setPins])
 
   return (
     <div className="relative flex flex-col h-full overflow-hidden">
@@ -71,6 +44,16 @@ export const MapPanel = memo(function MapPanel({
             scrollwheel: false
           }}
         >
+          <Polygon
+            paths={DISTRICT_BOUNDARY}
+            options={{
+              strokeColor: isDark ? '#a855f7' : '#5b2d8e',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: isDark ? '#a855f7' : '#5b2d8e',
+              fillOpacity: 0.05
+            }}
+          />
           {pins.map((pin) => (
             <PulsePin key={pin.id} pin={pin} onClick={() => {}} />
           ))}

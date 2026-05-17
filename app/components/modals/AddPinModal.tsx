@@ -1,5 +1,4 @@
 import { createCanvassPin } from '@/app/lib/actions/canvas-pin/createCanvassPin'
-import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 import { CanvassPin, PendingPin } from '@/types/canvas-pin'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
@@ -24,7 +23,6 @@ export function AddPinModal({
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { play } = useSoundEffect('/sound-effects/se-6.mp3', true)
 
   async function handleSave() {
     setSaving(true)
@@ -32,7 +30,6 @@ export function AddPinModal({
     const result = await createCanvassPin({ ...form, lat: pending.lat, lng: pending.lng })
     setSaving(false)
     if (result.success && result.data) {
-      play()
       onSave(result.data as CanvassPin)
     } else {
       setError(result.error ?? 'Failed to save pin.')

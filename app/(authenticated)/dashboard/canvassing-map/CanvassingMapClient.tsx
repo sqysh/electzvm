@@ -1,62 +1,66 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { GoogleMap, useLoadScript } from '@react-google-maps/api'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Loader2, ArrowLeft, ChevronRight } from 'lucide-react'
-import Link from 'next/link'
+import { GoogleMap, Polygon, useLoadScript } from '@react-google-maps/api'
+import { AnimatePresence } from 'framer-motion'
+import { Loader2 } from 'lucide-react'
 import { useUiSelector } from '@/app/lib/redux/store'
 import { CanvassPin, PendingPin } from '@/types/canvas-pin'
-import {
-  CENTER,
-  DISTRICT_BOUNDS,
-  LIBRARIES,
-  LIGHT_MAP_STYLES,
-  MAP_STYLES,
-  STATUS_CONFIG,
-  ZOOM
-} from '@/app/lib/constants/canvas-pin.constants'
+import { CENTER, LIBRARIES, LIGHT_MAP_STYLES, MAP_STYLES, ZOOM } from '@/app/lib/constants/canvas-pin.constants'
 import { PulsePin } from '@/app/components/PulsePin'
 import { AddPinModal } from '@/app/components/modals/AddPinModal'
-import { PinDetailPanel } from '@/app/components/PinDetailPanel'
+import { PinDetailPanel } from '@/app/components/panels/PinDetailPanel'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 import { useSearchParams } from 'next/navigation'
 import Pusher from 'pusher-js'
+import { DISTRICT_BOUNDARY } from '@/app/lib/constants/district-boundary.constants'
+import { StatsPanel } from '@/app/components/panels/StatsPanel'
+import { CanvassingMapHeader } from '@/app/components/CanvassingMapHeader'
+import { ZoomControls } from '@/app/components/ZoomControls'
 
 export default function CanvassingMapClient({ initialPins }: { initialPins: CanvassPin[] }) {
+  // ── Map loading
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: LIBRARIES
   })
 
+  // ── Hooks
+  const searchParams = useSearchParams()
+  const { isDark } = useUiSelector()
+
+  // ── Refs
+  const mapRef = useRef<google.maps.Map | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // ── State
   const [pins, setPins] = useState<CanvassPin[]>(initialPins)
   const [pendingPin, setPendingPin] = useState<PendingPin | null>(null)
   const [selectedPin, setSelectedPin] = useState<CanvassPin | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const mapRef = useRef<google.maps.Map | null>(null)
-  const { play: openPinDetailsSE } = useSoundEffect('/sound-effects/se-22.mp3', true)
+  const [statusFilter, setStatusFilter] = useState<CanvassPin['status'] | 'all'>('all')
+
+  // ── Sound effects
   const { play: closePinDetailsSE } = useSoundEffect('/sound-effects/se-23.mp3', true)
+  const { play: pinAddedSE } = useSoundEffect('/sound-effects/se-24.mp3', true)
+  const { play: mapClickedSE } = useSoundEffect('/sound-effects/se-27.mp3', true)
+  const { play: closePinModalSE } = useSoundEffect('/sound-effects/se-33.mp3', true)
 
+  // ── Derived
   const totalDoors = pins.reduce((sum, p) => sum + p.doors, 0)
+  const filteredPins = statusFilter === 'all' ? pins : pins.filter((p) => p.status === statusFilter)
 
-  const { isDark } = useUiSelector()
-
-  const inputRef = useRef<HTMLInputElement>(null)
-  const { play } = useSoundEffect('/sound-effects/se-8.mp3', true)
-  const hasPlayed = useRef(false)
-
-  const searchParams = useSearchParams()
-
+  // ── Pusher — real-time pin updates
   useEffect(() => {
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!
-    })
+    const pusher = (window as any).__pusher as Pusher
+    if (!pusher) return
 
     const channel = pusher.subscribe('canvass')
 
     channel.bind('pin-added', (pin: CanvassPin) => {
       setPins((prev) => {
-        if (prev.find((p) => p.id === pin.id)) return prev
+        pinAddedSE()
+        if (prev.some((p) => p.id === pin.id)) return prev
         return [{ ...pin, status: pin.status as CanvassPin['status'] }, ...prev]
       })
     })
@@ -68,10 +72,11 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
     return () => {
       channel.unbind_all()
       pusher.unsubscribe('canvass')
-      pusher.disconnect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // ── Open add pin modal from query param
   useEffect(() => {
     if (searchParams.get('addPin') === 'true') {
       setTimeout(() => {
@@ -80,13 +85,9 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
     }
   }, [searchParams])
 
+  // ── Address autocomplete
   useEffect(() => {
     if (!isLoaded || !inputRef.current) return
-
-    if (!hasPlayed.current) {
-      play()
-      hasPlayed.current = true
-    }
 
     const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({
       componentRestrictions: { country: 'us' }
@@ -105,10 +106,12 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
       mapRef.current?.setZoom(17)
       setPendingPin({ lat, lng, address: place.formattedAddress ?? '' })
     })
-  }, [isLoaded, play])
+  }, [isLoaded])
 
+  // ── Map click — drop pin with reverse geocode
   async function onMapClick(e: google.maps.MapMouseEvent) {
     if (!e.latLng) return
+    mapClickedSE()
     const lat = e.latLng.lat()
     const lng = e.latLng.lng()
 
@@ -129,6 +132,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
     setSelectedPin(null)
   }
 
+  // ── Loading
   if (!isLoaded) {
     return (
       <div className="min-h-screen w-full bg-bg-light dark:bg-bg-dark flex items-center justify-center">
@@ -139,56 +143,19 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
 
   return (
     <div className="h-screen w-full bg-bg-light dark:bg-bg-dark flex flex-col overflow-hidden">
-      <header className="shrink-0 flex items-center justify-between px-3 h-10 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark z-10 gap-2">
-        {/* Left */}
-        <div className="flex items-center gap-2 min-w-0">
-          <Link
-            href="/dashboard"
-            aria-label="Back to dashboard"
-            className="text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark shrink-0"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-          </Link>
+      <CanvassingMapHeader
+        inputRef={inputRef}
+        mapRef={mapRef}
+        pins={pins}
+        setSidebarOpen={setSidebarOpen}
+        setStatusFilter={setStatusFilter}
+        sidebarOpen={sidebarOpen}
+        statusFilter={statusFilter}
+        totalDoors={totalDoors}
+      />
 
-          {/* Search — floats over map above sidebar */}
-          <div className="absolute top-2 left-10 z-9999 sm:left-66">
-            <div ref={inputRef} className="w-36 xs:w-44 sm:w-56" />
-          </div>
-
-          <div aria-hidden="true" className="hidden sm:block w-px h-3 bg-border-light dark:bg-border-dark shrink-0" />
-          <span className="hidden sm:block font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark truncate">
-            Canvassing Map
-          </span>
-          <span className="hidden xs:block font-mono text-[10px] text-muted-light/50 dark:text-muted-dark/50 shrink-0">
-            · {pins.length}
-          </span>
-        </div>
-
-        {/* Right */}
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="hidden xs:block font-archivo text-[10px] tracking-widest uppercase text-primary-light dark:text-primary-dark">
-            {totalDoors}d
-          </span>
-          <button
-            onClick={() => setSidebarOpen((v) => !v)}
-            aria-label={sidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
-            className="font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark"
-          >
-            {sidebarOpen ? 'Hide' : 'Stats'}
-          </button>
-          <button
-            onClick={() => mapRef.current?.fitBounds(DISTRICT_BOUNDS)}
-            aria-label="Zoom to full district view"
-            className="hidden xs:block font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark"
-          >
-            District
-          </button>
-        </div>
-      </header>
-
-      {/* ── Map + sidebar ───────────────────────────────────────────────── */}
       <div className="flex-1 relative overflow-hidden">
-        {/* Map */}
+        {/* ── Map */}
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '100%', background: isDark ? '#0a0010' : '#f3f0f8' }}
           center={CENTER}
@@ -204,7 +171,18 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
             mapRef.current = map
           }}
         >
-          {pins.map((pin) => (
+          <Polygon
+            paths={DISTRICT_BOUNDARY}
+            options={{
+              strokeColor: isDark ? '#a855f7' : '#5b2d8e',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: isDark ? '#a855f7' : '#5b2d8e',
+              fillOpacity: 0.05,
+              clickable: false
+            }}
+          />
+          {filteredPins.map((pin) => (
             <PulsePin
               key={pin.id}
               pin={pin}
@@ -216,108 +194,24 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
           ))}
         </GoogleMap>
 
-        {/* Click hint */}
+        {/* ── Click hint */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
           <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-text-light/50 dark:text-white/30 bg-white/60 dark:bg-black/40 px-3 py-1.5 backdrop-blur-sm">
             Click anywhere on the map to drop a pin
           </p>
         </div>
 
-        {/* Stats sidebar */}
+        {/* ── Zoom controls */}
+        <ZoomControls mapRef={mapRef} />
+
+        {/* ── Stats panel */}
         <AnimatePresence>
           {sidebarOpen && (
-            <motion.div
-              initial={{ x: -280, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -280, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-0 left-0 bottom-0 w-64 bg-surface-light/95 dark:bg-surface-dark/95 border-r border-border-light dark:border-border-dark z-10 flex flex-col backdrop-blur-sm"
-            >
-              <div className="px-5 py-4 border-b border-border-light dark:border-border-dark shrink-0">
-                <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-1">
-                  Campaign Progress
-                </p>
-                <p className="font-archivo text-2xl font-black text-text-light dark:text-text-dark">
-                  {totalDoors} <span className="text-sm font-normal text-muted-light dark:text-muted-dark">doors</span>
-                </p>
-              </div>
-
-              {/* Status breakdown */}
-              <div className="flex flex-col divide-y divide-border-light dark:divide-border-dark overflow-y-auto flex-1">
-                {(Object.keys(STATUS_CONFIG) as CanvassPin['status'][]).map((status) => {
-                  const count = pins.filter((p) => p.status === status).length
-                  const doors = pins.filter((p) => p.status === status).reduce((s, p) => s + p.doors, 0)
-                  const config = STATUS_CONFIG[status]
-                  return (
-                    <div key={status} className="flex items-center justify-between px-5 py-3">
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-2 h-2 rounded-full shrink-0"
-                          style={{ backgroundColor: config.color }}
-                          aria-hidden="true"
-                        />
-                        <span className="font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark">
-                          {config.label}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-right">
-                        <span className={`font-archivo text-sm font-bold ${config.text}`}>{count}</span>
-                        <span className="font-mono text-[10px] text-muted-light/50 dark:text-muted-dark/50">
-                          {doors}d
-                        </span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* Recent pins */}
-              <div className="border-t border-border-light dark:border-border-dark shrink-0">
-                <div className="px-5 py-2 border-b border-border-light dark:border-border-dark">
-                  <span className="font-archivo text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
-                    Recent Activity
-                  </span>
-                </div>
-                <div className="overflow-y-auto max-h-40 divide-y divide-border-light dark:divide-border-dark">
-                  {pins.slice(0, 8).map((pin) => (
-                    <button
-                      key={pin.id}
-                      onClick={() => {
-                        openPinDetailsSE()
-                        setSelectedPin(pin)
-                        const map = mapRef.current
-                        if (!map) return
-                        map.setZoom(11)
-                        setTimeout(() => {
-                          map.panTo({ lat: pin.lat, lng: pin.lng })
-                          setTimeout(() => {
-                            map.setZoom(17)
-                          }, 600)
-                        }, 400)
-                      }}
-                      className="w-full flex items-center gap-2 px-5 py-2.5 hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left focus-visible:outline-none"
-                    >
-                      <div
-                        className="w-1.5 h-1.5 rounded-full shrink-0"
-                        style={{ backgroundColor: STATUS_CONFIG[pin.status].color }}
-                        aria-hidden="true"
-                      />
-                      <span className="font-inter text-xs text-text-light dark:text-text-dark truncate flex-1">
-                        {pin.address ?? `${pin.lat.toFixed(4)}, ${pin.lng.toFixed(4)}`}
-                      </span>
-                      <ChevronRight
-                        className="w-3 h-3 text-muted-light dark:text-muted-dark shrink-0"
-                        aria-hidden="true"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+            <StatsPanel mapRef={mapRef} pins={pins} setSelectedPin={setSelectedPin} totalDoors={totalDoors} />
           )}
         </AnimatePresence>
 
-        {/* Pin detail panel */}
+        {/* ── Pin detail panel */}
         <AnimatePresence>
           {selectedPin && (
             <PinDetailPanel
@@ -335,16 +229,16 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
         </AnimatePresence>
       </div>
 
-      {/* ── Add pin modal ───────────────────────────────────────────────── */}
+      {/* ── Add pin modal */}
       <AnimatePresence>
         {pendingPin && (
           <AddPinModal
             pending={pendingPin}
-            onClose={() => setPendingPin(null)}
-            onSave={(pin) => {
-              setPins((prev) => [pin, ...prev])
+            onClose={() => {
+              closePinModalSE()
               setPendingPin(null)
             }}
+            onSave={() => setPendingPin(null)}
           />
         )}
       </AnimatePresence>

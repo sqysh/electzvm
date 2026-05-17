@@ -1,9 +1,11 @@
 import EndorsementPanel from './panels/EndorsementPanel'
+import { HelpPanel } from './panels/HelpPanel'
 import InquiriesPanel from './panels/InquiriesPanel'
 import NewsPanel from './panels/NewsPanel'
 import PageContentEditorPanel from './panels/PageContentEditorPanel'
 import SubscribersPanel from './panels/SubscribersPanel'
 import TeamPanel from './panels/TeamPanel'
+import VolunteerBlastPanel from './panels/VolunteerBlastPanel'
 
 export function DashboardPanels({
   activePanel,
@@ -17,7 +19,11 @@ export function DashboardPanels({
   setUsers,
   setNews,
   endorsements,
-  setEndorsements
+  setEndorsements,
+  helpOpen,
+  setHelpOpen,
+  blastHistory,
+  setBlastHistory
 }: any) {
   return (
     <>
@@ -42,6 +48,16 @@ export function DashboardPanels({
         onClose={onClose}
         endorsements={endorsements}
         onEndorsementsChange={setEndorsements}
+      />
+
+      <HelpPanel open={helpOpen} onClose={() => setHelpOpen(false)} />
+
+      <VolunteerBlastPanel
+        open={activePanel === 'blast'}
+        onClose={onClose}
+        volunteerCount={inquiries.length}
+        blastHistory={blastHistory}
+        onBlastChange={setBlastHistory}
       />
     </>
   )
