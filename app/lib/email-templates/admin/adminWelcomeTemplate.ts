@@ -52,11 +52,11 @@ export function adminWelcomeTemplate({ firstName }: { firstName: string }) {
                       How to sign in
                     </p>
                     <p style="margin: 4px 0 8px; font-size: 14px; color: #1a1a2e; line-height: 1.7;">
-                      1. Go to <strong>electzvm.com/login</strong><br/>
+                      1. Go to <strong>electzvm.vercel.app/login</strong><br/>
                       2. Click <strong>Sign in with Google</strong><br/>
                       3. Use the Gmail account this email was sent to
                     </p>
-                    <a href="https://electzvm.com/login" style="display: inline-block; margin-top: 8px; padding: 10px 20px; background: #7c3aed; color: #ffffff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none;">
+                    <a href="https://electzvm.vercel.app/login" style="display: inline-block; margin-top: 8px; padding: 10px 20px; background: #7c3aed; color: #ffffff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none;">
                       Go to Dashboard →
                     </a>
                   </td>
