@@ -152,6 +152,11 @@ export default function DashboardClient({
             <span className="hidden xs:block font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark">
               {firstName}
             </span>
+            {session?.user?.email && (
+              <span className="hidden md:block font-mono text-[10px] text-muted-light dark:text-muted-dark">
+                {session.user.email}
+              </span>
+            )}
             <button
               onClick={() => {
                 logoutSE()

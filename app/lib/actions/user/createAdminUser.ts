@@ -26,7 +26,8 @@ export async function createAdminUser(data: { firstName: string; lastName: strin
         firstName: data.firstName.trim(),
         lastName: data.lastName.trim(),
         email: data.email.trim().toLowerCase(),
-        role: 'ADMIN'
+        role: 'ADMIN',
+        emailVerified: new Date()
       }
     })
 

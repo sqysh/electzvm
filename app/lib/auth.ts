@@ -24,8 +24,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user, account, profile }) {
       try {
         switch (account?.provider) {
-   
-
           case 'google':
             return await handleGoogleCallback(user, account, profile)
 
