@@ -91,14 +91,7 @@ export default function LoginPage() {
 
         {/* Footer note */}
         <p className="font-inter text-xs text-muted-light dark:text-muted-dark text-center mt-6 leading-relaxed">
-          Having trouble signing in?{' '}
-          <a
-            href="mailto:sqysh@sqysh.io"
-            className="text-secondary-light dark:text-secondary-dark underline underline-offset-2 hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-light dark:focus-visible:outline-secondary-dark"
-          >
-            Contact Sqysh
-          </a>
-          .
+          Having trouble signing in? Contact Sqysh.
         </p>
       </div>
     </main>

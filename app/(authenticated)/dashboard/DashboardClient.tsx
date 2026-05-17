@@ -49,6 +49,7 @@ export default function DashboardClient({
   const { play: openFullMapSE } = useSoundEffect('/sound-effects/se-18.mp3', true)
   const { play: logoSE } = useSoundEffect('/sound-effects/se-19.mp3', true)
   const { play: openHelpPanelSE } = useSoundEffect('/sound-effects/se-32.mp3', true)
+  const { play: logoutSE } = useSoundEffect('/sound-effects/se-35.mp3', true)
 
   const PANELS = [
     { key: 'team', label: 'Team', value: users.length, accent: 'text-primary-light dark:text-primary-dark' },
@@ -152,7 +153,10 @@ export default function DashboardClient({
               {firstName}
             </span>
             <button
-              onClick={() => signOut({ redirectTo: '/login' })}
+              onClick={() => {
+                logoutSE()
+                signOut({ redirectTo: '/login' })
+              }}
               aria-label="Sign out"
               className="w-8 h-8 flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
             >

@@ -8,7 +8,7 @@ type UserRole = 'ADMIN' | 'SUPER_USER'
 
 const DASHBOARDS: Record<UserRole, string> = {
   ADMIN: '/dashboard',
-  SUPER_USER: '/super'
+  SUPER_USER: '/dashboard'
 }
 
 function getDashboard(role: UserRole) {
@@ -21,7 +21,7 @@ const ROUTE_ACCESS: {
   prefix: string
   allowedRoles: UserRole[]
 }[] = [
-  { prefix: '/super', allowedRoles: ['SUPER_USER'] },
+  { prefix: '/dashboard', allowedRoles: ['SUPER_USER'] },
   { prefix: '/dashboard', allowedRoles: ['ADMIN', 'SUPER_USER'] }
 ]
 

@@ -3,12 +3,10 @@
 import prisma from '@/prisma/client'
 import { buildLogMessage, createLog, getRequestContext } from '../../utils/log.utils'
 import { getActor } from './getActor'
+import { resend } from '../../resend'
+import { adminWelcomeTemplate } from '../../email-templates/admin/adminWelcomeTemplate'
 
-export async function createAdminUser(data: {
-  firstName: string
-  lastName: string
-  email: string
-}) {
+export async function createAdminUser(data: { firstName: string; lastName: string; email: string }) {
   const [context, actor] = await Promise.all([getRequestContext(), getActor()])
 
   try {
@@ -32,6 +30,13 @@ export async function createAdminUser(data: {
       }
     })
 
+    await resend.emails.send({
+      from: 'Zosia VanMeter <noreply@electzvm.com>',
+      to: data.email,
+      subject: 'You now have access to the Elect ZVM dashboard',
+      html: adminWelcomeTemplate({ firstName: data.firstName })
+    })
+
     const message = await buildLogMessage(
       `created admin user ${user.firstName} ${user.lastName} (${user.email})`,
       actor,
@@ -48,11 +53,7 @@ export async function createAdminUser(data: {
   } catch (error) {
     console.error('[createAdminUser]', error)
 
-    const message = await buildLogMessage(
-      `failed to create admin user (${data.email})`,
-      actor,
-      context
-    )
+    const message = await buildLogMessage(`failed to create admin user (${data.email})`, actor, context)
     await createLog('error', message, {
       email: data.email,
       error: error instanceof Error ? error.message : String(error),

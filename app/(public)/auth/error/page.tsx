@@ -114,12 +114,6 @@ function AuthErrorContent() {
             >
               Try Again
             </Link>
-            <a
-              href="mailto:hello@electzvm.com"
-              className="font-archivo w-full px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-muted-light dark:text-muted-dark border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark hover:text-primary-light dark:hover:text-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light transition-colors duration-200 min-h-11 flex items-center justify-center"
-            >
-              Contact the Campaign
-            </a>
           </div>
         </div>
 
