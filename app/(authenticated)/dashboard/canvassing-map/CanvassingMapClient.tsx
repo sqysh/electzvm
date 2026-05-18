@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { GoogleMap, Polygon, useLoadScript } from '@react-google-maps/api'
 import { AnimatePresence } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
@@ -48,7 +48,10 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
 
   // ── Derived
   const totalDoors = pins.reduce((sum, p) => sum + p.doors, 0)
-  const filteredPins = statusFilter === 'all' ? pins : pins.filter((p) => p.status === statusFilter)
+  const filteredPins = useMemo(
+    () => (statusFilter === 'all' ? pins : pins.filter((p) => p.status === statusFilter)),
+    [pins, statusFilter]
+  )
 
   // ── Pusher — real-time pin updates
   useEffect(() => {
@@ -105,32 +108,43 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
       mapRef.current?.panTo({ lat, lng })
       mapRef.current?.setZoom(17)
       setPendingPin({ lat, lng, address: place.formattedAddress ?? '' })
+
+      // Clear the input
+      const input = placeAutocomplete.querySelector('input')
+      if (input) input.value = ''
     })
   }, [isLoaded])
 
   // ── Map click — drop pin with reverse geocode
-  async function onMapClick(e: google.maps.MapMouseEvent) {
-    if (!e.latLng) return
-    mapClickedSE()
-    const lat = e.latLng.lat()
-    const lng = e.latLng.lng()
+  const onMapClick = useCallback(
+    async (e: google.maps.MapMouseEvent) => {
+      if (!e.latLng) return
+      mapClickedSE()
+      const lat = e.latLng.lat()
+      const lng = e.latLng.lng()
 
-    // Reverse geocode to get address
-    const geocoder = new google.maps.Geocoder()
-    let address = ''
+      const geocoder = new google.maps.Geocoder()
+      let address = ''
 
-    try {
-      const result = await geocoder.geocode({ location: { lat, lng } })
-      if (result.results[0]) {
-        address = result.results[0].formatted_address
+      try {
+        const result = await geocoder.geocode({ location: { lat, lng } })
+        if (result.results[0]) {
+          address = result.results[0].formatted_address
+        }
+      } catch {
+        // silently fail
       }
-    } catch {
-      // silently fail — address just stays empty
-    }
 
-    setPendingPin({ lat, lng, address })
-    setSelectedPin(null)
-  }
+      setPendingPin({ lat, lng, address })
+      setSelectedPin(null)
+    },
+    [mapClickedSE]
+  )
+
+  const handlePinClick = useCallback((pin: CanvassPin) => {
+    setSelectedPin(pin)
+    setPendingPin(null)
+  }, [])
 
   // ── Loading
   if (!isLoaded) {
@@ -142,7 +156,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
   }
 
   return (
-    <div className="h-screen w-full bg-bg-light dark:bg-bg-dark flex flex-col overflow-hidden">
+    <div className="h-dvh w-full bg-bg-light dark:bg-bg-dark flex flex-col overflow-hidden">
       <CanvassingMapHeader
         inputRef={inputRef}
         mapRef={mapRef}
@@ -183,14 +197,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
             }}
           />
           {filteredPins.map((pin) => (
-            <PulsePin
-              key={pin.id}
-              pin={pin}
-              onClick={() => {
-                setSelectedPin(pin)
-                setPendingPin(null)
-              }}
-            />
+            <PulsePin key={pin.id} pin={pin} onClick={() => handlePinClick(pin)} />
           ))}
         </GoogleMap>
 

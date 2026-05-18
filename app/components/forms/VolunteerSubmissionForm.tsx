@@ -1,7 +1,7 @@
 import { Loader2 } from 'lucide-react'
 import { createVolunteerSubmission } from '@/app/lib/actions/volunteer-submission/createVolunteerSubmission'
 import Toggle from '@/app/components/elements/Toggle'
-import { Fragment, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { inputCls } from '@/app/lib/constants/styles.constants'
 import { fadeUp } from '@/app/lib/constants/motion.constants'
@@ -28,6 +28,8 @@ export function VolunteerSubmissionForm() {
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
   }
 
+  const successRef = useRef<HTMLDivElement>(null)
+
   async function handleSubmit() {
     setError(null)
     setLoading(true)
@@ -36,6 +38,9 @@ export function VolunteerSubmissionForm() {
     if (result.success) {
       play()
       setSuccess(true)
+      setTimeout(() => {
+        successRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 100)
     } else setError(result.error ?? 'Something went wrong. Please try again.')
   }
 
@@ -43,6 +48,7 @@ export function VolunteerSubmissionForm() {
     <Fragment>
       {success ? (
         <motion.div
+          ref={successRef}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}

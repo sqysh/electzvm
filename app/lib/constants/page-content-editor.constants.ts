@@ -374,7 +374,7 @@ export const meetZosiaFields = [
     id: 'meet_bio_contact_line',
     type: 'textarea',
     label: 'Contact Line',
-    value: 'Drop me an email at hello@electzvm.com or chat with me the next time you see me out in the community…',
+    value: 'Drop me an email at zosia@electzvm.com or chat with me the next time you see me out in the community…',
     section: 'bio'
   },
   {
@@ -411,7 +411,7 @@ export const meetZosiaFields = [
     id: 'meet_fact_email',
     type: 'text',
     label: 'Fact — Email',
-    value: 'hello@electzvm.com',
+    value: 'zosia@electzvm.com',
     section: 'quick_facts'
   },
   {

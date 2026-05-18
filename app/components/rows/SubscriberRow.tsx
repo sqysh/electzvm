@@ -39,7 +39,7 @@ export function SubscriberRow({ member }: { member: MailchimpMember }) {
         rel="noopener noreferrer"
         aria-label={`View ${name} in Mailchimp (opens in new tab)`}
         onClick={(e) => e.stopPropagation()}
-        className="w-8 h-8 flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light opacity-0 group-hover:opacity-100 shrink-0"
+        className="w-8 h-8 flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light shrink-0"
       >
         <ExternalLink className="w-3.5 h-3.5" />
       </a>

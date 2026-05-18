@@ -151,8 +151,8 @@ export function MeetZosiaClient({ content }: { content: PageField[] }) {
                     { label: 'Reg. Deadline', value: getField(content, 'meet_fact_reg_deadline', 'August 12, 2026') },
                     {
                       label: 'Email',
-                      value: getField(content, 'meet_fact_email', 'hello@electzvm.com'),
-                      href: `mailto:${getField(content, 'meet_fact_email', 'hello@electzvm.com')}`
+                      value: getField(content, 'meet_fact_email', 'zosia@electzvm.com'),
+                      href: `mailto:${getField(content, 'meet_fact_email', 'zosia@electzvm.com')}`
                     },
                     {
                       label: 'Social',

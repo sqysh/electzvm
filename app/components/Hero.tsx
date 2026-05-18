@@ -106,7 +106,7 @@ export default function Hero({
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute right-0 bottom-0 w-[50vw] max-w-3xl z-2 flex items-end"
+          className="absolute right-0 bottom-0 w-full sm:w-[50vw] max-w-3xl z-2 flex items-end"
         >
           <Picture priority src="/images/zosia.png" alt="" className="w-full object-cover object-bottom max-h-none" />
         </motion.div>

@@ -42,7 +42,7 @@ export default function PageHero({
       )}
 
       {/* Overlay */}
-      <div aria-hidden="true" className="absolute inset-0 bg-hero-light/70 dark:bg-hero-dark/70 z-1" />
+      <div aria-hidden="true" className="absolute inset-0 bg-hero-light/40 dark:bg-hero-dark/70 z-1" />
 
       {/* Bottom fade */}
       <div

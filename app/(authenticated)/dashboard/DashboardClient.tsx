@@ -129,7 +129,7 @@ export default function DashboardClient({
         setBlastHistory={setBlastHistory}
       />
 
-      <div className="h-screen w-full bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark flex flex-col overflow-hidden">
+      <div className="h-dvh w-full bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark flex flex-col overflow-hidden">
         {/* Header */}
         <header className="shrink-0 flex items-center justify-between px-3 h-10 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark gap-2">
           <div className="flex items-center gap-2 min-w-0">

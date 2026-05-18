@@ -132,7 +132,7 @@ export const volunteerSubmissionUserTemplate = ({
           <tr>
             <td style="padding: 0 32px 24px;">
               <p style="margin: 0; color: #9d7fc4; font-size: 13px; line-height: 1.7;">
-                Follow the campaign at <a href="https://www.instagram.com/realzvm" style="color: #00e5ff; text-decoration: none;">@realzvm</a> on Facebook and Instagram, or reach out at <a href="mailto:hello@electzvm.com" style="color: #00e5ff; text-decoration: none;">hello@electzvm.com</a>.
+                Follow the campaign at <a href="https://www.instagram.com/realzvm" style="color: #00e5ff; text-decoration: none;">@realzvm</a> on Facebook and Instagram, or reach out at <a href="mailto:zosia@electzvm.com" style="color: #00e5ff; text-decoration: none;">zosia@electzvm.com</a>.
               </p>
             </td>
           </tr>

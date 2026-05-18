@@ -84,6 +84,14 @@ body {
   color: var(--color-text-dark);
 }
 
+/* ── Prevents IOS from auto-zooming */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* ── Marquee animation & keyframes */
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -94,16 +102,10 @@ body {
 }
 
 .animate-marquee {
-  animation: marquee 5s linear infinite;
+  animation: marquee 12s linear infinite;
 }
 
-@media (min-width: 640px) {
-  .animate-marquee {
-    animation: marquee 12s linear infinite;
-  }
-}
-
-/* GOOGLE MAPS */
+/* ── Google maps */
 
 gmp-place-autocomplete {
   width: 200px;
@@ -132,7 +134,7 @@ gmp-place-autocomplete dialog {
   z-index: 9999;
 }
 
-/* ── Dark mode (default) ───────────────────────────────────────── */
+/* ── Dark mode (default) */
 
 gmp-place-autocomplete::part(input) {
   height: 28px;
@@ -191,7 +193,7 @@ gmp-place-autocomplete::part(attribution) {
   font-size: 10px;
 }
 
-/* ── Light mode ────────────────────────────────────────────────── */
+/* ── Light mode */
 
 @media (prefers-color-scheme: light) {
   gmp-place-autocomplete::part(input) {
@@ -238,8 +240,7 @@ gmp-place-autocomplete::part(attribution) {
   }
 }
 
-/* ── Map attribution hide ──────────────────────────────────────── */
-
+/* ── Map attribution hide */
 .gm-style-cc,
 .gmnoprint,
 a[href^="https://maps.google.com/maps"] {
