@@ -89,15 +89,19 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
   }, [searchParams])
 
   // ── Address autocomplete
+  // In the useEffect — append instead of replaceWith:
   useEffect(() => {
     if (!isLoaded || !inputRef.current) return
+
+    // Clear any existing content first
+    inputRef.current.innerHTML = ''
 
     const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({
       componentRestrictions: { country: 'us' }
     })
 
     placeAutocomplete.style.width = '100%'
-    inputRef.current.replaceWith(placeAutocomplete)
+    inputRef.current.appendChild(placeAutocomplete)
 
     placeAutocomplete.addEventListener('gmp-select', async (e: any) => {
       const place = e.placePrediction.toPlace()
@@ -108,10 +112,6 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
       mapRef.current?.panTo({ lat, lng })
       mapRef.current?.setZoom(17)
       setPendingPin({ lat, lng, address: place.formattedAddress ?? '' })
-
-      // Clear the input
-      const input = placeAutocomplete.querySelector('input')
-      if (input) input.value = ''
     })
   }, [isLoaded])
 
@@ -158,7 +158,6 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
   return (
     <div className="h-dvh w-full bg-bg-light dark:bg-bg-dark flex flex-col overflow-hidden">
       <CanvassingMapHeader
-        inputRef={inputRef}
         mapRef={mapRef}
         pins={pins}
         setSidebarOpen={setSidebarOpen}
@@ -167,6 +166,11 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
         statusFilter={statusFilter}
         totalDoors={totalDoors}
       />
+
+      {/* Search row */}
+      <div className="shrink-0 h-9 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
+        <div ref={inputRef} className="h-full w-full" />
+      </div>
 
       <div className="flex-1 relative overflow-hidden">
         {/* ── Map */}

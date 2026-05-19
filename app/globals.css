@@ -108,14 +108,14 @@ select {
 /* ── Google maps */
 
 gmp-place-autocomplete {
-  width: 200px;
-  height: 28px;
-  display: block;
-  background: transparent;
+  width: 100%;
+  height: 36px;
   border: none;
   outline: none;
-  position: relative;
-  z-index: 9999;
+  background: transparent;
+  --gmp-filled-input-border-radius: 0;
+  --gmp-input-border-color: transparent;
+  --gmp-input-focus-border-color: transparent;
 }
 
 gmp-place-autocomplete::part(focus-ring) {

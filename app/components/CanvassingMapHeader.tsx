@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 interface CanvassingMapHeaderProps {
-  inputRef: React.RefObject<HTMLInputElement | null>
   pins: CanvassPin[]
   totalDoors: number
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -18,7 +17,6 @@ interface CanvassingMapHeaderProps {
 }
 
 export function CanvassingMapHeader({
-  inputRef,
   pins,
   totalDoors,
   setSidebarOpen,
@@ -134,11 +132,6 @@ export function CanvassingMapHeader({
           </button>
         </div>
       </header>
-
-      {/* Search row — always visible */}
-      <div className="shrink-0 flex items-center h-9 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark z-10 overflow-hidden">
-        <div ref={inputRef} className="flex-1" style={{ marginLeft: '-48px', paddingLeft: '12px' }} />
-      </div>
 
       {/* Mobile filter drawer */}
       <AnimatePresence initial={false}>
