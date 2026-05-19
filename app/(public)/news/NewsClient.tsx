@@ -8,9 +8,9 @@ import { PrimaryDateMarquee } from '@/app/components/PrimaryDateMarquee'
 import Header from '@/app/components/Header'
 import PageHero from '@/app/components/PageHero'
 import { fadeUp } from '@/app/lib/constants/motion.constants'
-import { Diamonds } from '@/app/components/geometric-backgrounds/Diamonds'
 import { PageField } from '@/types/page.types'
 import { getField } from '@/app/lib/utils/page.utils'
+import { Cubes } from '@/app/components/geometric-backgrounds/Cubes'
 
 function NewsCard({ article, index }: { article: News; index: number }) {
   return (
@@ -59,7 +59,7 @@ export default function NewsClient({ news, content }: { news: News[]; content: P
 
   return (
     <div className="min-h-screen w-full bg-bg-light dark:bg-bg-dark flex flex-col">
-      <Diamonds />
+      <Cubes />
       <Header />
 
       <main className="relative z-10 flex-1">

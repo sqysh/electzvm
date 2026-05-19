@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Cubes } from './geometric-backgrounds/Cubes'
 
 export default function PublicIntro({ seen }: { seen: boolean }) {
   const [show, setShow] = useState(!seen)
@@ -26,14 +27,7 @@ export default function PublicIntro({ seen }: { seen: boolean }) {
           className="fixed inset-0 z-999 bg-hero-light dark:bg-hero-dark flex flex-col items-center justify-center gap-6 pointer-events-none"
         >
           <div aria-hidden="true" className="absolute inset-0 opacity-[0.04] text-primary-dark">
-            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="intro-diamonds" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="currentColor" strokeWidth="1" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#intro-diamonds)" />
-            </svg>
+            <Cubes />
           </div>
 
           <motion.div

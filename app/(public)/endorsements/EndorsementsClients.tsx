@@ -96,16 +96,7 @@ export default function EndorsementsClient({
             <div className="absolute inset-y-0 left-0 w-48 bg-linear-to-r from-bg-light dark:from-bg-dark to-transparent" />
             <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-bg-light dark:from-bg-dark to-transparent" />
             <div className="absolute inset-0 bg-primary-light/10 dark:bg-primary-dark/10 mix-blend-multiply" />
-            <div className="absolute inset-0 opacity-[0.06] text-primary-light dark:text-primary-dark">
-              <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <pattern id="cta-diamonds" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="currentColor" strokeWidth="1" />
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#cta-diamonds)" />
-              </svg>
-            </div>
+
             <div className="absolute left-0 top-12 bottom-12 w-px bg-primary-light/30 dark:bg-primary-dark/30" />
             <div className="absolute top-8 right-8 w-16 h-16 border-t-2 border-r-2 border-cta-light dark:border-cta-dark opacity-60" />
             <div className="absolute bottom-8 left-8 w-16 h-16 border-b-2 border-l-2 border-primary-light dark:border-primary-dark opacity-60" />

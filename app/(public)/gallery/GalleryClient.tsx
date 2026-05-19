@@ -9,9 +9,9 @@ import Header from '@/app/components/Header'
 import PageHero from '@/app/components/PageHero'
 import { fadeUp } from '@/app/lib/constants/motion.constants'
 import { CTASection } from '@/app/components/CTASection'
-import { Diamonds } from '@/app/components/geometric-backgrounds/Diamonds'
 import { getField } from '@/app/lib/utils/page.utils'
 import { PageField } from '@/types/page.types'
+import { Cubes } from '@/app/components/geometric-backgrounds/Cubes'
 
 const images = [
   { src: '/images/gallery/g_01.jpeg', alt: 'Campaign photo 1' },
@@ -37,7 +37,7 @@ export function GalleryClient({ content }: { content: PageField[] }) {
 
   return (
     <div className="min-h-screen w-full bg-bg-light dark:bg-bg-dark flex flex-col">
-      <Diamonds />
+      <Cubes />
       <Header />
 
       <main className="relative z-10 flex-1">

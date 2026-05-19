@@ -2,7 +2,7 @@ export function Cubes() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 z-0 pointer-events-none opacity-[0.04] dark:opacity-[0.06] text-primary-light dark:text-primary-dark"
+      className="fixed inset-0 z-0 pointer-events-none opacity-2 dark:opacity-5 text-primary-light dark:text-primary-dark"
     >
       <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>

@@ -3,13 +3,13 @@
 import Link from 'next/link'
 import LiquidButton from '@/app/components/elements/LiquidButton'
 import { navLinks } from '../lib/constants/navigation.contants'
-import { Diamonds } from './geometric-backgrounds/Diamonds'
+import { Cubes } from './geometric-backgrounds/Cubes'
 
 export function Footer() {
   return (
     <footer className="relative w-full bg-hero-light dark:bg-hero-dark border-t border-white/10 overflow-hidden">
       {/* Geometric background */}
-      <Diamonds />
+      <Cubes />
 
       <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 md:px-16">
         {/* Main content */}
