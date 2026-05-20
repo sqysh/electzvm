@@ -124,7 +124,6 @@ function PoliciesSection({ content }: { content: PageField[] }) {
 function AboutSection({ content }: { content: PageField[] }) {
   const stats = [
     { value: getField(content, 'stat_1_value', '10+'), label: getField(content, 'stat_1_label', 'Years Serving') },
-    { value: getField(content, 'stat_2_value', '500+'), label: getField(content, 'stat_2_label', 'Families Served') },
     { value: getField(content, 'stat_3_value', '3'), label: getField(content, 'stat_3_label', 'Nonprofits Led') },
     { value: getField(content, 'stat_4_value', '9th'), label: getField(content, 'stat_4_label', 'Essex District') }
   ]
@@ -177,7 +176,7 @@ function AboutSection({ content }: { content: PageField[] }) {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-px bg-white/10 border border-white/10 mb-10"
+              className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 mb-10"
             >
               {stats.map((stat, i) => (
                 <div key={i} className="flex flex-col gap-1 px-4 py-5 bg-hero-light dark:bg-hero-dark">

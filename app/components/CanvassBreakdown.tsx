@@ -3,6 +3,7 @@ import { useUiSelector } from '../lib/redux/store'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Plus } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export function CanvassBreakdown({
   pins,
@@ -13,6 +14,13 @@ export function CanvassBreakdown({
   pinCount: number
   doorsKnocked: number
 }) {
+  const { isDark } = useUiSelector()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0)
+    return () => clearTimeout(timer)
+  }, [])
   const statuses = [
     { key: 'knocked', label: 'Knocked', colorLight: '#0096b4', colorDark: '#00e5ff' },
     { key: 'interested', label: 'Interested', colorLight: '#5b2d8e', colorDark: '#a855f7' },
@@ -20,16 +28,14 @@ export function CanvassBreakdown({
     { key: 'hostile', label: 'Hostile', colorLight: '#dc2626', colorDark: '#ef4444' }
   ] as const
 
-  const { isDark } = useUiSelector()
-
   const counts = statuses.map((s) => ({
     ...s,
-    color: isDark ? s.colorDark : s.colorLight,
+    color: mounted && isDark ? s.colorDark : s.colorLight,
     count: pins.filter((p) => p.status === s.key).length,
     doors: pins.filter((p) => p.status === s.key).reduce((sum, p) => sum + p.doors, 0)
   }))
 
-  const total = pinCount || 1 // avoid divide by zero
+  const total = pinCount || 1
 
   return (
     <div className="flex flex-col gap-5 p-4 overflow-y-auto flex-1">
@@ -68,6 +74,7 @@ export function CanvassBreakdown({
                   initial={{ width: 0 }}
                   animate={{ width: `${(s.count / total) * 100}%` }}
                   transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  suppressHydrationWarning
                   style={{ backgroundColor: s.color }}
                 />
               ))}
@@ -80,13 +87,22 @@ export function CanvassBreakdown({
         {counts.map((s) => (
           <div key={s.key} className="flex items-center justify-between px-3 py-2.5 gap-3">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: s.color }} aria-hidden="true" />
+              <div
+                suppressHydrationWarning
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ backgroundColor: s.color }}
+                aria-hidden="true"
+              />
               <span className="font-archivo text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark">
                 {s.label}
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <span className="font-archivo text-sm font-black tabular-nums" style={{ color: s.color }}>
+              <span
+                suppressHydrationWarning
+                className="font-archivo text-sm font-black tabular-nums"
+                style={{ color: s.color }}
+              >
                 {s.count}
               </span>
               <span className="font-mono text-[10px] text-muted-light/50 dark:text-muted-dark/50">{s.doors}d</span>

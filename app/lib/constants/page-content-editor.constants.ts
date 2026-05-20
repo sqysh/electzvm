@@ -153,41 +153,27 @@ export const homeFields = [
     id: 'stat_2_value',
     type: 'text',
     label: 'Stat 2 Value',
-    value: '500+',
+    value: '2',
     section: 'about'
   },
   {
     id: 'stat_2_label',
     type: 'text',
     label: 'Stat 2 Label',
-    value: 'Families Served',
+    value: 'Nonprofits Led',
     section: 'about'
   },
   {
     id: 'stat_3_value',
     type: 'text',
     label: 'Stat 3 Value',
-    value: '3',
+    value: '9th',
     section: 'about'
   },
   {
     id: 'stat_3_label',
     type: 'text',
     label: 'Stat 3 Label',
-    value: 'Nonprofits Led',
-    section: 'about'
-  },
-  {
-    id: 'stat_4_value',
-    type: 'text',
-    label: 'Stat 4 Value',
-    value: '9th',
-    section: 'about'
-  },
-  {
-    id: 'stat_4_label',
-    type: 'text',
-    label: 'Stat 4 Label',
     value: 'Essex District',
     section: 'about'
   },
