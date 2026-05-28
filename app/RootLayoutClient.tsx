@@ -7,6 +7,7 @@ import { Footer } from './components/Footer'
 import { ThemeProvider } from './lib/providers/theme'
 import { AdminBar } from './components/AdminBar'
 import { SessionProvider } from 'next-auth/react'
+import KickoffModal from './components/KickoffModal'
 
 interface Props {
   children: React.ReactNode
@@ -23,6 +24,7 @@ export default function RootLayoutClient({ children, session }: Props) {
     <Provider store={store}>
       <ThemeProvider>
         <SessionProvider session={session}>
+          <KickoffModal />
           {showLink(pathname) && <AdminBar />}
           {children}
           {showLink(pathname) && <Footer />}
