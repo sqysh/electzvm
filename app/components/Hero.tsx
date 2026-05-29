@@ -153,7 +153,7 @@ export default function Hero({
             {/* CTAs */}
             <motion.div {...fadeUp(0.65)} className="flex flex-wrap gap-3 sm:gap-4">
               <a
-                href="/volunteer"
+                href="/contact"
                 className="font-archivo px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white bg-primary-light opacity-80 sm:opacity-100 dark:bg-primary-dark hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-opacity duration-200 min-h-11 flex items-center"
               >
                 Join the Team
