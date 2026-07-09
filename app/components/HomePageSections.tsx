@@ -394,7 +394,7 @@ function RegisterDonateSection({ content }: { content: PageField[] }) {
             </div>
             <div aria-hidden="true" className="w-12 h-px bg-white/20" />
             <LiquidButton
-              href="https://secure.actblue.com/donate/zvmkickoff"
+              href="https://secure.actblue.com/donate/2teamzvm "
               label="Donate via ActBlue →"
               color="cta"
               external

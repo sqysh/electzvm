@@ -11,19 +11,17 @@ import KickoffModal from './components/KickoffModal'
 
 interface Props {
   children: React.ReactNode
-  session: any
 }
 
 const showLink = (path: string) => !['/dashboard', '/login', '/auth/error'].some((str) => path.includes(str))
 
-// RootLayoutClient
-export default function RootLayoutClient({ children, session }: Props) {
+export default function RootLayoutClient({ children }: Props) {
   const pathname = usePathname()
 
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <SessionProvider session={session}>
+        <SessionProvider>
           <KickoffModal />
           {showLink(pathname) && <AdminBar />}
           {children}

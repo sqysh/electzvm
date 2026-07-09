@@ -3,6 +3,8 @@ import { HomeClient } from './HomeClient'
 import { getPageBySlug } from '../lib/actions/page/getPageBySlug'
 import { PageField } from '@/types/page.types'
 
+export const revalidate = 60
+
 export default async function HomePage() {
   const [pageResult, news] = await Promise.all([
     getPageBySlug('home'),

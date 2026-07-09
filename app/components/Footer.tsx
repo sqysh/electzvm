@@ -50,7 +50,7 @@ export function Footer() {
           <div className="flex flex-col gap-4 sm:items-end justify-start">
             <p className="font-archivo text-[10px] tracking-[0.2em] uppercase text-white/40">Primary · Sept 1, 2026</p>
             <LiquidButton
-              href="https://secure.actblue.com/donate/zvmkickoff"
+              href="https://secure.actblue.com/donate/2teamzvm "
               label="Donate →"
               color="cta"
               variant="filled"

@@ -114,7 +114,7 @@ export function MeetZosiaClient({ content }: { content: PageField[] }) {
               <motion.div {...fadeUp(0.55)} className="flex flex-wrap gap-3 sm:gap-4 pt-2">
                 <LiquidButton href="/contact" label="Join the Team" color="primary" variant="filled" />
                 <LiquidButton
-                  href="https://secure.actblue.com/donate/zvmkickoff"
+                  href="https://secure.actblue.com/donate/2teamzvm "
                   label="Donate"
                   color="cta"
                   variant="filled"

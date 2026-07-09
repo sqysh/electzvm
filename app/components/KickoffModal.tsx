@@ -125,7 +125,7 @@ export default function KickoffModal() {
               <div className="px-6 py-4 flex flex-col gap-3">
                 <div className="flex gap-2">
                   <a
-                    href="https://secure.actblue.com/donate/zvmkickoff"
+                    href="https://secure.actblue.com/donate/2teamzvm "
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-3 bg-primary-light dark:bg-primary-dark text-white font-archivo text-[10px] tracking-widests uppercase hover:opacity-90 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light min-h-11"

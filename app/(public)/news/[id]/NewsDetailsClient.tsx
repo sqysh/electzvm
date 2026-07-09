@@ -176,7 +176,7 @@ export default function NewsDetailsClient({ article }: { article: News }) {
             <div className="flex flex-wrap gap-3">
               <LiquidButton href="/contact" label="Join the Team" color="primary" variant="filled" />
               <LiquidButton
-                href="https://secure.actblue.com/donate/zvmkickoff"
+                href="https://secure.actblue.com/donate/2teamzvm "
                 label="Donate"
                 color="cta"
                 variant="filled"

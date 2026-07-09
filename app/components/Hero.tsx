@@ -159,7 +159,7 @@ export default function Hero({
                 Join the Team
               </a>
               <a
-                href="https://secure.actblue.com/donate/zvmkickoff"
+                href="https://secure.actblue.com/donate/2teamzvm "
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Donate to Zosia VanMeter's campaign (opens in new tab)"

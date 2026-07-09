@@ -51,7 +51,7 @@ export default function Header() {
 
           <div className="flex items-center gap-3">
             <LiquidButton
-              href="https://secure.actblue.com/donate/zvmkickoff"
+              href="https://secure.actblue.com/donate/2teamzvm "
               label="Donate"
               ariaLabel="Donate to Zosia VanMeter's campaign (opens in new tab)"
               external

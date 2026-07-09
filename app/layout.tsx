@@ -3,7 +3,6 @@ import { Archivo_Narrow, Inter } from 'next/font/google'
 import './globals.css'
 import RootLayoutClient from './RootLayoutClient'
 import Script from 'next/script'
-import { auth } from './lib/auth'
 
 const archiveNarrow = Archivo_Narrow({
   variable: '--font-archivo',
@@ -25,7 +24,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await auth()
   return (
     <html lang="en" className={`${archiveNarrow.variable} ${inter.variable} h-full antialiased`}>
       <head>
@@ -43,7 +41,7 @@ export default async function RootLayout({
         </Script>
       </head>
       <body>
-        <RootLayoutClient session={session}>{children}</RootLayoutClient>
+        <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>
   )
