@@ -1,3 +1,5 @@
+'use client'
+
 import { News } from '@prisma/client'
 import Hero from '../components/public/hero/Hero'
 import { PrimaryDateMarquee } from '../components/public/sections/PrimaryDateMarquee'
