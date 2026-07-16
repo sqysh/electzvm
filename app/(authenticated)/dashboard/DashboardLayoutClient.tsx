@@ -10,18 +10,18 @@ export function usePusher() {
 }
 
 export default function DashboardLayoutClient({ children }: { children: React.ReactNode }) {
-  const [pusher] = useState(
-    () =>
-      new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!
-      })
-  )
+  const [pusher, setPusher] = useState<Pusher | null>(null)
 
   useEffect(() => {
+    const instance = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!
+    })
+    setTimeout(() => setPusher(instance), 0)
+
     return () => {
-      pusher.disconnect()
+      instance.disconnect()
     }
-  }, [pusher])
+  }, [])
 
   return <PusherContext.Provider value={pusher}>{children}</PusherContext.Provider>
 }

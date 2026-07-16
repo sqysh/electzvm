@@ -2,7 +2,7 @@ import { getDashboardData } from '@/app/lib/actions/admin/dashboard/getDashboard
 import DashboardClient from './DashboardClient'
 
 export default async function DashboardPage() {
-  const { news, inquiries, pins, pinAggregate, users, pages, members, endorsements, blastHistory } =
+  const { news, inquiries, pins, pinAggregate, users, pages, members, endorsements, blastHistory, events } =
     await getDashboardData()
 
   return (
@@ -18,6 +18,7 @@ export default async function DashboardPage() {
       pages={pages}
       endorsements={endorsements}
       blastHistory={blastHistory}
+      events={events}
     />
   )
 }

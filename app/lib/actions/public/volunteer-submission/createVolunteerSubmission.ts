@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { resend } from '@/app/lib/resend'
+import { resend } from '@/app/lib/resend/resend'
 import { getRequestDetails } from '@/app/lib/utils/_log.server.utils'
 import { buildLogMessage } from '@/app/lib/utils/_log.client.utils'
 import { createLog } from '../../_infra/createLog'

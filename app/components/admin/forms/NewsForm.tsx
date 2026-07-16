@@ -2,7 +2,7 @@ import { panelInputCls } from '@/app/lib/constants/styles.constants'
 import { NewsFormState } from '@/types/news.types'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
-import { UploadZone } from '../elements/UploadZone'
+import { UploadZone } from '../../elements/UploadZone'
 
 export function NewsForm({
   initial,

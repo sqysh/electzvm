@@ -2,7 +2,7 @@ import prisma from '@/prisma/client'
 import { getMailchimpMembers } from '../mailchimp/getMailchimpMembers'
 
 export async function getDashboardData() {
-  const [news, inquiries, pins, pinAggregate, users, pages, endorsements, blastHistory] = await Promise.all([
+  const [news, inquiries, pins, pinAggregate, users, pages, endorsements, blastHistory, events] = await Promise.all([
     prisma.news.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
     prisma.volunteerSubmission.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
     prisma.canvassPin.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
@@ -12,7 +12,8 @@ export async function getDashboardData() {
     prisma.user.findMany().catch(() => []),
     prisma.page.findMany({ orderBy: { slug: 'asc' } }).catch(() => []),
     prisma.endorsement.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
-    prisma.emailBlast.findMany({ orderBy: { sentAt: 'desc' } }).catch(() => [])
+    prisma.emailBlast.findMany({ orderBy: { sentAt: 'desc' } }).catch(() => []),
+    prisma.event.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => [])
   ])
 
   let members: any[] = []
@@ -33,6 +34,7 @@ export async function getDashboardData() {
     users,
     pages,
     endorsements,
-    blastHistory
+    blastHistory,
+    events
   }
 }

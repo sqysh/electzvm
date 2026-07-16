@@ -1,4 +1,4 @@
-import { uploadFileToFirebase } from '@/app/lib/utils/firebase.utils'
+import { uploadFileToFirebase } from '@/app/lib/utils/_firebase.utils'
 import Picture from './Picture'
 import { useRef, useState } from 'react'
 import { ImageIcon, Loader2, X } from 'lucide-react'

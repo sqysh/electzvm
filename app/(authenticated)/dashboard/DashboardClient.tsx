@@ -3,12 +3,11 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { LogOut, Map, ExternalLink, Calendar, Globe, UserPlus, BarChart2, Globe2, ChevronUp } from 'lucide-react'
-import type { CanvassPin, EmailBlast, Endorsement, News } from '@prisma/client'
+import type { CanvassPin, EmailBlast, Endorsement, Event, News, Page, VolunteerSubmission } from '@prisma/client'
 import { PRIMARY_DATE } from '@/app/lib/constants/canvas-pin.constants'
 import { useEffect, useState } from 'react'
-import { useDaysUntil } from '@/app/lib/utils/date.utils'
+import { useDaysUntil } from '@/app/lib/utils/_date.utils'
 import { UserRecord } from '@/types/user.types'
-import { DashboardProps } from '@/types/dashboard.types'
 import { PrimaryCountdown } from '@/app/components/admin/dashboard/PrimaryBreakdown'
 import { StatPill } from '@/app/components/admin/dashboard/StatPill'
 import { MapPanel } from '@/app/components/admin/panels/MapPanel'
@@ -18,6 +17,22 @@ import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CanvassBreakdown } from '@/app/components/admin/map/CanvassBreakdown'
 import { usePusher } from './DashboardLayoutClient'
+import { MailchimpMember } from '@/types/mailchimp.types'
+
+type Props = {
+  news: News[]
+  inquiries: VolunteerSubmission[]
+  mailchimpCount: number
+  pinCount: number
+  doorsKnocked: number
+  pins: CanvassPin[]
+  users: UserRecord[]
+  members: MailchimpMember[]
+  pages: Page[]
+  endorsements: Endorsement[]
+  blastHistory: EmailBlast[]
+  events: Event[]
+}
 
 export default function DashboardClient({
   news: initialNews,
@@ -30,8 +45,9 @@ export default function DashboardClient({
   members,
   pages,
   endorsements: initialEndorsements,
-  blastHistory: initialBlastHistory
-}: DashboardProps) {
+  blastHistory: initialBlastHistory,
+  events: initialEvents
+}: Props) {
   const { data: session } = useSession()
   const [activePanel, setActivePanel] = useState<string | null>(null)
   const [pins, setPins] = useState<CanvassPin[]>(initialPins)
@@ -41,6 +57,7 @@ export default function DashboardClient({
   const [news, setNews] = useState<News[]>(initialNews)
   const [endorsements, setEndorsements] = useState<Endorsement[]>(initialEndorsements)
   const [blastHistory, setBlastHistory] = useState<EmailBlast[]>(initialBlastHistory)
+  const [events, setEvents] = useState<Event[]>(initialEvents)
 
   const [integrationsOpen, setIntegrationsOpen] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
@@ -78,6 +95,13 @@ export default function DashboardClient({
       label: 'Send Blast',
       value: blastHistory.length,
       accent: 'text-primary-light dark:text-primary-dark'
+    },
+    {
+      key: 'event',
+      label: 'Events',
+      value: events.length,
+      accent: 'text-cta-light dark:text-cta-dark',
+      isNew: true
     }
   ]
 
@@ -128,6 +152,8 @@ export default function DashboardClient({
         setHelpOpen={setHelpOpen}
         blastHistory={blastHistory}
         setBlastHistory={setBlastHistory}
+        events={events}
+        setEvents={setEvents}
       />
 
       <div className="h-dvh w-full bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark flex flex-col overflow-hidden">

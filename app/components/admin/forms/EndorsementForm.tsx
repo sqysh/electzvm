@@ -2,7 +2,7 @@ import { inputCls, panelInputCls } from '@/app/lib/constants/styles.constants'
 import { EndorsementFormState } from '@/types/endorsement.types'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
-import { UploadZone } from '../elements/UploadZone'
+import { UploadZone } from '../../elements/UploadZone'
 
 export function EndorsementForm({
   initial,

@@ -6,7 +6,7 @@ import { Users } from 'lucide-react'
 import { EmailBlast } from '@prisma/client'
 import DashboardPanel from './DashboardPanel'
 import { BlastHistoryRow } from '../rows/BlastHistoryRow'
-import { VolunteerBlastForm } from '../../forms/VolunteerBlastForm'
+import { VolunteerBlastForm } from '../forms/VolunteerBlastForm'
 
 interface IVolunteerBlastPanel {
   open: boolean

@@ -3,7 +3,7 @@
 import { getRequestDetails } from '@/app/lib/utils/_log.server.utils'
 import prisma from '@/prisma/client'
 import { getActor } from '../../auth/getActor'
-import { resend } from '@/app/lib/resend'
+import { resend } from '@/app/lib/resend/resend'
 import { adminWelcomeTemplate } from '@/app/lib/email-templates/admin/adminWelcomeTemplate'
 import { buildLogMessage } from '@/app/lib/utils/_log.client.utils'
 import { createLog } from '../../_infra/createLog'

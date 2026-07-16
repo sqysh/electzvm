@@ -2,7 +2,7 @@ import { ArrowLeft, SlidersHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { DISTRICT_BOUNDS } from '../../../lib/constants/canvas-pin.constants'
 import { CanvassPin } from '@prisma/client'
-import { exportPinsToCSV } from '../../../lib/utils/csv.utils'
+import { exportPinsToCSV } from '../../../lib/utils/_export.utils'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 

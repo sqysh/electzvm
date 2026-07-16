@@ -6,6 +6,7 @@ export interface Endorsement {
   imageUrl: string | null
   isPublished: boolean
   createdAt: Date
+  updatedAt: Date
 }
 
 export interface EndorsementFormState {
