@@ -9,7 +9,12 @@ import { fadeIn, fadeUp } from '../../../lib/constants/motion.constants'
 import { useState } from 'react'
 import { Menu } from 'lucide-react'
 import NavigationDrawer from '../layout/NavigationDrawer'
-import Spline from '@splinetool/react-spline'
+import dynamic from 'next/dynamic'
+
+const Spline = dynamic(() => import('@splinetool/react-spline'), {
+  ssr: false,
+  loading: () => null
+})
 
 export default function Hero({
   eyebrow,
