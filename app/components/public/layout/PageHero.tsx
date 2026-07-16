@@ -33,7 +33,7 @@ export default function PageHero({
           aria-hidden="true"
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: "url('/images/patriotic-1.png')",
+            backgroundImage: "url('/images/patriotic-1.jpg')",
             backgroundSize: 'cover',
             backgroundPosition: 'center bottom',
             backgroundRepeat: 'no-repeat'

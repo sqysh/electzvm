@@ -136,7 +136,7 @@ function AboutSection({ content }: { content: PageField[] }) {
             aria-hidden="true"
             className="absolute inset-0 opacity-5"
             style={{
-              backgroundImage: "url('/images/patriotic-1.png')",
+              backgroundImage: "url('/images/patriotic-1.jpg')",
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}
@@ -340,7 +340,7 @@ function RegisterDonateSection({ content }: { content: PageField[] }) {
         aria-hidden="true"
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: "url('/images/patriotic-1.png')",
+          backgroundImage: "url('/images/patriotic-1.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
