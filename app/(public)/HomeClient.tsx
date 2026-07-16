@@ -1,7 +1,7 @@
 import { News } from '@prisma/client'
-import Hero from '../components/Hero'
-import HomePageSections from '../components/HomePageSections'
-import { PrimaryDateMarquee } from '../components/PrimaryDateMarquee'
+import Hero from '../components/public/hero/Hero'
+import HomePageSections from '../components/public/sections/HomePageSections'
+import { PrimaryDateMarquee } from '../components/public/sections/PrimaryDateMarquee'
 import { PageField } from '@/types/page.types'
 import { getField } from '../lib/utils/page.utils'
 

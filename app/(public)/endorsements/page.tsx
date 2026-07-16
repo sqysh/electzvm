@@ -1,5 +1,5 @@
 import prisma from '@/prisma/client'
-import { getPageBySlug } from '@/app/lib/actions/page/getPageBySlug'
+import { getPageBySlug } from '@/app/lib/actions/public/page/getPageBySlug'
 import { PageField } from '@/types/page.types'
 import EndorsementsClient from './EndorsementsClients'
 

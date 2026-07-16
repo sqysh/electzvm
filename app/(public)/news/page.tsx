@@ -1,6 +1,6 @@
 import { prisma } from '@/prisma/client'
 import NewsClient from './NewsClient'
-import { getPageBySlug } from '@/app/lib/actions/page/getPageBySlug'
+import { getPageBySlug } from '@/app/lib/actions/public/page/getPageBySlug'
 import { PageField } from '@/types/page.types'
 
 export default async function NewsPage() {

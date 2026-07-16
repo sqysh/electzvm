@@ -1,4 +1,4 @@
-import { getPageBySlug } from '@/app/lib/actions/page/getPageBySlug'
+import { getPageBySlug } from '@/app/lib/actions/public/page/getPageBySlug'
 import { GalleryClient } from './GalleryClient'
 import { PageField } from '@/types/page.types'
 

@@ -3,15 +3,15 @@
 import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import Picture from '@/app/components/elements/Picture'
-import { PrimaryDateMarquee } from '@/app/components/PrimaryDateMarquee'
-import { Lightbox } from '@/app/components/LightBox'
-import Header from '@/app/components/Header'
-import PageHero from '@/app/components/PageHero'
+import { PrimaryDateMarquee } from '@/app/components/public/sections/PrimaryDateMarquee'
+import Header from '@/app/components/public/layout/Header'
+import PageHero from '@/app/components/public/layout/PageHero'
 import { fadeUp } from '@/app/lib/constants/motion.constants'
-import { CTASection } from '@/app/components/CTASection'
+import { CTASection } from '@/app/components/public/sections/CTASection'
 import { getField } from '@/app/lib/utils/page.utils'
 import { PageField } from '@/types/page.types'
 import { Cubes } from '@/app/components/geometric-backgrounds/Cubes'
+import { Lightbox } from '@/app/components/public/modals/LightBox'
 
 const images = [
   { src: '/images/gallery/g_01.jpeg', alt: 'Campaign photo 1' },
@@ -138,13 +138,10 @@ export function GalleryClient({ content }: { content: PageField[] }) {
         </div>
       </main>
 
-      {/* ── CTA section ─────────────────────────────────────────────────── */}
       <CTASection />
 
-      {/* ── Primary date marquee ─────────────────────────────────────────── */}
       <PrimaryDateMarquee />
 
-      {/* ── Lightbox ─────────────────────────────────────────────────────── */}
       {lightboxIndex !== null && (
         <Lightbox images={images} index={lightboxIndex} onClose={closeLightbox} onPrev={prev} onNext={next} />
       )}

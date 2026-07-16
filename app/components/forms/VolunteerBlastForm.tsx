@@ -1,10 +1,10 @@
 import { Fragment, useState } from 'react'
 import { panelInputCls } from '@/app/lib/constants/styles.constants'
-import { sendVolunteerBlast } from '@/app/lib/actions/email-blast/sendVolunteerBlast'
 import { motion } from 'framer-motion'
 import { EmailBlast } from '@prisma/client'
 import { Loader2, Send } from 'lucide-react'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
+import { sendVolunteerBlast } from '@/app/lib/actions/admin/email-blast/sendVolunteerBlast'
 
 export function VolunteerBlastForm({
   blastHistory,

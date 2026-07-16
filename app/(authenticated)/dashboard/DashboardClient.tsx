@@ -9,15 +9,15 @@ import { useEffect, useState } from 'react'
 import { useDaysUntil } from '@/app/lib/utils/date.utils'
 import { UserRecord } from '@/types/user.types'
 import { DashboardProps } from '@/types/dashboard.types'
-import { PrimaryCountdown } from '@/app/components/PrimaryBreakdown'
-import { CanvassBreakdown } from '@/app/components/CanvassBreakdown'
-import { StatPill } from '@/app/components/StatPill'
-import { MapPanel } from '@/app/components/MapPanel'
-import { DashboardPanels } from '@/app/components/DashboardPanels'
-import { LiveClock } from '@/app/components/LiveClock'
+import { PrimaryCountdown } from '@/app/components/admin/dashboard/PrimaryBreakdown'
+import { StatPill } from '@/app/components/admin/dashboard/StatPill'
+import { MapPanel } from '@/app/components/admin/panels/MapPanel'
+import { DashboardPanels } from '@/app/components/admin/dashboard/DashboardPanels'
+import { LiveClock } from '@/app/components/admin/dashboard/LiveClock'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 import { AnimatePresence, motion } from 'framer-motion'
-import Pusher from 'pusher-js'
+import { CanvassBreakdown } from '@/app/components/admin/map/CanvassBreakdown'
+import { usePusher } from './DashboardLayoutClient'
 
 export default function DashboardClient({
   news: initialNews,
@@ -81,8 +81,9 @@ export default function DashboardClient({
     }
   ]
 
+  const pusher = usePusher()
+
   useEffect(() => {
-    const pusher = (window as any).__pusher as Pusher
     if (!pusher) return
 
     const channel = pusher.subscribe('canvass')
@@ -102,7 +103,7 @@ export default function DashboardClient({
       channel.unbind_all()
       pusher.unsubscribe('canvass')
     }
-  }, [])
+  }, [pusher])
 
   return (
     <>

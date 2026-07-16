@@ -1,5 +1,5 @@
+import { getDashboardData } from '@/app/lib/actions/admin/dashboard/getDashboardData'
 import DashboardClient from './DashboardClient'
-import { getDashboardData } from '@/app/lib/actions/getDashboardData'
 
 export default async function DashboardPage() {
   const { news, inquiries, pins, pinAggregate, users, pages, members, endorsements, blastHistory } =
@@ -7,15 +7,15 @@ export default async function DashboardPage() {
 
   return (
     <DashboardClient
-      news={JSON.parse(JSON.stringify(news))}
-      inquiries={JSON.parse(JSON.stringify(inquiries))}
+      news={news}
+      inquiries={inquiries}
       mailchimpCount={members.length}
       pinCount={pins.length}
       doorsKnocked={pinAggregate._sum.doors ?? 0}
-      pins={JSON.parse(JSON.stringify(pins))}
-      users={JSON.parse(JSON.stringify(users))}
+      pins={pins}
+      users={users}
       members={members}
-      pages={JSON.parse(JSON.stringify(pages))}
+      pages={pages}
       endorsements={endorsements}
       blastHistory={blastHistory}
     />

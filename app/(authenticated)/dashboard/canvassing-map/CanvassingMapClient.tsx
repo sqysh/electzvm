@@ -7,16 +7,16 @@ import { Loader2 } from 'lucide-react'
 import { useUiSelector } from '@/app/lib/redux/store'
 import { CanvassPin, PendingPin } from '@/types/canvas-pin'
 import { CENTER, LIBRARIES, LIGHT_MAP_STYLES, MAP_STYLES, ZOOM } from '@/app/lib/constants/canvas-pin.constants'
-import { PulsePin } from '@/app/components/PulsePin'
-import { AddPinModal } from '@/app/components/modals/AddPinModal'
-import { PinDetailPanel } from '@/app/components/panels/PinDetailPanel'
+import { PulsePin } from '@/app/components/admin/map/PulsePin'
+import { AddPinModal } from '@/app/components/admin/modals/AddPinModal'
+import { PinDetailPanel } from '@/app/components/admin/panels/PinDetailPanel'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
 import { useSearchParams } from 'next/navigation'
-import Pusher from 'pusher-js'
 import { DISTRICT_BOUNDARY } from '@/app/lib/constants/district-boundary.constants'
-import { StatsPanel } from '@/app/components/panels/StatsPanel'
-import { CanvassingMapHeader } from '@/app/components/CanvassingMapHeader'
-import { ZoomControls } from '@/app/components/ZoomControls'
+import { StatsPanel } from '@/app/components/admin/panels/StatsPanel'
+import { CanvassingMapHeader } from '@/app/components/admin/map/CanvassingMapHeader'
+import { ZoomControls } from '@/app/components/admin/map/ZoomControls'
+import { usePusher } from '../DashboardLayoutClient'
 
 export default function CanvassingMapClient({ initialPins }: { initialPins: CanvassPin[] }) {
   // ── Map loading
@@ -53,17 +53,17 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
     [pins, statusFilter]
   )
 
-  // ── Pusher — real-time pin updates
+  const pusher = usePusher()
+
   useEffect(() => {
-    const pusher = (window as any).__pusher as Pusher
     if (!pusher) return
 
     const channel = pusher.subscribe('canvass')
 
     channel.bind('pin-added', (pin: CanvassPin) => {
       setPins((prev) => {
-        pinAddedSE()
         if (prev.some((p) => p.id === pin.id)) return prev
+        pinAddedSE()
         return [{ ...pin, status: pin.status as CanvassPin['status'] }, ...prev]
       })
     })
@@ -76,8 +76,7 @@ export default function CanvassingMapClient({ initialPins }: { initialPins: Canv
       channel.unbind_all()
       pusher.unsubscribe('canvass')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [pinAddedSE, pusher])
 
   // ── Open add pin modal from query param
   useEffect(() => {

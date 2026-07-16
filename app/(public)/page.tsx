@@ -1,6 +1,6 @@
 import { prisma } from '@/prisma/client'
 import { HomeClient } from './HomeClient'
-import { getPageBySlug } from '../lib/actions/page/getPageBySlug'
+import { getPageBySlug } from '../lib/actions/public/page/getPageBySlug'
 import { PageField } from '@/types/page.types'
 
 export const revalidate = 60

@@ -13,8 +13,8 @@ datasource db {
 enum EventStatus {
   DRAFT
   PUBLISHED
-  CANCELLED
   PAST
+  CANCELLED
 }
 
 enum UserRole {
@@ -36,8 +36,17 @@ model User {
   emailVerified    DateTime?
   stripeCustomerId String?
   phone            String?
-  accounts         Account[]
-  sessions         Session[]
+
+  lastLoginAt DateTime?
+
+  lastGeoLatitude  Float?
+  lastGeoLongitude Float?
+  lastGeoCity      String?
+  lastGeoRegion    String?
+  lastGeoCountry   String?
+
+  accounts Account[]
+  sessions Session[]
 }
 
 model Account {
@@ -168,4 +177,21 @@ model EmailBlast {
   recipientCount Int
   sentAt         DateTime @default(now())
   sentBy         String?
+}
+
+model Event {
+  id          String      @id @default(cuid())
+  title       String      @db.VarChar(255)
+  description String?     @db.Text
+  location    String?     @db.VarChar(255)
+  address     String?     @db.VarChar(255)
+  startDate   DateTime
+  endDate     DateTime?
+  isPublished Boolean     @default(false)
+  isFeatured  Boolean     @default(false)
+  status      EventStatus @default(DRAFT)
+  imageUrl    String?     @db.VarChar(500)
+  externalUrl String?     @db.VarChar(500)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }

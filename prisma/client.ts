@@ -30,7 +30,15 @@ if (process.env.NODE_ENV === 'production') {
     const count = Number(connections[0]?.count || 0)
 
     if (count > 25) {
-      console.warn(`⚠️ HIGH DB CONNECTIONS: ${count}/901`)
+      await prisma.log
+        .create({
+          data: {
+            level: 'warn',
+            message: `High DB connections: ${count}/901`,
+            metadata: { count }
+          }
+        })
+        .catch(() => null)
     }
   }, 300000)
 }

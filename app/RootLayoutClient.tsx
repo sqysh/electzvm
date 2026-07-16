@@ -3,11 +3,11 @@
 import { Provider } from 'react-redux'
 import { store } from './lib/redux/store'
 import { usePathname } from 'next/navigation'
-import { Footer } from './components/Footer'
-import { ThemeProvider } from './lib/providers/theme'
-import { AdminBar } from './components/AdminBar'
+import { Footer } from './components/public/layout/Footer'
+import { ThemeProvider } from './lib/providers/theme.provider'
+import { AdminBar } from './components/public/layout/AdminBar'
 import { SessionProvider } from 'next-auth/react'
-import KickoffModal from './components/KickoffModal'
+import KickoffModal from './components/public/modals/KickoffModal'
 
 interface Props {
   children: React.ReactNode

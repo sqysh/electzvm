@@ -1,4 +1,3 @@
-import { createAdminUser } from '@/app/lib/actions/user/createAdminUser'
 import { adminInputCls } from '@/app/lib/constants/styles.constants'
 import { UserRecord } from '@/types/user.types'
 import { Loader2, X } from 'lucide-react'
@@ -6,6 +5,7 @@ import { useState } from 'react'
 import { RoleBadge } from '../elements/RoleBadge'
 import { motion } from 'framer-motion'
 import useSoundEffect from '@/app/lib/hooks/useSoundEffect'
+import { createAdminUser } from '@/app/lib/actions/admin/user/createAdminUser'
 
 export function CreateUserForm({ onClose, onCreate }: { onClose: () => void; onCreate: (user: UserRecord) => void }) {
   const [form, setForm] = useState({ name: '', email: '' })

@@ -1,4 +1,4 @@
-import PublicIntro from '@/app/components/PublicIntro'
+import PublicIntro from '@/app/components/public/PublicIntro'
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
