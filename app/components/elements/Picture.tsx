@@ -37,7 +37,7 @@ const Picture: FC<PictureProps> = ({
       <Image
         onClick={onClick}
         src={src}
-        alt={alt || 'The Pops'}
+        alt={alt || 'ElectZVM'}
         fill
         className={className}
         priority={priority}
@@ -56,7 +56,7 @@ const Picture: FC<PictureProps> = ({
     <Image
       onClick={onClick}
       src={src}
-      alt={alt || 'The Pops'}
+      alt={alt || 'ElectZVM'}
       width={width || 500}
       height={hasFixedHeight ? height || 500 : 500}
       className={className}
