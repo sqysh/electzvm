@@ -110,7 +110,7 @@ export default function Hero({
         >
           <Picture
             priority
-            src="/images/zosia.png"
+            src="/images/zosia.webp"
             alt="Zosia VanMeter"
             width={750}
             height={718}
