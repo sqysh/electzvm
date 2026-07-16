@@ -180,12 +180,7 @@ export function EventForm({
 
       {/* Toggles */}
       <div className="flex flex-col gap-3">
-        {(
-          [
-            { id: 'event-published', key: 'isPublished', label: 'Published' },
-            { id: 'event-featured', key: 'isFeatured', label: 'Featured' }
-          ] as const
-        ).map(({ id, key, label }) => (
+        {([{ id: 'event-published', key: 'isPublished', label: 'Published' }] as const).map(({ id, key, label }) => (
           <label key={key} htmlFor={id} className="flex items-center justify-between gap-4 cursor-pointer min-h-11">
             <span className="font-archivo text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
               {label}

@@ -24,7 +24,6 @@ export async function updateEvent(id: string, data: Partial<EventPayload>) {
         ...(data.startDate && { startDate: new Date(data.startDate) }),
         ...(data.endDate !== undefined && { endDate: data.endDate ? new Date(data.endDate) : null }),
         ...(data.isPublished !== undefined && { isPublished: data.isPublished }),
-        ...(data.isFeatured !== undefined && { isFeatured: data.isFeatured }),
         ...(data.status && { status: data.status }),
         ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl?.trim() || null }),
         ...(data.externalUrl !== undefined && { externalUrl: data.externalUrl?.trim() || null })

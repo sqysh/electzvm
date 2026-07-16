@@ -22,7 +22,6 @@ const EMPTY: EventFormState = {
   imageUrl: '',
   externalUrl: '',
   isPublished: false,
-  isFeatured: false,
   status: 'DRAFT' as EventStatus
 }
 
@@ -188,7 +187,6 @@ export default function EventPanel({
                         imageUrl: editingEvent.imageUrl ?? '',
                         externalUrl: editingEvent.externalUrl ?? '',
                         isPublished: editingEvent.isPublished,
-                        isFeatured: editingEvent.isFeatured,
                         status: editingEvent.status as EventStatus
                       }
                     : EMPTY

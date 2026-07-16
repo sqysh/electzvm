@@ -24,7 +24,6 @@ export interface EventFormState {
   imageUrl: string
   externalUrl: string
   isPublished: boolean
-  isFeatured: boolean
   status: EventStatus
 
   imageFilename?: string

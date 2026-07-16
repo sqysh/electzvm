@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate": "prisma generate",
-    "seed:page-content": "node scripts/seed-page-content.js"
+    "seed:page-content": "node scripts/seed-page-content.js",
+    "seed:events": "tsx scripts/seed-events.script.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
@@ -42,6 +43,7 @@
     "eslint-config-next": "^16.2.4",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
+    "tsx": "^4.23.1",
     "typescript": "^5"
   }
 }

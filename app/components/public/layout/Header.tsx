@@ -14,10 +14,10 @@ export default function Header() {
 
   return (
     <>
-      <header className="relative z-20 w-full bg-hero-light dark:bg-hero-dark border-b border-white/10">
+      <header className="relative z-20 w-full px-5 sm:px-8 md:px-16 bg-hero-light dark:bg-hero-dark border-b border-white/10">
         <nav
           aria-label="Main navigation"
-          className="max-w-6xl mx-auto px-5 sm:px-8 md:px-16 h-16 sm:h-20 flex items-center justify-between gap-8"
+          className="max-w-6xl mx-auto h-16 sm:h-20 flex items-center justify-between gap-8"
         >
           <Link
             href="/"
@@ -27,7 +27,7 @@ export default function Header() {
             Elect<span className="text-primary-dark">ZVM</span>
           </Link>
 
-          <ul role="list" className="hidden 1115:flex items-center gap-6 1115:gap-8">
+          <ul role="list" className="hidden 1200:flex items-center gap-6 1200:gap-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               return (
@@ -61,7 +61,7 @@ export default function Header() {
               aria-label="Open navigation menu"
               aria-expanded={drawerOpen}
               aria-controls="navigation-drawer"
-              className="1115:hidden w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0"
+              className="1200:hidden w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0"
             >
               <Menu className="w-5 h-5" />
             </button>

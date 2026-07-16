@@ -24,7 +24,6 @@ export async function createEvent(data: EventPayload) {
         startDate: new Date(data.startDate),
         endDate: data.endDate ? new Date(data.endDate) : null,
         isPublished: data.isPublished ?? false,
-        isFeatured: data.isFeatured ?? false,
         status: data.status ?? ('DRAFT' as EventStatus),
         imageUrl: data.imageUrl?.trim() || null,
         externalUrl: data.externalUrl?.trim() || null

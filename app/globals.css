@@ -71,6 +71,7 @@
 
   --breakpoint-xs: 375px;
   --breakpoint-1115: 1115px;
+  --breakpoint-1200: 1200px;
 }
 
 body {

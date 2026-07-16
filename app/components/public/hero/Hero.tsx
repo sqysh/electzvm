@@ -46,7 +46,7 @@ export default function Hero({
             </Link>
 
             {/* Nav links — hidden on mobile */}
-            <ul role="list" className="hidden 1115:flex items-center gap-6 lg:gap-8">
+            <ul role="list" className="hidden 1200:flex items-center gap-6 1200:gap-8">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -77,7 +77,7 @@ export default function Hero({
                 aria-label="Open navigation menu"
                 aria-expanded={drawerOpen}
                 aria-controls="navigation-drawer"
-                className="1115:hidden w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0"
+                className="1200:hidden w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>

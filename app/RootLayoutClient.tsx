@@ -7,22 +7,16 @@ import { Footer } from './components/public/layout/Footer'
 import { ThemeProvider } from './lib/providers/theme.provider'
 import { AdminBar } from './components/public/layout/AdminBar'
 import { SessionProvider } from 'next-auth/react'
-import KickoffModal from './components/public/modals/KickoffModal'
-
-interface Props {
-  children: React.ReactNode
-}
 
 const showLink = (path: string) => !['/dashboard', '/login', '/auth/error'].some((str) => path.includes(str))
 
-export default function RootLayoutClient({ children }: Props) {
+export default function RootLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
   return (
     <Provider store={store}>
       <ThemeProvider>
         <SessionProvider>
-          <KickoffModal />
           {showLink(pathname) && <AdminBar />}
           {children}
           {showLink(pathname) && <Footer />}
