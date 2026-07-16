@@ -306,7 +306,8 @@ export default function DashboardClient({
                   { label: 'News', panel: 'news', value: news.length },
                   { label: 'List', panel: 'subscribers', value: mailchimpCount },
                   { label: 'Inquiries', panel: 'inquiries', value: inquiries.length },
-                  { label: 'Endorse', panel: 'endorsement', value: endorsements.length }
+                  { label: 'Endorse', panel: 'endorsement', value: endorsements.length },
+                  { label: 'Events', panel: 'event', value: events.length }
                 ].map((item) => (
                   <button
                     key={item.panel}
