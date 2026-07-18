@@ -67,7 +67,7 @@ export default function Hero({
             <div className="flex items-center gap-3">
               {/* Donate CTA */}
               <Link
-                href="https://secure.actblue.com/donate/zvm"
+                href="https://secure.actblue.com/donate/2teamzvm"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Donate to Zosia VanMeter's campaign (opens in new tab)"
@@ -172,7 +172,7 @@ export default function Hero({
                 Join the Team
               </a>
               <a
-                href="https://secure.actblue.com/donate/2teamzvm "
+                href="https://secure.actblue.com/donate/2teamzvm"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Donate to Zosia VanMeter's campaign (opens in new tab)"

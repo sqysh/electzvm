@@ -81,7 +81,7 @@ export default function NavigationDrawer({ open, onClose }: NavigationDrawerProp
             {/* Donate CTA */}
             <div className="px-6 py-6 border-t border-white/10 shrink-0">
               <Link
-                href="https://secure.actblue.com/donate/zvm"
+                href="https://secure.actblue.com/donate/2teamzvm"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Donate to Zosia VanMeter's campaign (opens in new tab)"
