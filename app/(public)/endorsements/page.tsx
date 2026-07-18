@@ -3,6 +3,8 @@ import { getPageBySlug } from '@/app/lib/actions/public/page/getPageBySlug'
 import { PageField } from '@/types/page.types'
 import EndorsementsClient from './EndorsementsClients'
 
+export const dynamic = 'force-dynamic'
+
 export default async function EndorsementsPage() {
   const [pageResult, endorsements] = await Promise.all([
     getPageBySlug('endorsements'),
