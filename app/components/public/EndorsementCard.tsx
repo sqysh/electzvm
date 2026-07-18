@@ -11,7 +11,7 @@ export function EndorsementCard({ endorsement, index }: { endorsement: Endorseme
     >
       {/* Photo */}
       {endorsement.imageUrl ? (
-        <div className="relative w-full aspect-4/3 overflow-hidden">
+        <div className="relative w-full aspect-square overflow-hidden">
           <Picture
             priority
             fill
@@ -22,7 +22,7 @@ export function EndorsementCard({ endorsement, index }: { endorsement: Endorseme
           />
         </div>
       ) : (
-        <div className="w-full aspect-4/3 flex items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 border-b border-border-light dark:border-border-dark">
+        <div className="w-full aspect-square flex items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 border-b border-border-light dark:border-border-dark">
           <span className="font-archivo text-6xl font-black text-primary-light dark:text-primary-dark uppercase leading-none">
             {endorsement.name.charAt(0)}
           </span>
