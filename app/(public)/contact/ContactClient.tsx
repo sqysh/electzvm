@@ -121,7 +121,7 @@ export default function ContactPage({ content }: { content: PageField[] }) {
                   {
                     icon: LinkedInIcon,
                     label: '@zvm on LinkedIn',
-                    href: 'https://www.linkedin.com/in/realzvm',
+                    href: 'https://www.linkedin.com/in/zvm/',
                     ariaLabel: 'Follow Zosia on LinkedIn (opens in new tab)'
                   }
                 ].map((social) => (
